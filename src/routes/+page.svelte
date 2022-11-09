@@ -1,7 +1,11 @@
+
 <main class="flex bg-cream-300 h-full">
-	<section class=" w-full text-center">
-		<h1 class=" text-left text-5xl tracking-widest font-bold py-20 pl-44 mb-96">Jempower's Credit Corporation</h1>
-		<a class=" bg-blue-500 w-full py-1 px-20 rounded-md text-white font-semibold space-y-10" href="/register">Apply now</a>
+	<section class=" flex flex-col w-full text-center p-4">
+		<h1 class=" text-left text-5xl tracking-widest font-bold">Jempower's Credit Corporation</h1>
+		<div class= "flex-1 grid place-items-center">
+			<a class=" bg-blue-500 py-1 px-20 rounded-md text-white font-semibold " href="/register">Apply now</a>
+		</div>
+		
 	</section>
 	
 	<section class=" bg-lime-100 ml-auto w-full max-w-lg flex flex-col gap-2 py-52 ">
