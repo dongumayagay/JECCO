@@ -1,21 +1,31 @@
 
-<main class="flex bg-cream-300 h-full">
-	<section class=" flex flex-col w-full text-center p-4">
-		<h1 class=" text-left text-5xl tracking-widest font-bold">Jempower's Credit Corporation</h1>
-		<div class= "flex-1 grid place-items-center">
-			<a class=" bg-blue-500 py-1 px-20 rounded-md text-white font-semibold " href="/register">Apply now</a>
-		</div>
-		
-	</section>
+<main class=" flex flex-col bg-cream-300 h-full w-full">
 	
-	<section class=" bg-lime-100 ml-auto w-full max-w-lg flex flex-col gap-2 py-52 ">
-		<h1 class="text-center font-bold">Choose your destination</h1>
-		<a class="bg-green-500 w-96 ml-16 text-white text-center capitalize font-semibold rounded-md" href="/client/login"
-			>client</a
-		>
-		<a class="bg-red-500 w-96 ml-16 text-white text-center capitalize font-semibold rounded-md" href="/admin/login"
-			>admin</a
-		>
-		<p class=" ml-16">Not registed yet? <a class="font-bold text-sm" href="/register"> Apply Now </a></p> 
+	<nav class="flex gap-x-10 p-6 place-items-center shadow-xl ">
+		<h1 class=" text-left ml-10 text-4xl font-bold">JECCO</h1>
+		<div class="flex ml-auto items-center gap-10 ">
+		<a class=" capitalize font-bold rounded-md" href="/client/login">Home</a>
+		<a class=" capitalize font-bold rounded-md" href="/admin/login">About</a>
+		<a class=" capitalize font-bold rounded-md" href="/admin/login">Contact</a>
+		<a class=" capitalize font-bold rounded-md bg-black text-white px-2 py-2 flex gap-x-2" href="/client/login"> Login <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+			<path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
+		  </svg>
+		  </a>
+		</div>
+	</nav>
+		
+
+	<section class=" flex flex-1 ">
+		<div class=" flex-1 grid place-items-center p-10">
+			<article class="flex flex-col gap-5 max-w-2xl">
+				<h1 class="text-5xl font-bold">Jempower's Credit Corporation</h1>
+				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia voluptates quidem dignissimos debitis ad dolore nihil, fugiat officiis neque ipsum at omnis veritatis blanditiis cumque asperiores alias. Quis, soluta porro.</p>
+				<a class=" border border-black py-3 px-16 rounded-md font-semibold w-fit " href="/register">Apply now</a>
+			</article>
+		</div>
+		<div class=" flex-1 grid place-items-center">
+			<img class=" w-96 " src="/landingpageicon.svg" alt="">
+		</div>
+
 	</section>
 </main>
