@@ -1,15 +1,14 @@
 <script>
-	import SideNav from '../../lib/components/SideNav.svelte';
+	import SideNav from '../../../lib/components/SideNav.svelte';
 </script>
 
-<main class=" flex h-full">
+<main class=" flex bg-cream-500 h-screen">
 	<SideNav/>
 
-	<div class=" w-5/6 flex-col p-3 bg-gray-300 h-full">
+	<div class=" w-5/6 flex-col p-3 bg-gray-300">
 		<div class="bg-white mb-3 p-2 text-2xl">
-			Payment History
+			Loans
 		</div>
-
 		<div class="bg-white mb-3 p-2 h-full">
 			<div class="overflow-x-auto">
 				<table class="table table-compact w-full">
@@ -48,4 +47,7 @@
 			</div>		
 		</div>
 	</div>
+	
+
 </main>
+
