@@ -30,7 +30,7 @@
     </div>	
     
     <div class=" flex bg-gray-900 w-fit p-2 rounded-md">
-        <a href="#logout">Logout</a>
+        <a href="#logout">Log-out</a>
     </div>
 
 </aside>

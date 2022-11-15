@@ -39,7 +39,7 @@
 							<td>Zemlak, Daniel and Leannon</td> 
 							<td>United States</td> 
 							<td>12/5/2020</td> 
-							<td>Purple</td>
+							<td>Blue</td>
 						  </tr>
 					</tbody> 
 				</table>	

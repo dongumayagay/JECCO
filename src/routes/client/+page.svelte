@@ -19,7 +19,7 @@
 					  		<th>Name</th> 
 					  		<th>Job</th> 
 					  		<th>company</th> 
-						  	<th>location</th> 
+						  	<th>location</th>
 						 	<th>Last Login</th> 
 					 		<th>Favorite Color</th>
 						</tr>
@@ -41,7 +41,7 @@
 							<td>Zemlak, Daniel and Leannon</td> 
 							<td>United States</td> 
 							<td>12/5/2020</td> 
-							<td>Purple</td>
+							<td>Blue</td>
 						  </tr>
 					</tbody> 
 				</table>	
