@@ -3,9 +3,8 @@
 </script>
 
 <main class=" flex bg-cream-500 h-screen">
-	<SideNav/>
-
-	<div class=" w-5/6 flex-col p-3 bg-gray-300">
+	<SideNav/>	
+	<div class=" w-full flex flex-col p-3 bg-gray-200 h-full">
 		<div class="bg-white mb-3 p-2 text-2xl">
 			Loans
 		</div>

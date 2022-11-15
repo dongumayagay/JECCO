@@ -2,10 +2,10 @@
 	import SideNav from '../../lib/components/SideNav.svelte';
 </script>
 
-<main class=" flex h-full">
+<main class=" flex h-full w-full">
 	<SideNav/>
 
-	<div class=" w-5/6 flex-col p-3 bg-gray-300 h-full">
+	<div class=" w-full flex flex-col p-3 bg-gray-200 h-full">
 		<div class="bg-white mb-3 p-2 text-2xl">
 			Payment History
 		</div>
