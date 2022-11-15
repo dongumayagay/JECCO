@@ -1,18 +1,8 @@
-<div class=" bg-red-500  sm:bg-green-300 md:bg-blue-400">Admin dashboard</div>
+<script>
+	import SideNavAdmin from '../../lib/components/SideNavAdmin.svelte';
+</script>
 
-<section class="flex flex-col sm:flex-row">
-	<button> test </button>
-	<button> test2 </button>
-	<button> test2 </button>
-	<button> test2 </button>
-	<button> test2 </button>
-	<button> test2 </button>
-	<button> test2 </button>
-	<button> test2 </button>
-	<button> test2 </button>
-	<button> test2 </button>
-	<button> test2 </button>
-	<button> test2 </button>
-	<button> test2 </button>
-	<button> test2 </button>
-</section>
+<main class=" flex h-full w-full">
+	<SideNavAdmin/>
+	<div class=" w-full flex flex-col p-3 bg-gray-200 h-full"></div>
+</main>	
