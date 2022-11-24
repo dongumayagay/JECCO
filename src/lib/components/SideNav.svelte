@@ -1,4 +1,4 @@
-<aside class=" flex flex-col w-1/6 bg-gray-600 text-white h-full">
+<aside class=" flex flex-col w-3/12 bg-gray-600 text-white h-full">
 
     <div class=" flex p-3">
         <div class="avatar">
@@ -29,7 +29,7 @@
                    Loans</a>
     </div>	
     
-    <div class=" flex bg-gray-900 w-fit p-2 rounded-md">
+    <div class=" flex bg-gray-900 w-fit m-3 p-2 rounded-md">
         <a href="#logout">Log-out</a>
     </div>
 
