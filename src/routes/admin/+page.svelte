@@ -6,14 +6,14 @@
 
 <main class="flex" >
 
-    <section class="flex flex-col w-64 h-full px-4 py-8 overflow-y-auto">
+    <section class="flex flex-col w-64 h-full px-4 py-8 overflow-y-auto md:mr-6">
     <SideNavAdmin/>
     </section>
 
 
-<section class="flex flex-col w-full h-screen p-6 ml-8 overflow-y-auto bg-gray-200">
+<section class="flex flex-col w-full h-screen p-6 ml-8 overflow-y-auto bg-gray-200 ">
 
-<div class="flex flex-wrap bg-white p-4">
+<div class="flex flex-wrap bg-white p-4 ">
     <div class="w-full md:w-1/2 xl:w-1/3 p-3 md:pr-2">
         <div class="bg-green-600 border rounded shadow p-2">
             <div class="flex items-center">
