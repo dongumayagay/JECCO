@@ -8,13 +8,9 @@
 		<SideNavAdmin/>
 	</section>
 
-	<section class=" flex flex-col w-full h-full p-4 ml-8 bg-gray-100 overflow-y-auto sm:ml-32 md:ml-7">
+	<section class="flex flex-col w-full h-screen p-6 ml-8 overflow-y-auto bg-gray-200 ">
         
-		<div class="bg-white mb-3 p-2 text-2xl">
-		    Inquiries
-		</div>
-
-		<div class="bg-white h-full p-2 ">
+		<div class="overflow-x-auto relative shadow-md sm:rounded-lg h-full bg-white">
 			
 				<table class="table table-normal w-full ">
 				  	<thead>
@@ -33,7 +29,7 @@
 				  	<tbody>
 						<tr class="hover">
 							<th>1</th> 
-							<td>Cy Ganderton</td> 
+							<td>Trishan Andrei</td> 
 							<td>No. 001</td> 
 							<td>sny printing</td> 
 							<td>Canada</td> 
