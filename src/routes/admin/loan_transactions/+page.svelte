@@ -2,18 +2,26 @@
 	import SideNavAdmin from "../../../lib/components/SideNavAdmin.svelte";
 </script>
 
-<main class=" flex bg-cream-500 h-screen">
-	<section class="flex flex-col w-64 h-full px-4 py-8 overflow-y-auto">
+<main class=" flex ">
+
+	<section class="flex flex-col w-64 h-full px-4 py-8 overflow-y-auto md:mr-6">
 		<SideNavAdmin/>
 	</section>
 	
 	<section class="flex flex-col w-full h-screen p-6 ml-8 overflow-y-auto bg-gray-200">
-		<div class=" w-full flex flex-col p-3 bg-gray-200 h-full">
-			<div class="bg-white mb-3 p-2 text-2xl">
-				Loan Processing 
-                <label for="my-modal" class="absolute right-11 font-medium text-blue-600 dark:text-blue-500 hover:underline">Add</label>
-			</div>
-			<div class="bg-white mb-3 p-2 h-full">
+        <div class="flex items-center p-4 shadow-md sm:rounded-lg h-10 bg-white gap-4">
+            Loan Processing 
+            <label for="my-modal" class="absolute right-16 font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                <div class=" btn btn-ghost bg-gray-200 btn-xs sm:btn-2xs md:btn-xs lg:btn-sm hover:bg-green-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="black" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+                    </div>
+
+            </label>
+        </div>
+        
+		
+			<div class="overflow-x-auto relative shadow-md sm:rounded-lg h-full bg-white mt-4">
 				<div class="overflow-x-auto">
 					<table class="table table-normal w-full">
 						<thead>
@@ -58,7 +66,6 @@
 					</table>	
 				</div>		
 			</div>
-		</div>
 
         <input type="checkbox" id="my-modal" class="modal-toggle" />
         <div class="modal">
@@ -69,7 +76,7 @@
                     <!-- Modal header -->
                     <div class="flex justify-between items-start p-4 rounded-t border-b ">
                         <h3 class="text-xl font-semibold  ">
-                            Add Loan Processing
+                            Process Loan
                         </h3>
                         <!-- <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover: rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="editUserModal">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  

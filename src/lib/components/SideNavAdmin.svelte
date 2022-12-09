@@ -2,7 +2,6 @@
   <div class="fixed flex flex-col top-0 left-0 w-64 bg-white h-full border-r">
     <div class="flex pt-4 h-14 border-b">
       <div><a href="/admin" class="flex items-center pl-2.5 mb-5">
-        <img src="https://flowbite.com/docs/images/logo.svg" class="mr-3 h-6 sm:h-7" alt="Flowbite Logo" />
         <span class="self-center text-xl font-semibold whitespace-nowrap">Admin</span>
      </a></div>
     </div>
