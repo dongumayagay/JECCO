@@ -126,11 +126,12 @@
                 </form>
         
         
-                        <div class="modal-action">
-                            <label for="my-modal" class="btn border-transparent bg-green-600">Save</label>
-                            <label for="my-modal" class="btn border-transparent bg-red-600">Cancel</label>
-        </div>
+                <div class="modal-action">
+                    <label for="my-modal" class="btn border-transparent bg-green-600">Save</label>
+                    <label for="my-modal" class="btn border-transparent bg-red-600">Cancel</label>
+                </div>    
             </div>
+        </div>
 
 	</section>	
 
