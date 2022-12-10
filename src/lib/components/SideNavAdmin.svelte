@@ -27,9 +27,9 @@
               <svg sidebar-toggle-item class="w-6 h-6 " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
             </a>
             <ul class="dropdown-content menu p-2 shadow bg-base-100 w-full">
-              <li><a href="/admin/clientprof">Client Profile</a></li>
-              <li><a href="/admin/inquiries">Inquiries</a></li>
-              <li><a href="/admin/client_arrangement">Client Arrangement</a></li>
+              <li><a href="/admin/clientmanage/clientprof">Client Profile</a></li>
+              <li><a href="/admin/clientmanage/inquiries">Inquiries</a></li>
+              <li><a href="/admin/clientmanage/client_arrangement">Client Arrangement</a></li>
             </ul>
           </div>
 
@@ -79,9 +79,9 @@
               <svg sidebar-toggle-item class="w-6 h-6 " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
             </a>
             <ul class="dropdown-content menu p-2 shadow bg-base-100 w-full">
-              <li><a href="/admin/users">Users</a></li>
-              <li><a href="/admin/change_password">Change Password</a></li>
-              <li><a href="/admin/db_backup">DB Backup</a></li>
+              <li><a href="/admin/systemad/users">Users</a></li>
+              <li><a href="/admin/systemad/change_password">Change Password</a></li>
+              <li><a href="/admin/systemad/db_backup">DB Backup</a></li>
             </ul>
           </div>
 
