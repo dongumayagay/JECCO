@@ -3,15 +3,13 @@
 </script>
 <main class=" flex">
 
-	<section class="flex flex-col w-64 h-full px-4 py-8 overflow-y-auto">
+	<section class="flex flex-col w-64 h-full px-4 py-8 overflow-y-auto md:mr-6">
 		<SideNavAdmin/>
 	</section>
 	
 	<section class="flex flex-col w-full h-screen p-6 ml-8 overflow-y-auto bg-gray-200">
-		<div class=" w-full flex flex-col p-3 bg-gray-200 h-full">
-			<div class="bg-white mb-3 p-2 text-2xl">
+		<div class="flex items-center p-4 shadow-md sm:rounded-lg h-10 bg-white gap-4">
 				Users
-			</div>
 		</div>
 	</section>	
 </main>
