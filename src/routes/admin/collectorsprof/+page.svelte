@@ -55,7 +55,7 @@
                     Position
                 </th>
                 <th scope="col" class="px-6">
-                    Password
+                    Area
                 </th>
                 <th scope="col" class="px-6">
                     
@@ -81,7 +81,7 @@
                 </td>
                 <td class="px-6">
                     <div class="flex items-center">
-                        <p class="" >password123</p>
+                        <p class="" >Langgam</p>
                     </div>
                 </td>
                 <td class="px-6">
@@ -111,7 +111,7 @@
                 </td>
                 <td class="px-6">
                     <div class="flex items-center">
-                        <p class="" >password123</p>
+                        <p class="" >Estrella</p>
                     </div>
                 </td>
                 <td class="px-6">
@@ -138,7 +138,7 @@
                 </td>
                 <td class="py-4 px-6">
                     <div class="flex items-center">
-                        <p class="" >password123</p>
+                        <p class="" >Laram</p>
                     </div>
                 </td>
                 <td class="px-6">
@@ -165,7 +165,7 @@
                 </td>
                 <td class="px-6">
                     <div class="flex items-center">
-                        <p class="" >password123</p>
+                        <p class="" >Riverside</p>
                     </div>
                 </td>
                 <td class="py-4 px-6">
@@ -192,7 +192,7 @@
                 </td>
                 <td class="px-6">
                     <div class="flex items-center">
-                        <p class="" >password123</p>
+                        <p class="" >UB</p>
                     </div>
                 </td>
                 <td class="px-6">
@@ -240,22 +240,19 @@
                         <label for="phone-number" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone Number</label>
                         <input type="text" name="phone-number" id="phone-number" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="e.g. +(12)3456 789" required="">
                     </div>
+                    
                     <div class="col-span-6 sm:col-span-3">
-                        <label for="department" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
-                        <input type="text" name="department" id="department" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Development" required="">
-                    </div>
-                    <div class="col-span-6 sm:col-span-3">
-                        <label for="company" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address</label>
+                        <label for="company" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Area</label>
                         <input type="text" name="company" id="company" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Ogag st. si-jihoz compound" required="">
                     </div>
-                    <div class="col-span-6 sm:col-span-3">
+                    <!-- <div class="col-span-6 sm:col-span-3">
                         <label for="current-password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Current Password</label>
                         <input type="password" name="current-password" id="current-password" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="••••••••" required="">
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <label for="new-password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">New Password</label>
                         <input type="password" name="new-password" id="new-password" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="••••••••" required="">
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <!-- Modal footer -->
