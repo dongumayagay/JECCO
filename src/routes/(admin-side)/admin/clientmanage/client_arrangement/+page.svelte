@@ -1,5 +1,5 @@
 <script>
-	import SideNavAdmin from "../../../../lib/components/SideNavAdmin.svelte";
+	import SideNavAdmin from "$lib/components/SideNavAdmin.svelte";
 </script>
 <main class=" flex">
 
