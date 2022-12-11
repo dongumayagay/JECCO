@@ -1,0 +1,17 @@
+<script>
+	import SideNavAdmin from "../../../../lib/components/SideNavAdmin.svelte";
+</script>
+
+<main class=" flex ">
+
+	<section class="flex flex-col w-64 h-full px-4 py-8 overflow-y-auto md:mr-6">
+		<SideNavAdmin/>
+	</section>
+	
+	<section class="flex flex-col w-full h-screen p-6 ml-8 overflow-y-auto bg-gray-200">
+        <div class="overflow-x-auto relative shadow-md sm:rounded-lg h-full bg-white mt-4">
+
+        </div>
+    </section>
+    
+</main>
