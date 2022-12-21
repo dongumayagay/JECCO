@@ -1,8 +1,9 @@
 <script>
 	import SideNavAdmin from "$lib/components/SideNavAdmin.svelte";
+    import Chart from "$lib/components/Chart.svelte";
+    
+    
 </script>
-
-
 
 <main class="flex" >
 
@@ -13,7 +14,7 @@
 
 <section class="flex flex-col w-full h-screen p-6 ml-8 overflow-y-auto bg-gray-200 ">
 
-<div class="flex flex-wrap bg-white p-4 ">
+<!-- <div class="flex flex-wrap bg-white p-4 ">
     <div class="w-full md:w-1/2 xl:w-1/3 p-3 md:pr-2">
         <div class="bg-green-600 border rounded shadow p-2">
             <div class="flex items-center">
@@ -81,5 +82,9 @@
         </div>
     </div>
 </div>
+-->
+    <div class="flex flex-wrap bg-white p-4 ">
+        <canvas id="myChart"> <Chart/> </canvas>
+    </div>
 </section>
 </main>
