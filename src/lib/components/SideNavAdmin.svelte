@@ -80,7 +80,6 @@
             </a>
             <ul class="dropdown-content menu p-2 shadow bg-base-100 w-full">
               <li><a href="/admin/systemad/users">Users</a></li>
-              <li><a href="/admin/systemad/change_password">Change Password</a></li>
               <li><a href="/admin/systemad/db_backup">DB Backup</a></li>
             </ul>
           </div>
