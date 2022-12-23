@@ -14,6 +14,9 @@
 <section class="flex flex-col w-full h-screen p-6 ml-8 overflow-y-auto bg-gray-200 ">
     <div class="flex items-center justify-end p-4 shadow-md sm:rounded-lg h-10 bg-white gap-4">
         
+        <h1 class="l-0">Client Profile</h1>
+
+
         <label for="my-modal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
             <div class=" btn btn-ghost bg-gray-200 btn-xs sm:btn-2xs md:btn-xs lg:btn-sm hover:bg-green-300">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="black" class="w-5 h-5">
