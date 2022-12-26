@@ -1,6 +1,6 @@
     <div class="flex items-center justify-end p-4 shadow-md sm:rounded-lg h-10 bg-white gap-4">
         
-        <h1 class="l-0">Client Profile</h1>
+        <h1 class="">Client Profile</h1>
 
 
         <label for="my-modal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
