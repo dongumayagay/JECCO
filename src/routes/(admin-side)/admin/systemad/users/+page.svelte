@@ -1,12 +1,21 @@
 <script>
 	let users = []
 	let addModal = false
+	let addOption = true
 	let addUserInput = {
 		name:'',
 		email:'',
 		password:'',
 		confirmPassword:''
 	} 
+	
+	function add(){
+		addOption = true
+	}
+	function update(){
+		addOption = false
+	}
+
 
 	async function addUser(){
 		if(addUserInput.password != addUserInput.confirmPassword){
@@ -57,8 +66,8 @@
 	<div class="flex items-center p-4 shadow-md sm:rounded-lg h-10 bg-white gap-4">
 		Admin Users
 		<div class="flex items-center absolute right-10 sm:rounded-lg bg-white gap-4">
-			
-			<label for="add" class=" btn btn-ghost bg-gray-200 btn-xs sm:btn-2xs md:btn-xs lg:btn-sm hover:bg-green-300">
+			<!-- svelte-ignore a11y-click-events-have-key-events -->
+			<label for="add" on:click={add} class=" btn btn-ghost bg-gray-200 btn-xs sm:btn-2xs md:btn-xs lg:btn-sm hover:bg-green-300">
 				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="black" class="w-5 h-5">
 					<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
 			</label>
@@ -110,8 +119,8 @@
 						{user.email}
 					</td>
 					<td class="px-6">
-						<!-- Modal toggle -->
-						<label for="my-modal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</label> 
+						<!-- svelte-ignore a11y-click-events-have-key-events -->
+						<label for="add" on:click={update} class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</label> 
 					</td>
 				</tr>
 				{/each}
@@ -130,9 +139,13 @@
 			<form class="relative bg-white rounded-lg shadow dark:bg-gray-700" on:submit={addUser}>
 				<!-- Modal header -->
 				<div class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
-					<h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-						Add User
-					</h3>
+					{#if addOption}
+						<h3 class="text-xl font-semibold text-gray-900 dark:text-white">Add User</h3>
+					{:else}
+						<h3 class="text-xl font-semibold text-gray-900 dark:text-white">Edit User</h3>
+					{/if}
+					
+					
 				</div>
 				<!-- Modal body -->
 				<div>
@@ -157,10 +170,15 @@
 					</div>
 
 					<div class="modal-action">
-						<button type="submit" class="btn border-transparent bg-green-600">Save</button>
+						{#if addOption}
+							<button type="submit" class="btn border-transparent bg-green-600">Add</button>
+						{:else}
+							<button type="submit" class="btn border-transparent bg-blue-600">Update</button>
+						{/if}
 						<!-- svelte-ignore a11y-click-events-have-key-events -->
 						<label for="add" on:click={resetAddUserInput}  class="btn border-transparent bg-red-600">Cancel</label>
 					</div>
+				</div>	
 			</form>
 			
 		</div>
