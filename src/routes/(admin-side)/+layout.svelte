@@ -12,7 +12,7 @@
             return;
         }
         if($userStore===null){
-           await goto('/admin');
+           await goto('/');
            return;
         }
 
@@ -21,7 +21,7 @@
 
         if(isAdmin===undefined || isAdmin===false){
             
-            await goto('/admin');
+            await goto('/');
             return;
         
         }
