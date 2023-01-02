@@ -1,54 +1,51 @@
 <script>
 	import {goto} from '$app/navigation';
-
+	import { collection, getDocs, onSnapshot} from "firebase/firestore";
+	import { onMount } from 'svelte';
+	import {db} from '$lib/firebase/client.js'
+	
+	let inquiries = []
 
 	function viewInquiry(inquiryId){
 		goto('/admin/clientmanage/inquiries/' + inquiryId)
 
 	}
-
-
-
+	
+	onMount(() => {
+        const unsubscribe = onSnapshot(collection(db, 'inquiries'), (querySnapshot) => {
+        inquiries = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        });
+        return () => unsubscribe();
+        
+    })
 
 </script>
 
-	
-	
+		
 	<div class="overflow-x-auto relative shadow-md sm:rounded-lg h-full bg-white mt-4">
 			
 				<table class="table table-normal w-full bg-white ">
 				  	<thead>
+						
 						<tr>
-					 		<th>Client #</th> 
-					  		<th>Name</th> 
-					  		<th>Loan No.</th> 
-					  		<th>Loan Type</th> 
-						  	<th>location</th>
-							  <th></th> 
-					 		<th>Release Date</th>
-							 <th></th> 
+					 		<th>Id</th>
+					  		<th>firstname</th> 
+					  		<th>lastname</th> 
+					  		<th>email</th> 
+						  	<th>number</th>
+					 		<th>address</th>
 						</tr>
 				 	</thead> 
-						<tr class="hover cursor-pointer" on:click={() => viewInquiry('SPL-2022-0001')}  >
-							<td>SPL-2022-0001</td> 
-							<td>Trishan Andrei</td> 
-							<td>No. 001</td> 
-							<td>New</td> 
-							<td>Canada</td> 
-							<td></td> 
-							<td>12/12/2022</td>
-							<td></td>
+					 {#each inquiries as applicant }
+					 <!-- on:click={() => viewInquiry(inquiries)} -->
+						<tr class="hover cursor-pointer" >
+							<td>{applicant.id}</td> 
+							<td>{applicant.firstname}</td> 
+							<td>{applicant.lastname}</td> 
+							<td>{applicant.email}</td> 
+							<td>{applicant.number}</td> 
+							<td>{applicant.address}</td>
 						</tr>
-						<tr class="hover cursor-pointer" on:click={() => viewInquiry('SPL-2022-0002')}>
-							<td>SPL-2022-0002</td> 
-							<td>Hart Hagerty</td> 
-							<td>No. 002</td> 
-							<td>Renewal</td> 
-							<td>United States</td> 
-							<td></td> 
-							<td>01/03/2023</td>
-                            <td></td>
-						  </tr>
-					
+					{/each}	
 				</table>	
 			</div>	
