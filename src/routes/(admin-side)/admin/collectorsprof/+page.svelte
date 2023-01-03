@@ -1,9 +1,10 @@
 <script>
     import AddModal from "./AddModal.svelte";
+    import UpdateModal from "./UpdateModal.svelte";
     import { collection, onSnapshot, doc, deleteDoc } from 'firebase/firestore';
     import { onMount } from 'svelte';
-    import {db} from '$lib/firebase/client.js'
-
+    import {db} from '$lib/firebase/client.js';
+	let userInfo
     let employees = []
 
     onMount(() => {
@@ -13,9 +14,6 @@
         return () => unsubscribe();
         
     })
-
-    
-
     async function deleteEmployee(id){
         await deleteDoc(doc(db, "employees", id));
     }
@@ -78,7 +76,8 @@
                             </label>
                             <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
                             <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-38">
-                                <li><button>Edit</button></li>
+                                <!-- svelte-ignore a11y-click-events-have-key-events -->
+                                <li><label for="update" on:click={userInfo(employee)}>Edit</label></li>
                                 <li><button on:click={deleteEmployee(employee.id)}>Delete</button></li>
                             </ul>
                         </div>
@@ -90,5 +89,5 @@
     </table>
 </div>
 <AddModal/>
-
+<UpdateModal bind:userInfo={userInfo}/>
 
