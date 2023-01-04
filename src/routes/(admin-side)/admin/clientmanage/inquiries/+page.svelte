@@ -38,7 +38,7 @@
 				 	</thead> 
 					 {#each inquiries as applicant }
 					 
-						<tr class="hover cursor-pointer" on:click={() => viewInquiry()} >
+						<tr class="hover cursor-pointer" on:click={() => viewInquiry(applicant.id)} >
 							<td>{applicant.firstname + '  ' + applicant.lastname}</td> 
 							<td>{applicant.email}</td> 
 							<td>{applicant.number}</td> 

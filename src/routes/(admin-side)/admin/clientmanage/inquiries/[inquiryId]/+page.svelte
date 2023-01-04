@@ -1,9 +1,27 @@
 <script>
+	import { doc, onSnapshot } from 'firebase/firestore';
+    import {db} from '$lib/firebase/client.js';
+    import { onMount } from 'svelte';
+
     /** @type {import('./$types').PageData} */
     export let data;
 
+    let inquiry = null;
+
     const {inquiryId} = data
     console.log(inquiryId)
+
+    onMount(() => {
+        const unsubscribe = onSnapshot(doc(db,'inquiries', inquiryId ), (querySnapshot)=> {
+          inquiry =  {...querySnapshot.data(), id: inquiryId}
+
+        });
+        return () => unsubscribe();
+    })
+
+
+
+
 </script>
 
 <a href="/admin/clientmanage/inquiries/"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -13,7 +31,8 @@
 
 
 <div class="overflow-x-auto relative shadow-md sm:rounded-lg h-full bg-white mt-4">
-    
+
+    {#if inquiry}
     <div class="grid grid-cols-2 mt-2 mb-2">
         <div class="font-semibold px-6">
             <p class="my-2">ID:</p>
@@ -23,14 +42,15 @@
             <p class="my-2 ">Number:</p>
             <p class="my-2 ">Address:</p>
         </div>
-        <!-- <div class="font-semibold px-6" >
-            <p class="my-2">{inquiryId.inquiries}</p>
-            <p class="my-2">{inquiryId.id}</p>
-            <p class="my-2">{inquiryId.id}</p>
-            <p class="my-2">{inquiryId.id}</p>
-            <p class="my-2 ">{inquiryId.id}</p>
-            <p class="my-2 ">{inquiryId.id}</p>
-        </div> -->
+
+        <div class="font-semibold px-6" >
+            <p class="my-2">{inquiry.id}</p>
+            <p class="my-2">{inquiry.firstname}</p>
+            <p class="my-2">{inquiry.lastname}</p>
+            <p class="my-2">{inquiry.email}</p>
+            <p class="my-2">{inquiry.number}</p>
+            <p class="my-2">{inquiry.address}</p>
+        </div>
         
     </div>
     <hr />
@@ -41,5 +61,6 @@
               </h1>
 
         </div>
+        {/if}
 
 </div>
