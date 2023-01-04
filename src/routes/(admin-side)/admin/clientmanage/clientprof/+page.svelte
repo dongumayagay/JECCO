@@ -1,195 +1,60 @@
-    <div class="flex items-center p-4 shadow-md sm:rounded-lg h-10 bg-white gap-4">
+<script>
+    import AddClientProfile from "$lib/components/AddClientProfile.svelte";
+</script>    
+<div class="flex items-center p-4 shadow-md sm:rounded-lg h-10 bg-white gap-4">
         
-        <h1 class=" left-0 pr-10">Client Profile</h1>
+    <h1 class=" left-0 pr-10">Client Profile</h1>
+    <label for="add" class=" btn btn-ghost absolute right-10 px-2 bg-white btn-xs sm:btn-2xs md:btn-xs lg:btn-sm hover:bg-green-300">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="black" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+    </label>
+    
+</div>    
 
-
-        <label for="my-modal" >
-            <div class=" btn btn-ghost bg-gray-200 btn-xs sm:btn-2xs md:btn-xs lg:btn-sm hover:bg-green-300 right-0">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="black" class="w-4 h-4">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
-                </div>
-
-        </label>
-
-        <label for="my-modal" class="" >
-            <div class=" btn btn-ghost bg-gray-200 btn-xs sm:btn-2xs md:btn-xs lg:btn-sm hover:bg-blue-300">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="black" class="w-4 h-4">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-                  </svg>
-                  
-                </div>
-
-        </label>
-        
-        
-    </div>    
-
-    <div class="overflow-x-auto relative shadow-md sm:rounded-lg h-full bg-white mt-4">
-        <table class="table table-normal w-full ">
-            <thead>
-                <tr>
-                    <td class="p-4 w-4">
-                        <div class="flex items-center">
-                            <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        </div>
-                    </td> 
-                <th class=" w-60 ">Client Number</th> 
-                <th class=" w-64 ">Name</th> 
-                <th class=" w-96 " >Area</th> 
-                <th class=" w-96 " >Collector Assigned</th> 
-                <th class=" w-96 " >Loan type</th> 
-                <th class=" w-96 " >Mode of Payment</th> 
-                <th class=" w-60" >Date Created</th> 
-              </tr>
-           </thead> 
-              <tr class="hover">
+<div class="overflow-x-auto relative shadow-md sm:rounded-lg h-full bg-white mt-4">
+    
+    <table class="table table-normal w-full ">
+        <thead>
+            <tr>
+                <th scope="col" class="px-6"></th>
+                <th scope="col" class="px-6">Client Number</th> 
+                <th scope="col" class="px-6">Name</th> 
+                <th scope="col" class="px-6">Area</th> 
+                <th scope="col" class="px-6" >Collector Assigned</th> 
+                <th scope="col" class="px-6" >Loan type</th> 
+                <th scope="col" class="px-6" >Mode of Payment</th> 
+                <th scope="col" class="px-6" >Date Created</th> 
+            </tr>
+        </thead> 
+            <tr class="hover">
                 <td class="p-4 w-4">
-                    <div class="flex items-center">
-                        <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <div  class="flex items-center space-x-2 text-sm">
+                        <div class="dropdown">
+                            <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+                            <label for='' tabindex="0" class="flex items-center justify-between text-sm font-medium leading-5 rounded-lg text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Delete">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19 19" fill="currentColor" class="w-5 h-5">
+                                    <path d="M10.5 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm0 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm0 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" clip-rule="evenodd" />
+                                </svg>
+                            </label>
+                            <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+                            <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-38">
+                                <!-- svelte-ignore a11y-click-events-have-key-events -->
+                                <li><label for="update">Edit</label></li>
+                                <li><button>Delete</button></li>
+                            </ul>
+                        </div>
                     </div>
                 </td>
-                  <td>SPL-2022-0001</td> 
-                  <td>Trishan Andrei</td> 
-                  <td>Langgam</td>
-                  <td>Juan Dela Cruz</td>
-                  <td>New</td>
-                  <td>Monthly</td> 
-                  <td>12/12/2022</td>
-              </tr>
-          
-      </table>	
-
-
-    </div>
-
-    <input type="checkbox" id="my-modal" class="modal-toggle"  />
-    <div class="modal">
-        <div class="modal-box">
+                <td>SPL-2022-0001</td> 
+                <td>Trishan Andrei</td> 
+                <td>Langgam</td>
+                <td>Juan Dela Cruz</td>
+                <td>New</td>
+                <td>Monthly</td> 
+                <td>12/12/2022</td>
+            </tr>      
     
-            <!-- Modal -->
-            <form action="#" class="relative rounded-lg shadow">
-                <!-- Modal header -->
-                <div class="flex justify-between items-start p-4 rounded-t border-b ">
-                    <h3 class="text-xl font-semibold  ">
-                        Process Loan
-                    </h3>
-                    <!-- <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover: rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="editUserModal">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
-                    </button> -->
-                </div>
-                <!-- Modal body -->
-                <div class="p-6 space-y-6">
-                    <div class="grid grid-cols-6 gap-6">
-                        <div class="col-span-6 sm:col-span-3">
-                            <label for="first-name" class="block mb-2 text-sm font-medium  ">Client Number</label>
-                            <input type="text" name="first-name" id="first-name" class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Client Number" required="">
-                        </div>
-                        <div class="col-span-6 sm:col-span-3">
-                            <label for="first-name" class="block mb-2 text-sm font-medium  ">Name</label>
-                            <input type="text" name="first-name" id="first-name" class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Name" required="">
-                        </div>
-                        <div class="col-span-6 sm:col-span-3">
-                            <label for="first-name" class="block mb-2 text-sm font-medium  ">Password</label>
-                            <input type="password" name="first-name" id="first-name" class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Password" required="">
-                        </div>
-                        <div class="col-span-6 sm:col-span-3">
-                            <label for="first-name" class="block mb-2 text-sm font-medium  ">Area</label>
-                            <input type="text" name="first-name" id="first-name" class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Area" required="">
-                        </div>
-                        <div class="col-span-6 sm:col-span-3">
-                            <label for="last-name" class="block mb-2 text-sm font-medium  ">Collector</label>
-                            <input type="text" name="last-name" id="last-name" class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Collector" required="">
-                        </div>
-                        <div class="col-span-6 sm:col-span-3">
-                            <label for="email" class="block mb-2 text-sm font-medium  ">Loan type</label>
-                            <input type="email" name="email" id="email" class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Loan type" required="">
-                        </div>
-                        <div class="col-span-6 sm:col-span-3">
-                            <label for="phone-number" class="block mb-2 text-sm font-medium  ">Mode of Payment</label>
-                            <input type="text" name="phone-number" id="phone-number" class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Mode of Payment" required="">
-                        </div>
-                        <div class="col-span-6 sm:col-span-3">
-                            <label for="department" class="block mb-2 text-sm font-medium  ">Date Created</label>
-                            <input type="date" name="department" id="department" class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Date created" required="">
-                        </div>
-                    </div>
-                </div>
-                <!-- Modal footer -->
-                <!-- <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
-                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Save all</button>
-                </div> -->
-            </form>
+    </table>	
+</div>
+<AddClientProfile/>
     
-    
-            <div class="modal-action">
-                <label for="my-modal" class="btn border-transparent bg-green-600">Save</label>
-                <label for="my-modal" class="btn border-transparent bg-red-600">Cancel</label>
-            </div>    
-        </div>
-    </div>
-
-    <input type="checkbox" id="add" class="modal-toggle"  />
-    <div class="modal">
-        <div class="modal-box">
-    
-            <!-- Modal -->
-            <form action="#" class="relative rounded-lg shadow">
-                <!-- Modal header -->
-                <div class="flex justify-between items-start p-4 rounded-t border-b ">
-                    <h3 class="text-xl font-semibold  ">
-                        Add
-                    </h3>
-                    <!-- <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover: rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="editUserModal">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
-                    </button> -->
-                </div>
-                <!-- Modal body -->
-                <div class="p-6 space-y-6">
-                    <div class="grid grid-cols-6 gap-6">
-                        <div class="col-span-6 sm:col-span-3">
-                            <label for="first-name" class="block mb-2 text-sm font-medium  ">Client Number</label>
-                            <input type="text" name="first-name" id="first-name" class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Client Number" required="">
-                        </div>
-                        <div class="col-span-6 sm:col-span-3">
-                            <label for="first-name" class="block mb-2 text-sm font-medium  ">Name</label>
-                            <input type="text" name="first-name" id="first-name" class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Name" required="">
-                        </div>
-                        <div class="col-span-6 sm:col-span-3">
-                            <label for="first-name" class="block mb-2 text-sm font-medium  ">Password</label>
-                            <input type="password" name="first-name" id="first-name" class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Password" required="">
-                        </div>
-                        <div class="col-span-6 sm:col-span-3">
-                            <label for="first-name" class="block mb-2 text-sm font-medium  ">Area</label>
-                            <input type="text" name="first-name" id="first-name" class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Area" required="">
-                        </div>
-                        <div class="col-span-6 sm:col-span-3">
-                            <label for="last-name" class="block mb-2 text-sm font-medium  ">Collector</label>
-                            <input type="text" name="last-name" id="last-name" class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Collector" required="">
-                        </div>
-                        <div class="col-span-6 sm:col-span-3">
-                            <label for="email" class="block mb-2 text-sm font-medium  ">Loan type</label>
-                            <input type="email" name="email" id="email" class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Loan type" required="">
-                        </div>
-                        <div class="col-span-6 sm:col-span-3">
-                            <label for="phone-number" class="block mb-2 text-sm font-medium  ">Mode of Payment</label>
-                            <input type="text" name="phone-number" id="phone-number" class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Mode of Payment" required="">
-                        </div>
-                        <div class="col-span-6 sm:col-span-3">
-                            <label for="department" class="block mb-2 text-sm font-medium  ">Date Created</label>
-                            <input type="date" name="department" id="department" class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Date created" required="">
-                        </div>
-                    </div>
-                </div>
-                <!-- Modal footer -->
-                <!-- <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
-                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Save all</button>
-                </div> -->
-            </form>
-    
-    
-            <div class="modal-action">
-                <label for="add" class="btn border-transparent bg-green-600">Save</label>
-                <label for="add" class="btn border-transparent bg-red-600">Cancel</label>
-            </div>    
-        </div>
-    </div>
