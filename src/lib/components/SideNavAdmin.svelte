@@ -5,8 +5,7 @@
 
   async function logout(){
       await signOut(auth)
-      goto('/')
-
+      await goto('/')
   }
 
 
