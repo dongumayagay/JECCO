@@ -5,8 +5,8 @@
     let uInfo = [];
     let addUserInput = {} 
     
-    export async function userInfo(idEmployee){
-        uInfo = idEmployee
+    export async function userInfo(infoEmployee){
+        uInfo = infoEmployee
         addUserInput = {
             name:uInfo.name,
 		    address:uInfo.address,

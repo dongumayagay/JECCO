@@ -1,7 +1,9 @@
 <script>
+    import AddClientProfile from "$lib/components/AddClientProfile.svelte";
 	import { doc, onSnapshot } from 'firebase/firestore';
     import {db} from '$lib/firebase/client.js';
     import { onMount } from 'svelte';
+    let clientInfo
 
     /** @type {import('./$types').PageData} */
     export let data;
@@ -23,12 +25,17 @@
 
 
 </script>
-
-<a href="/admin/clientmanage/inquiries/"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-  </svg>
-  </a>
-
+<div class="flex items-center p-4 sm:rounded-lg h-10">
+    <a href="/admin/clientmanage/inquiries/"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+    </svg>
+    </a>
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <label for="add" on:click={clientInfo(inquiry)} class=" btn btn-ghost absolute right-10 px-2 bg-white btn-xs sm:btn-2xs md:btn-xs lg:btn-sm hover:bg-green-300">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="black" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+    </label>
+</div>
 
 <div class="overflow-x-auto relative shadow-md sm:rounded-lg h-full bg-white mt-4">
 
@@ -64,3 +71,4 @@
         {/if}
 
 </div>
+<AddClientProfile bind:clientInfo={clientInfo}/>
