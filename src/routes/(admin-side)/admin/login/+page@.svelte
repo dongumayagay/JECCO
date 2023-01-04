@@ -8,15 +8,14 @@
 	let password = '';
 
 	async function login() {
-		console.log(username, password);
-		// await goto('/admin');
 		try {
-		 const userCredential = await signInWithEmailAndPassword(auth,username,password);
-		 console.log(userCredential);
-		 alert('login success');
-		 await goto('/admin');
-           return;
+		 	const userCredential = await signInWithEmailAndPassword(auth,username,password);
+			alert('login success');
+		 	await goto('/admin');
+           	return;
+			
 		} catch (error) {
+
 			console.log(error);
 			alert('login error');
 			return;

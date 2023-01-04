@@ -1,4 +1,7 @@
 <script>
+	import {setDoc, doc } from 'firebase/firestore';
+	import {db} from '$lib/firebase/client.js';
+
 	let users = []
 	let addModal = false
 	let addOption = true
@@ -32,11 +35,16 @@
 
 				})})
 			const userRecord = await response.json()
-			alert('Admin account created with the User ID:' + userRecord.uid)
+			const docRef = await setDoc(doc(db, "userinfo", userRecord.uid), {
+				admin: true
+
+        	});
+			
 		} catch (error) {
 			console.log(error)
 
 		}
+
 		resetAddUserInput()
 		addModal = false
 	}
