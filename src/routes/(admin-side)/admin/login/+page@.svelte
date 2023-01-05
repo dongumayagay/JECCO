@@ -4,6 +4,7 @@
 	import {signInWithEmailAndPassword} from 'firebase/auth';
 	import {auth, db} from '$lib/firebase/client.js';
 	import {getDoc,doc} from 'firebase/firestore';
+	import {signOut} from 'firebase/auth'
 
 	let username = '';
 	let password = '';
@@ -28,7 +29,7 @@
       const isAdmin = snapshot.get('admin')
 
         if(isAdmin===undefined || isAdmin===false){
-            
+            await signOut(auth)
             await goto('/');
             return;
         }

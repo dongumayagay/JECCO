@@ -1,5 +1,22 @@
 <script>
     import AddClientProfile from "$lib/components/AddClientProfile.svelte";
+    import EditClientModal from "./EditClientModal.svelte";
+    import { onMount } from 'svelte';
+    import { collection, onSnapshot, doc, deleteDoc } from 'firebase/firestore';
+    import {db} from '$lib/firebase/client.js';
+    let clientInfo
+    let clients = []
+
+    onMount(() => {
+        const unsubscribe = onSnapshot(collection(db, 'clientinfo'), (querySnapshot) => {
+            clients = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        });
+        return () => unsubscribe();
+        
+    })
+    async function deleteClient(id){
+        await deleteDoc(doc(db, "clientinfo", id));
+    }
 </script>    
 <div class="flex items-center p-4 shadow-md sm:rounded-lg h-10 bg-white gap-4">
         
@@ -17,15 +34,18 @@
         <thead>
             <tr>
                 <th scope="col" class="px-6"></th>
-                <th scope="col" class="px-6">Client Number</th> 
-                <th scope="col" class="px-6">Name</th> 
-                <th scope="col" class="px-6">Area</th> 
-                <th scope="col" class="px-6" >Collector Assigned</th> 
+                <th scope="col" class="px-6">Username</th> 
+                <th scope="col" class="px-6">First Name</th> 
+                <th scope="col" class="px-6">Last Name</th> 
+                <th scope="col" class="px-6">Address</th> 
+                <th scope="col" class="px-6" >Email</th> 
+                <th scope="col" class="px-6">Contact Number</th> 
                 <th scope="col" class="px-6" >Loan type</th> 
                 <th scope="col" class="px-6" >Mode of Payment</th> 
                 <th scope="col" class="px-6" >Date Created</th> 
             </tr>
         </thead> 
+        {#each clients as client }
             <tr class="hover">
                 <td class="p-4 w-4">
                     <div  class="flex items-center space-x-2 text-sm">
@@ -39,22 +59,42 @@
                             <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
                             <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-38">
                                 <!-- svelte-ignore a11y-click-events-have-key-events -->
-                                <li><label for="update">Edit</label></li>
-                                <li><button>Delete</button></li>
+                                <li><label for="update" on:click={clientInfo(client)}>Edit Client Information</label></li>
+                                <li><button on:click={deleteClient(client.id)}>Delete</button></li>
                             </ul>
                         </div>
                     </div>
                 </td>
-                <td>SPL-2022-0001</td> 
-                <td>Trishan Andrei</td> 
-                <td>Langgam</td>
-                <td>Juan Dela Cruz</td>
-                <td>New</td>
-                <td>Monthly</td> 
-                <td>12/12/2022</td>
+                <td class="px-6">
+                    {client.username}
+                </td>
+                <td class="px-6">
+                    {client.firstname}
+                </td>
+                <td class="px-6">
+                    {client.lastname}
+                </td>
+                <td class="px-6">
+                    {client.address}
+                </td>
+                <td class="px-6">
+                    {client.email}
+                </td>
+                <td class="px-6">
+                    {client.number}
+                </td>
+                <td class="px-6">
+                    {client.loanType}
+                </td>
+                <td class="px-6">
+                    {client.paymentMode}
+                </td>
+                <td class="px-6">
+                    {client.dateCreated}
+                </td>
             </tr>      
-    
+        {/each}
     </table>	
 </div>
 <AddClientProfile/>
-    
+<EditClientModal bind:clientInfo={clientInfo} />    

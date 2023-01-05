@@ -1,11 +1,10 @@
 <script>
-    import {setDoc, doc } from 'firebase/firestore';
-	import {db} from '$lib/firebase/client.js';
-
-    let addModal = false
+    import { db } from '$lib/firebase/client.js'
+    import { updateDoc, doc } from 'firebase/firestore';
+    let updateModal = false;
     let cliInfo = [];
     let addUserInput = {} 
-
+    
     export async function clientInfo(infoClient){
         cliInfo = infoClient
         addUserInput = {
@@ -14,41 +13,28 @@
             email:cliInfo.email,
             number:cliInfo.number,
             address:cliInfo.address,
-        }
+            loanType:cliInfo.loanType,
+            paymentMode:cliInfo.paymentMode,
+            dateCreated:cliInfo.dateCreated
+	    }
     }
 
     function resetAddUserInput(){
 		addUserInput = {
-            username:'',
-            password:'',
-            confirmPassword:'',
             firstname:cliInfo.firstname,
             lastname:cliInfo.lastname,
             email:cliInfo.email,
             number:cliInfo.number,
             address:cliInfo.address,
-            loanType:'',
-            paymentMode:'',
-            dateCreated:''
+            loanType:cliInfo.loanType,
+            paymentMode:cliInfo.paymentMode,
+            dateCreated:cliInfo.dateCreated
 	    } 
 	}
 
-    async function addUser(){
-		if(addUserInput.password != addUserInput.confirmPassword){
-			alert('Password does not match')
-			return;
-		}
-		try {
-
-			const response = await fetch('/api/users/admins',{method:'POST',
-			body: JSON.stringify({
-                name:addUserInput.firstname + ' ' + addUserInput.lastname,
-                email:addUserInput.username,
-                password:addUserInput.password
-			})})
-			const userRecord = await response.json()
-			const docRef = await setDoc(doc(db, "clientinfo", userRecord.uid), {
-                username:addUserInput.username,
+    async function updateClient(){
+        try {
+            await updateDoc(doc(db, 'clientinfo', cliInfo.id),{
                 firstname:addUserInput.firstname,
                 lastname:addUserInput.lastname,
                 email:addUserInput.email,
@@ -57,48 +43,30 @@
                 loanType:addUserInput.loanType,
                 paymentMode:addUserInput.paymentMode,
                 dateCreated:addUserInput.dateCreated
-
-
-        	});
-			
-		} catch (error) {
-			console.log(error)
-
-		}
-
-		resetAddUserInput()
-		addModal = false
-	}
+        });    
+        } catch (e) {
+            console.error("Error adding document: ", e); 
+        }
+        resetAddUserInput()
+		updateModal = false
+    }
 
 </script>
-
-<input type="checkbox" bind:checked={addModal} id="add" class="modal-toggle" />
+<input type="checkbox" bind:checked={updateModal} id="update" class="modal-toggle" />
 <div class="modal">
     <div class="modal-box">
 
         <!-- Modal -->
-        <form class="relative bg-white rounded-lg shadow dark:bg-gray-700" on:submit={addUser}>
+        <form class="relative bg-white rounded-lg shadow dark:bg-gray-700" on:submit={updateClient}>
             <!-- Modal header -->
             <div class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                    Add Client Profile
+                    Update Client Information
                 </h3>
             </div>
             <!-- Modal body -->
             <div class="p-6 space-y-6">
                 <div class="grid grid-cols-6 gap-6">
-                    <div class="col-span-6 sm:col-span-3">
-                        <label for="username" class="block mb-2 text-sm font-medium  ">Username</label>
-                        <input type="text" bind:value={addUserInput.username} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Username" required="">
-                    </div>
-                    <div class="col-span-6 sm:col-span-3">
-						<label for="password" class="block mb-2 text-sm font-medium">Password</label>
-						<input type="password" bind:value={addUserInput.password} class="shadow-sm focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="password" required>
-					</div>
-					<div class="col-span-6 sm:col-span-3">
-						<label for="confirmPassword" class="block mb-2 text-sm font-medium">Confirm Password</label>
-						<input type="password" bind:value={addUserInput.confirmPassword} class="shadow-sm focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Confirm password" required>
-					</div>
                     <div class="col-span-6 sm:col-span-3">
                         <label for="last-name" class="block mb-2 text-sm font-medium  ">Last Name</label>
                         <input type="text" bind:value={addUserInput.lastname} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Last Name" required="">
@@ -135,9 +103,9 @@
             </div>
 
             <div class="modal-action">    
-                <button type="submit" class="btn border-transparent bg-green-600">Add</button>
+                <button type="submit" class="btn border-transparent bg-blue-600">Update</button>
                 <!-- svelte-ignore a11y-click-events-have-key-events -->
-                <label for="add" on:click={resetAddUserInput()} class="btn border-transparent bg-red-600">Cancel</label>
+                <label for="update" on:click={resetAddUserInput}  class="btn border-transparent bg-red-600">Cancel</label>
             </div>
         </form>
     </div>
