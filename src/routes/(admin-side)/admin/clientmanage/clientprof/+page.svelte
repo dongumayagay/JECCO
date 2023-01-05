@@ -1,14 +1,15 @@
 <script>
     import AddClientProfile from "$lib/components/AddClientProfile.svelte";
+    import EditClientModal from "./EditClientModal.svelte";
     import { onMount } from 'svelte';
     import { collection, onSnapshot, doc, deleteDoc } from 'firebase/firestore';
     import {db} from '$lib/firebase/client.js';
+    let clientInfo
     let clients = []
 
     onMount(() => {
         const unsubscribe = onSnapshot(collection(db, 'clientinfo'), (querySnapshot) => {
             clients = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-            console.log(clients)
         });
         return () => unsubscribe();
         
@@ -58,7 +59,7 @@
                             <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
                             <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-38">
                                 <!-- svelte-ignore a11y-click-events-have-key-events -->
-                                <li><label for="update">Edit</label></li>
+                                <li><label for="update" on:click={clientInfo(client)}>Edit Client Information</label></li>
                                 <li><button on:click={deleteClient(client.id)}>Delete</button></li>
                             </ul>
                         </div>
@@ -96,4 +97,4 @@
     </table>	
 </div>
 <AddClientProfile/>
-    
+<EditClientModal bind:clientInfo={clientInfo} />    
