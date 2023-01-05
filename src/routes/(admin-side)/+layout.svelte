@@ -4,7 +4,7 @@
     import {goto} from '$app/navigation';
     import {getDoc,doc} from 'firebase/firestore';
     import {db} from '$lib/firebase/client.js';
-    
+    import {signOut} from 'firebase/auth'
     let show = false;
 
     async function checkIfAdmin(_){
@@ -20,7 +20,7 @@
       const isAdmin = snapshot.get('admin')
 
         if(isAdmin===undefined || isAdmin===false){
-            
+            await signOut(auth)
             await goto('/');
             return;
         
