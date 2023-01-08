@@ -1,5 +1,18 @@
 <script>
-
+    import { onMount } from 'svelte';
+    import { collection, onSnapshot, doc, deleteDoc } from 'firebase/firestore';
+    import {db} from '$lib/firebase/client.js';
+    let loans = []
+    onMount(() => {
+        const unsubscribe = onSnapshot(collection(db, 'loanprocess'), (querySnapshot) => {
+            loans = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        });
+        return () => unsubscribe();
+        
+    })
+    async function deleteLoan(id){
+        await deleteDoc(doc(db, "loanprocess", id));
+    }
 </script>
 
 <div class="flex items-center p-4 shadow-md sm:rounded-lg h-10 bg-white gap-4">
@@ -11,29 +24,59 @@
 		<table class="table table-normal w-full">
 			<thead>
 				<tr class="hover">
-					<th>Username</th> 
-					<th>Type of Loan</th> 
-					<th>Mode of Payment</th> 
-					<th>Loan Amount</th> 
-					<th>Duration</th> 
-                    <th>Purpose</th> 
-					<th>Date Created</th> 
-                    <th></th>
+                    <th scope="col" class="px-6"></th>
+					<th scope="col" class="px-6">Username</th> 
+					<th scope="col" class="px-6">Type of Loan</th> 
+					<th scope="col" class="px-6">Mode of Payment</th> 
+					<th scope="col" class="px-6">Loan Amount</th> 
+					<th scope="col" class="px-6">Duration</th> 
+                    <th scope="col" class="px-6">Purpose</th> 
+					<th scope="col" class="px-6">Date Created</th> 
 				</tr>
 			</thead> 
-			<tbody>
-				<tr class="hover">
-                    <td>Smith</td> 
-					<td>CSB Loan</td> 
-					<td>Monthly Payment</td> 
-					<td>500,000.00 php</td> 
-					<td>3 years</td> 
-                    <td>Renovation</td> 
-					<td>2023-01-08</td> 
-                    <td class="py-4 px-6"><label for="my-modal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</label> 
+			{#each loans as loan }
+                <tr class="hover">
+                    <td class="p-4 w-4">
+                        <div  class="flex items-center space-x-2 text-sm">
+                            <div class="dropdown">
+                                <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+                                <label for='' tabindex="0" class="flex items-center justify-between text-sm font-medium leading-5 rounded-lg text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Delete">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19 19" fill="currentColor" class="w-5 h-5">
+                                        <path d="M10.5 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm0 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm0 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" clip-rule="evenodd" />
+                                    </svg>
+                                </label>
+                                <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+                                <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-38">
+                                    <!-- svelte-ignore a11y-label-has-associated-control -->
+                                    <li><label>Edit</label></li>
+                                    <li><button on:click={deleteLoan(loan.id)}>Delete</button></li>
+                                </ul>
+                            </div>
+                        </div>
                     </td>
-				</tr>
-			</tbody> 
+                    <td class="px-6">
+                        {loan.username}
+                    </td>
+                    <td class="px-6">
+                        {loan.loanType}
+                    </td>
+                    <td class="px-6">
+                        {loan.paymentMode}
+                    </td>
+                    <td class="px-6">
+                        {loan.loanAmount}
+                    </td>
+                    <td class="px-6">
+                        {loan.duration}
+                    </td>
+                    <td class="px-6">
+                        {loan.purpose}
+                    </td>
+                    <td class="px-6">
+                        {loan.dateCreated}
+                    </td>
+                </tr>
+            {/each}
 		</table>	
 	</div>		
 </div>
