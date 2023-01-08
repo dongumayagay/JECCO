@@ -5,7 +5,7 @@
     import { onMount } from 'svelte';
     import { collection, onSnapshot, doc, deleteDoc } from 'firebase/firestore';
     import {db} from '$lib/firebase/client.js';
-	
+	let clientsInfo
     let clientInfo
     let clients = []
 
@@ -58,7 +58,7 @@
                             <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
                             <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-38">
                                 <!-- svelte-ignore a11y-click-events-have-key-events -->
-                                <li><label for="update" on:click={clientInfo(client)}>Edit Client Information</label></li>
+                                <li><label for="update" on:click={clientsInfo(client)}>Edit Client Information</label></li>
                                 <!-- svelte-ignore a11y-click-events-have-key-events -->
                                 <li><label for="add2" on:click={clientInfo(client)}>Process Loan</label></li>
                                 <li><button on:click={deleteClient(client.id)}>Delete</button></li>
@@ -89,5 +89,5 @@
     </table>	
 </div>
 <AddClientProfile/>
-<EditClientModal bind:clientInfo={clientInfo} />    
+<EditClientModal bind:clientsInfo={clientsInfo} />    
 <AddLoanPProcess bind:clientInfo={clientInfo} />   
