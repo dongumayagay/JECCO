@@ -7,7 +7,6 @@
     
     export async function clientsInfo(infoClient){
         cliInfo = infoClient
-        console.log(cliInfo)
         addUserInput = {
             firstname:cliInfo.firstname,
             lastname:cliInfo.lastname,
