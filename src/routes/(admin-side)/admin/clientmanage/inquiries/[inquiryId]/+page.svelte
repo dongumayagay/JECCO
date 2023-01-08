@@ -3,6 +3,8 @@
 	import { doc, onSnapshot } from 'firebase/firestore';
     import {db} from '$lib/firebase/client.js';
     import { onMount } from 'svelte';
+    import { getStorage, ref, listAll } from "firebase/storage";
+
     let clientInfo
 
     /** @type {import('./$types').PageData} */
@@ -21,10 +23,27 @@
         return () => unsubscribe();
     })
 
+    // const storage = getStorage();
+    // const listRef = ref(storage, 'inquiries/');
 
+    // listAll(listRef).then((res) => {
+    //     res.prefixes.forEach((folderRef) =>{
+      
+
+    //     });
+    //     res.items.forEach((itemRef) =>{
+
+
+    //     });
+
+    // }).catch((error) => {
+
+    // });
+   
 
 
 </script>
+
 <div class="flex items-center p-4 sm:rounded-lg h-10">
     <a href="/admin/clientmanage/inquiries/"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
         <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
@@ -66,6 +85,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13" />
               </svg>Attachmets 
               </h1>
+              <!-- <p class="p-6">{listAll(listRef)}</p> -->
 
         </div>
         {/if}
