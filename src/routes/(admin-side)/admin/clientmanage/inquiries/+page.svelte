@@ -20,6 +20,11 @@
         
     })
 
+	function editOption(event) {
+		event.stopPropagation();
+  }
+	
+
 
 </script>
 		
@@ -36,7 +41,8 @@
 		 	</thead> 
 			{#each inquiries as applicant }			 
 				<tr class="hover cursor-pointer" on:click={() => viewInquiry(applicant.id)}>
-					<td class="px-4" on:Click|stopPropagation>
+					<!-- svelte-ignore a11y-click-events-have-key-events -->
+					<td class="px-4" on:click={editOption}>
 						<div  class="flex items-center space-x-2 text-sm">
 							<div class="dropdown">
 								<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
