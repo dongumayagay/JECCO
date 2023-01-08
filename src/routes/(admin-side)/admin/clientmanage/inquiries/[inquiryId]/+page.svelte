@@ -33,7 +33,7 @@
         });
         res.items.forEach((itemRef) =>{
 
-            console.log('item ref:' + itemRef);
+            // console.log('item ref:' + itemRef);
 
         });
 

@@ -3,6 +3,7 @@
     import { collection, onSnapshot, doc, deleteDoc } from 'firebase/firestore';
     import {db} from '$lib/firebase/client.js';
 	import UpdateLoanModal from './UpdateLoanModal.svelte';
+    
     let loans = []
     let clientInfo
     
