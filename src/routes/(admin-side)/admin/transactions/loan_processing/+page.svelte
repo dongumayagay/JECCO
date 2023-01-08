@@ -2,7 +2,10 @@
     import { onMount } from 'svelte';
     import { collection, onSnapshot, doc, deleteDoc } from 'firebase/firestore';
     import {db} from '$lib/firebase/client.js';
+	import UpdateLoanModal from './UpdateLoanModal.svelte';
     let loans = []
+    let clientInfo
+    
     onMount(() => {
         const unsubscribe = onSnapshot(collection(db, 'loanprocess'), (querySnapshot) => {
             loans = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
@@ -20,7 +23,7 @@
 </div>
 
 <div class="overflow-x-auto relative shadow-md sm:rounded-lg h-full bg-white mt-4">
-	<div class="overflow-x-auto">
+	<div>
 		<table class="table table-normal w-full">
 			<thead>
 				<tr class="hover">
@@ -47,8 +50,8 @@
                                 </label>
                                 <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
                                 <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-38">
-                                    <!-- svelte-ignore a11y-label-has-associated-control -->
-                                    <li><label>Edit</label></li>
+                                    <!-- svelte-ignore a11y-click-events-have-key-events -->
+                                    <li><label for="update" on:click={clientInfo(loan)}>Edit</label></li>
                                     <li><button on:click={deleteLoan(loan.id)}>Delete</button></li>
                                 </ul>
                             </div>
@@ -80,3 +83,4 @@
 		</table>	
 	</div>		
 </div>
+<UpdateLoanModal bind:clientInfo={clientInfo}/>
