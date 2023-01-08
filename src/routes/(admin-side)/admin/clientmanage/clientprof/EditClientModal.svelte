@@ -1,11 +1,11 @@
 <script>
-    import { db } from '$lib/firebase/client.js'
+    import { db } from '$lib/firebase/client.js';
     import { updateDoc, doc } from 'firebase/firestore';
     let updateModal = false;
     let cliInfo = [];
     let addUserInput = {} 
     
-    export async function clientInfo(infoClient){
+    export async function clientsInfo(infoClient){
         cliInfo = infoClient
         addUserInput = {
             firstname:cliInfo.firstname,
