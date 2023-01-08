@@ -1,9 +1,11 @@
 <script>
     import AddClientProfile from "$lib/components/AddClientProfile.svelte";
     import EditClientModal from "./EditClientModal.svelte";
+    import AddLoanPProcess from "$lib/components/AddLoanPProcess.svelte";
     import { onMount } from 'svelte';
     import { collection, onSnapshot, doc, deleteDoc } from 'firebase/firestore';
     import {db} from '$lib/firebase/client.js';
+	
     let clientInfo
     let clients = []
 
@@ -60,6 +62,8 @@
                             <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-38">
                                 <!-- svelte-ignore a11y-click-events-have-key-events -->
                                 <li><label for="update" on:click={clientInfo(client)}>Edit Client Information</label></li>
+                                <!-- svelte-ignore a11y-click-events-have-key-events -->
+                                <li><label for="add2" on:click={clientInfo(client)}>Process Loan</label></li>
                                 <li><button on:click={deleteClient(client.id)}>Delete</button></li>
                             </ul>
                         </div>
@@ -98,3 +102,4 @@
 </div>
 <AddClientProfile/>
 <EditClientModal bind:clientInfo={clientInfo} />    
+<AddLoanPProcess bind:clientInfo={clientInfo} />   
