@@ -13,9 +13,6 @@
             email:cliInfo.email,
             number:cliInfo.number,
             address:cliInfo.address,
-            loanType:cliInfo.loanType,
-            paymentMode:cliInfo.paymentMode,
-            dateCreated:cliInfo.dateCreated
 	    }
     }
 
@@ -26,9 +23,6 @@
             email:cliInfo.email,
             number:cliInfo.number,
             address:cliInfo.address,
-            loanType:cliInfo.loanType,
-            paymentMode:cliInfo.paymentMode,
-            dateCreated:cliInfo.dateCreated
 	    } 
 	}
 
@@ -40,9 +34,6 @@
                 email:addUserInput.email,
                 number:addUserInput.number,
                 address:addUserInput.address,
-                loanType:addUserInput.loanType,
-                paymentMode:addUserInput.paymentMode,
-                dateCreated:addUserInput.dateCreated
         });    
         } catch (e) {
             console.error("Error adding document: ", e); 
@@ -80,24 +71,12 @@
                         <input type="text" bind:value={addUserInput.address} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Address" required="">
                     </div>
                     <div class="col-span-6 sm:col-span-3">
-                        <label for="loan-type" class="block mb-2 text-sm font-medium  ">Loan type</label>
-                        <input type="text" bind:value={addUserInput.loanType} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Loan Type" required="">
-                    </div>
-                    <div class="col-span-6 sm:col-span-3">
                         <label for="email" class="block mb-2 text-sm font-medium  ">Email</label>
                         <input type="email" bind:value={addUserInput.email} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Email" required="">
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <label for="contact-number" class="block mb-2 text-sm font-medium  ">Contact Number</label>
                         <input type="text" bind:value={addUserInput.number} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Contact Info" required="">
-                    </div>
-                    <div class="col-span-6 sm:col-span-3">
-                        <label for="mode-of-payment" class="block mb-2 text-sm font-medium  ">Mode of Payment</label>
-                        <input type="text" bind:value={addUserInput.paymentMode} id="phone-number" class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Mode of Payment" required="">
-                    </div>
-                    <div class="col-span-6 sm:col-span-3">
-                        <label for="date-created" class="block mb-2 text-sm font-medium  ">Date Created</label>
-                        <input type="date" bind:value={addUserInput.dateCreated} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Date created" required="">
                     </div>
                 </div>
             </div>

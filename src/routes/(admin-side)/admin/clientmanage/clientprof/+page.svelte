@@ -42,9 +42,6 @@
                 <th scope="col" class="px-6">Address</th> 
                 <th scope="col" class="px-6" >Email</th> 
                 <th scope="col" class="px-6">Contact Number</th> 
-                <th scope="col" class="px-6" >Loan type</th> 
-                <th scope="col" class="px-6" >Mode of Payment</th> 
-                <th scope="col" class="px-6" >Date Created</th> 
             </tr>
         </thead> 
         {#each clients as client }
@@ -86,15 +83,6 @@
                 </td>
                 <td class="px-6">
                     {client.number}
-                </td>
-                <td class="px-6">
-                    {client.loanType}
-                </td>
-                <td class="px-6">
-                    {client.paymentMode}
-                </td>
-                <td class="px-6">
-                    {client.dateCreated}
                 </td>
             </tr>      
         {/each}
