@@ -1,12 +1,42 @@
 <script>
 	import { goto } from '$app/navigation';
+	import {userStore} from '$lib/store.js';
+	import {signInWithEmailAndPassword} from 'firebase/auth';
+	import {auth, db} from '$lib/firebase/client.js';
+	import {getDoc,doc} from 'firebase/firestore';
+	import {signOut} from 'firebase/auth'
+
 	let username = '';
 	let password = '';
 
 	async function login() {
-		console.log(username, password);
-		await goto('/client');
+		try {
+		 	const userCredential = await signInWithEmailAndPassword(auth,username,password);
+			
+		} catch (error) {
+
+			console.log(error);
+
+		}
 	}
+
+	async function checkIfAdmin(_){
+        if($userStore===undefined || $userStore===null){
+            return;
+        }
+
+      const snapshot = await getDoc(doc(db,'userinfo',$userStore.uid))
+      const isAdmin = snapshot.get('admin')
+
+        if(isAdmin===undefined || isAdmin===false){
+            await goto('/client');
+            return;
+        }
+		await signOut(auth)
+		await goto('/');
+    }
+	$: checkIfAdmin($userStore)
+
 </script>
 
 <main class=" bg-gray-200 h-full flex">
