@@ -88,10 +88,7 @@
                         <label for="date-created" class="block mb-2 text-sm font-medium  ">Date Created</label>
                         <input type="date" bind:value={addUserInput.dateCreated} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Date created" required="">
                     </div>
-                    <div class="col-span-6 sm:col-span-3">
-                        <label for="area" class="block mb-2 text-sm font-medium  ">Area</label>
-                        <input type="text" bind:value={addUserInput.area} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Area" required="">
-                    </div>
+                    
                 </div>
             </div>
 
