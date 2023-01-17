@@ -35,17 +35,17 @@
     <table class="table table-normal w-full ">
         <thead>
             <tr>
-                <th scope="col" class="px-6"></th>
-                <th scope="col" class="px-6">Username</th> 
-                <th scope="col" class="px-6">First Name</th> 
-                <th scope="col" class="px-6">Last Name</th> 
-                <th scope="col" class="px-6">Address</th> 
-                <th scope="col" class="px-6" >Email</th> 
-                <th scope="col" class="px-6">Contact Number</th> 
+                <th class=""></th>
+                <th class="">Username</th> 
+                <th class="">First Name</th> 
+                <th class="">Last Name</th> 
+                <th class="flex justify-center">Address</th> 
+                <th class="" >Email</th> 
+                <th class="">Contact Number</th> 
             </tr>
         </thead> 
         {#each clients as client }
-            <tr class="hover">
+            <tr class=" hover">
                 <td class="p-4 w-4">
                     <div  class="flex items-center space-x-2 text-sm">
                         <div class="dropdown">
@@ -66,22 +66,22 @@
                         </div>
                     </div>
                 </td>
-                <td class="px-6">
+                <td class="">
                     {client.username}
                 </td>
-                <td class="px-6">
+                <td class="">
                     {client.firstname}
                 </td>
-                <td class="px-6">
+                <td class="">
                     {client.lastname}
                 </td>
-                <td class="px-6">
-                    {client.address}
+                <td class="">
+                    {client.houseNo + ', ' + client.barangay + ', ' + client.municipality + ', ' + client.province}
                 </td>
-                <td class="px-6">
+                <td class="">
                     {client.email}
                 </td>
-                <td class="px-6">
+                <td class="">
                     {client.number}
                 </td>
             </tr>      
