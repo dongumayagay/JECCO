@@ -29,13 +29,14 @@
 			<thead>
 				<tr class="hover">
                     <th scope="col" class="px-6"></th>
+                    <th scope="col" class="px-6">Loan Number</th>
 					<th scope="col" class="px-6">Username</th> 
 					<th scope="col" class="px-6">Type of Loan</th> 
 					<th scope="col" class="px-6">Mode of Payment</th> 
 					<th scope="col" class="px-6">Loan Amount</th> 
 					<th scope="col" class="px-6">Duration</th> 
                     <th scope="col" class="px-6">Purpose</th> 
-					<th scope="col" class="px-6">Date Created</th> 
+					<th scope="col" class="px-6">Release Date</th> 
 				</tr>
 			</thead> 
 			{#each loans as loan }
@@ -59,6 +60,9 @@
                         </div>
                     </td>
                     <td class="px-6">
+                        {loan.loanNumber}
+                    </td>
+                    <td class="px-6">
                         {loan.username}
                     </td>
                     <td class="px-6">
@@ -77,7 +81,7 @@
                         {loan.purpose}
                     </td>
                     <td class="px-6">
-                        {loan.dateCreated}
+                        {loan.releaseDate}
                     </td>
                 </tr>
             {/each}
