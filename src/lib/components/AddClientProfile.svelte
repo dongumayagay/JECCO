@@ -14,6 +14,10 @@
             email:cliInfo.email,
             number:cliInfo.number,
             address:cliInfo.address,
+            houseNo:cliInfo.house,
+            barangay:cliInfo.brgy,
+            municipality:cliInfo.muni,
+            province:cliInfo.prov
         }
     }
 
@@ -22,11 +26,15 @@
             username:'',
             password:'',
             confirmPassword:'',
+            barangay:'',
+            houseNo:'',
+            municipality:'',
+            province:'',
             firstname:cliInfo.firstname,
             lastname:cliInfo.lastname,
             email:cliInfo.email,
             number:cliInfo.number,
-            address:cliInfo.address,
+            barangay:cliInfo.brgy
 	    } 
 	}
 
@@ -50,7 +58,10 @@
                 lastname:addUserInput.lastname,
                 email:addUserInput.email,
                 number:addUserInput.number,
-                address:addUserInput.address,
+                barangay:addUserInput.brgy,
+                houseNo:addUserInput.house,
+                municipality:addUserInput.muni,
+                province:addUserInput.prov
         	});
 			
 		} catch (error) {
@@ -66,10 +77,10 @@
 
 <input type="checkbox" bind:checked={addModal} id="add" class="modal-toggle" />
 <div class="modal">
-    <div class="modal-box">
+    <div class="modal-box max-w-xl">
 
         <!-- Modal -->
-        <form class="relative bg-white rounded-lg shadow dark:bg-gray-700" on:submit={addUser}>
+        <form class="relative bg-white rounded shadow dark:bg-gray-700" on:submit={addUser}>
             <!-- Modal header -->
             <div class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
@@ -78,38 +89,50 @@
             </div>
             <!-- Modal body -->
             <div class="p-6 space-y-6">
-                <div class="grid grid-cols-6 gap-6">
-                    <div class="col-span-6 sm:col-span-3">
-                        <label for="username" class="block mb-2 text-sm font-medium  ">Username</label>
-                        <input type="text" bind:value={addUserInput.username} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Username" required="">
-                    </div>
-                    <div class="col-span-6 sm:col-span-3">
-						<label for="password" class="block mb-2 text-sm font-medium">Password</label>
-						<input type="password" bind:value={addUserInput.password} class="shadow-sm focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="password" required>
-					</div>
-					<div class="col-span-6 sm:col-span-3">
-						<label for="confirmPassword" class="block mb-2 text-sm font-medium">Confirm Password</label>
-						<input type="password" bind:value={addUserInput.confirmPassword} class="shadow-sm focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Confirm password" required>
-					</div>
-                    <div class="col-span-6 sm:col-span-3">
-                        <label for="last-name" class="block mb-2 text-sm font-medium  ">Last Name</label>
-                        <input type="text" bind:value={addUserInput.lastname} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Last Name" required="">
-                    </div>
-                    <div class="col-span-6 sm:col-span-3">
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="">
                         <label for="first-name" class="block mb-2 text-sm font-medium  ">First Name</label>
-                        <input type="text" bind:value={addUserInput.firstname} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="First Name" required="">
+                        <input type="text" bind:value={addUserInput.firstname} class="shadow-sm border text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 w-56 p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="First Name" required="">
                     </div>
-                    <div class="col-span-6 sm:col-span-3">
-                        <label for="adress" class="block mb-2 text-sm font-medium  ">Address</label>
-                        <input type="text" bind:value={addUserInput.address} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Address" required="">
+                    <div class="">
+                        <label for="last-name" class="block mb-2 text-sm font-medium  ">Last Name</label>
+                        <input type="text" bind:value={addUserInput.lastname} class="shadow-sm border text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 w-56 p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Last Name" required="">
                     </div>
-                    <div class="col-span-6 sm:col-span-3">
+                    <div class="col-span-2">
+                        <label for="username" class="block mb-2 text-sm font-medium  ">Username</label>
+                        <input type="email" bind:value={addUserInput.username} class="shadow-sm  border text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 w-56 p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Username" required="">
+                    </div>
+                    <div class="">
+						<label for="password" class="block mb-2 text-sm font-medium">Password</label>
+						<input type="password" bind:value={addUserInput.password} class="shadow-sm border text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-56 p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Password" required>
+					</div>
+					<div class="">
+						<label for="confirmPassword" class="block mb-2 text-sm font-medium">Confirm Password</label>
+						<input type="password" bind:value={addUserInput.confirmPassword} class="shadow-sm border text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-56 p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Confirm password" required>
+					</div> 
+                    <div class="">
                         <label for="email" class="block mb-2 text-sm font-medium  ">Email</label>
-                        <input type="email" bind:value={addUserInput.email} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Email" required="">
+                        <input type="email" bind:value={addUserInput.email} class="shadow-sm  border text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-56 p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Email" required="">
                     </div>
-                    <div class="col-span-6 sm:col-span-3">
+                    <div class="">
                         <label for="contact-number" class="block mb-2 text-sm font-medium  ">Contact Number</label>
-                        <input type="text" bind:value={addUserInput.number} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Contact Info" required="">
+                        <input type="text" bind:value={addUserInput.number} class="shadow-sm  border text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-56 p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Contact Info" required="">
+                    </div>
+                    <div class="">
+                        <label for="house" class="block mb-2 text-sm font-medium  ">House No.</label>
+                        <input type="text" bind:value={addUserInput.house} class="shadow-sm  border overflow-y-auto text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-56 p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="House No." required="">
+                    </div>
+                    <div class="">
+                        <label for="brgy" class="block mb-2 text-sm font-medium  ">Barangay</label>
+                        <input type="text" bind:value={addUserInput.brgy} class="shadow-sm  border overflow-y-auto text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-56 p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Barangay" required="">
+                    </div>
+                    <div class="">
+                        <label for="muni" class="block mb-2 text-sm font-medium  ">Municipality</label>
+                        <input type="text"  bind:value={addUserInput.muni} class="shadow-sm  border overflow-y-auto text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-56 p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Municipality" required="">
+                    </div>
+                    <div class="">
+                        <label for="prov" class="block mb-2 text-sm font-medium  ">Province</label>
+                        <input type="text" bind:value={addUserInput.prov} class="shadow-sm  border overflow-y-auto text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-56 p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Province" required="">
                     </div>
                 </div>
             </div>
