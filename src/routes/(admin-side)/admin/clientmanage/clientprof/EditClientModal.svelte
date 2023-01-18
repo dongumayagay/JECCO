@@ -60,23 +60,23 @@
                 <div class="grid grid-cols-6 gap-6">
                     <div class="col-span-6 sm:col-span-3">
                         <label for="last-name" class="block mb-2 text-sm font-medium  ">Last Name</label>
-                        <input type="text" bind:value={addUserInput.lastname} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Last Name" required="">
+                        <input type="text" bind:value={addUserInput.lastname} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Last Name" required>
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <label for="first-name" class="block mb-2 text-sm font-medium  ">First Name</label>
-                        <input type="text" bind:value={addUserInput.firstname} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="First Name" required="">
+                        <input type="text" bind:value={addUserInput.firstname} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="First Name" required>
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <label for="adress" class="block mb-2 text-sm font-medium  ">Address</label>
-                        <input type="text" bind:value={addUserInput.address} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Address" required="">
+                        <input type="text" bind:value={addUserInput.address} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Address" required>
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <label for="email" class="block mb-2 text-sm font-medium  ">Email</label>
-                        <input type="email" bind:value={addUserInput.email} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Email" required="">
+                        <input type="email" bind:value={addUserInput.email} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Email" required>
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <label for="contact-number" class="block mb-2 text-sm font-medium  ">Contact Number</label>
-                        <input type="text" bind:value={addUserInput.number} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Contact Info" required="">
+                        <input type="text" bind:value={addUserInput.number} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Contact Info" required>
                     </div>
                 </div>
             </div>
