@@ -30,7 +30,8 @@
 				<tr class="hover">
                     <th scope="col" class="px-6"></th>
                     <th scope="col" class="px-6">Loan Number</th>
-					<th scope="col" class="px-6">Username</th> 
+					<th scope="col" class="px-6">Username</th>
+                    <th scope="col" class="px-6">Area</th>  
 					<th scope="col" class="px-6">Type of Loan</th> 
 					<th scope="col" class="px-6">Mode of Payment</th> 
 					<th scope="col" class="px-6">Loan Amount</th> 
@@ -64,6 +65,9 @@
                     </td>
                     <td class="px-6">
                         {loan.username}
+                    </td>
+                    <td class="px-6">
+                        {loan.area}
                     </td>
                     <td class="px-6">
                         {loan.loanType}
