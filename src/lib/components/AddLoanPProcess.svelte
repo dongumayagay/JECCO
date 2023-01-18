@@ -79,35 +79,35 @@
                 <div class="grid grid-cols-6 gap-6">
                     <div class="col-span-6 sm:col-span-3">
                         <label for="date-created" class="block mb-2 text-sm font-medium  ">Loan Number</label>
-                        <input type="text" disabled bind:value={addUserInput.loanNumber} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Loan Number" required="">
+                        <input type="text" disabled bind:value={addUserInput.loanNumber} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Loan Number" required>
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <label for="loan-type" class="block mb-2 text-sm font-medium  ">Loan type</label>
-                        <input type="text" bind:value={addUserInput.loanType} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Loan Type" required="">
+                        <input type="text" bind:value={addUserInput.loanType} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Loan Type" required>
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <label for="mode-of-payment" class="block mb-2 text-sm font-medium  ">Mode of Payment</label>
-                        <input type="text" bind:value={addUserInput.paymentMode} id="phone-number" class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Mode of Payment" required="">
+                        <input type="text" bind:value={addUserInput.paymentMode} id="phone-number" class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Mode of Payment" required>
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <label for="loan-amount" class="block mb-2 text-sm font-medium  ">Loan Amount</label>
-                        <input type="text" bind:value={addUserInput.loanAmount} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Amount php" required="">
+                        <input type="text" bind:value={addUserInput.loanAmount} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Amount php" required>
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <label for="duration" class="block mb-2 text-sm font-medium  ">Duration</label>
-                        <input type="text" bind:value={addUserInput.duration} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Duration" required="">
+                        <input type="text" bind:value={addUserInput.duration} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Duration" required>
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <label for="purpose" class="block mb-2 text-sm font-medium  ">Purpose</label>
-                        <input type="text" bind:value={addUserInput.purpose} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Purpose" required="">
+                        <input type="text" bind:value={addUserInput.purpose} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Purpose" required>
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <label for="date-created" class="block mb-2 text-sm font-medium  ">Release Date</label>
-                        <input type="date" bind:value={addUserInput.releaseDate} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Date created" required="">
+                        <input type="date" bind:value={addUserInput.releaseDate} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Date created" required>
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <label for="date-created" class="block mb-2 text-sm font-medium  ">Area</label>
-                        <input type="text" disabled bind:value={addUserInput.area} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Area" required="">
+                        <input type="text" disabled bind:value={addUserInput.area} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Area" required>
                     </div>
                 </div>
             </div>
