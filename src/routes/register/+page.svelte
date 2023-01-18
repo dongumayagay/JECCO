@@ -10,7 +10,10 @@
 		lastname: '',
 		email: '',
 		number: '',
-		address: '',
+		houseNo: '',
+        barangay: '',
+        municipality: '',
+        province: ''
 	};
 
     let filesToUpload = []
@@ -24,7 +27,10 @@
 					lastname: applicant.lastname,
 					email: applicant.email,
 					number: applicant.number,
-					address: applicant.address
+					houseNo: applicant.hNo,
+                    barangay: applicant.brgy,
+                    municipality: applicant.muni,
+                    province: applicant.prov
 				});
 
 			const uploadFiles = filesToUpload.map((value)=>{
@@ -80,7 +86,10 @@
 		<input class=" rounded-lg" type="text" bind:value={applicant.lastname} placeholder="Lastname"  required />
         <input class=" rounded-lg" type="email" bind:value={applicant.email} placeholder="Email"  required />
         <input class=" rounded-lg" type="text" bind:value={applicant.number} placeholder="Number"  required />
-        <input class=" rounded-lg" type="text" bind:value={applicant.address} placeholder="Address"  required />
+        <input class=" rounded-lg" type="text" bind:value={applicant.hNo} placeholder="House No."  required />
+        <input class=" rounded-lg" type="text" bind:value={applicant.brgy} placeholder="Barangay"  required />
+        <input class=" rounded-lg" type="text" bind:value={applicant.muni} placeholder="Municipality/City"  required />
+        <input class=" rounded-lg" type="text" bind:value={applicant.prov} placeholder="Province"  required />
         </div>
     <div class=" rounded-lg flex flex-col gap-2 p-2 bg-white border border-zinc-500">
         <label class=" font-extralight text-zinc-700" for="clearance">Brgy. Clearance</label>

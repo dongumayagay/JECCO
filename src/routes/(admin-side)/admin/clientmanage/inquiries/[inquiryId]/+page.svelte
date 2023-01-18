@@ -13,7 +13,6 @@
     let inquiry = null;
 
     const {inquiryId} = data
-    console.log(inquiryId)
 
     onMount(() => {
         const unsubscribe = onSnapshot(doc(db,'inquiries', inquiryId ), (querySnapshot)=> {
@@ -33,7 +32,7 @@
         });
         res.items.forEach((itemRef) =>{
 
-            // console.log('item ref:' + itemRef);
+            
 
         });
 
@@ -76,7 +75,7 @@
             <p class="my-2">{inquiry.lastname}</p>
             <p class="my-2">{inquiry.email}</p>
             <p class="my-2">{inquiry.number}</p>
-            <p class="my-2">{inquiry.address}</p>
+            <p class="my-2">{inquiry.houseNo + ', ' + 'Brgy. ' + inquiry.barangay + ', ' + inquiry.city + ', ' + inquiry.province}</p>
         </div>
         
     </div>

@@ -63,7 +63,7 @@
 					<td>{applicant.firstname + '  ' + applicant.lastname}</td> 
 					<td>{applicant.email}</td> 
 					<td>{applicant.number}</td> 
-					<td>{applicant.address}</td>
+					<td>{applicant.houseNo + ', ' + 'Brgy. ' + applicant.barangay + ', ' + applicant.municipality + ', ' + applicant.province}</td>
 				</tr>
 			{/each}	
 		</table>	

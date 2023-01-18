@@ -13,11 +13,10 @@
             lastname:cliInfo.lastname,
             email:cliInfo.email,
             number:cliInfo.number,
-            address:cliInfo.address,
-            houseNo:cliInfo.house,
-            barangay:cliInfo.brgy,
-            municipality:cliInfo.muni,
-            province:cliInfo.prov
+            houseNo:cliInfo.houseNo,
+            barangay:cliInfo.barangay,
+            municipality:cliInfo.municipality,
+            province:cliInfo.province
         }
     }
 
@@ -34,7 +33,10 @@
             lastname:cliInfo.lastname,
             email:cliInfo.email,
             number:cliInfo.number,
-            barangay:cliInfo.brgy
+            barangay:cliInfo.barangay,
+            houseNo:cliInfo.houseNo,
+            municipality:cliInfo.municipality,
+            province:cliInfo.province
 	    } 
 	}
 
@@ -58,10 +60,10 @@
                 lastname:addUserInput.lastname,
                 email:addUserInput.email,
                 number:addUserInput.number,
-                barangay:addUserInput.brgy,
-                houseNo:addUserInput.house,
-                municipality:addUserInput.muni,
-                province:addUserInput.prov
+                barangay:addUserInput.barangay,
+                houseNo:addUserInput.houseNo,
+                municipality:addUserInput.municipality,
+                province:addUserInput.province
         	});
 			
 		} catch (error) {
@@ -120,19 +122,19 @@
                     </div>
                     <div class="">
                         <label for="house" class="block mb-2 text-sm font-medium  ">House No.</label>
-                        <input type="text" bind:value={addUserInput.house} class="shadow-sm  border overflow-y-auto text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-56 p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="House No." required="">
+                        <input type="text" bind:value={addUserInput.houseNo} class="shadow-sm  border overflow-y-auto text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-56 p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="House No." required="">
                     </div>
                     <div class="">
                         <label for="brgy" class="block mb-2 text-sm font-medium  ">Barangay</label>
-                        <input type="text" bind:value={addUserInput.brgy} class="shadow-sm  border overflow-y-auto text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-56 p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Barangay" required="">
+                        <input type="text" bind:value={addUserInput.barangay} class="shadow-sm  border overflow-y-auto text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-56 p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Barangay" required="">
                     </div>
                     <div class="">
                         <label for="muni" class="block mb-2 text-sm font-medium  ">Municipality</label>
-                        <input type="text"  bind:value={addUserInput.muni} class="shadow-sm  border overflow-y-auto text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-56 p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Municipality" required="">
+                        <input type="text"  bind:value={addUserInput.municipality} class="shadow-sm  border overflow-y-auto text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-56 p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Municipality" required="">
                     </div>
                     <div class="">
                         <label for="prov" class="block mb-2 text-sm font-medium  ">Province</label>
-                        <input type="text" bind:value={addUserInput.prov} class="shadow-sm  border overflow-y-auto text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-56 p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Province" required="">
+                        <input type="text" bind:value={addUserInput.province} class="shadow-sm  border overflow-y-auto text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-56 p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500 " placeholder="Province" required="">
                     </div>
                 </div>
             </div>
