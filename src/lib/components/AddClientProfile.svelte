@@ -101,8 +101,8 @@
                         <input type="text" bind:value={addUserInput.lastname} class="shadow-sm border text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 w-56 p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Last Name" required>
                     </div>
                     <div class="col-span-2">
-                        <label for="username" class="block mb-2 text-sm font-medium  ">Username</label>
-                        <input type="email" bind:value={addUserInput.username} class="shadow-sm  border text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 w-56 p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Username" required>
+                        <label for="username" class="block mb-2 text-sm font-medium  ">Email</label>
+                        <input type="email" bind:value={addUserInput.username} class="shadow-sm  border text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 w-56 p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Email" required>
                     </div>
                     <div class="">
 						<label for="password" class="block mb-2 text-sm font-medium">Password</label>
