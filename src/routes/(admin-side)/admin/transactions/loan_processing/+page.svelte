@@ -31,12 +31,9 @@
                     <th scope="col" class="px-6"></th>
                     <th scope="col" class="px-6">Loan Number</th>
 					<th scope="col" class="px-6">Username</th>
-                    <th scope="col" class="px-6">Area</th>  
-					<th scope="col" class="px-6">Type of Loan</th> 
-					<th scope="col" class="px-6">Mode of Payment</th> 
+                    <th scope="col" class="px-6">Area</th>
 					<th scope="col" class="px-6">Loan Amount</th> 
 					<th scope="col" class="px-6">Duration</th> 
-                    <th scope="col" class="px-6">Purpose</th> 
 					<th scope="col" class="px-6">Release Date</th> 
 				</tr>
 			</thead> 
@@ -70,19 +67,10 @@
                         {loan.area}
                     </td>
                     <td class="px-6">
-                        {loan.loanType}
-                    </td>
-                    <td class="px-6">
-                        {loan.paymentMode}
-                    </td>
-                    <td class="px-6">
                         {loan.loanAmount}
                     </td>
                     <td class="px-6">
                         {loan.duration}
-                    </td>
-                    <td class="px-6">
-                        {loan.purpose}
                     </td>
                     <td class="px-6">
                         {loan.releaseDate}
