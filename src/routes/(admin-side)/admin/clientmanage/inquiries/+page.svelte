@@ -36,7 +36,7 @@
 			  		<th>firstname</th> 
 			  		<th>email</th> 
 				  	<th>number</th>
-			 		<th>address</th>
+			 		<!-- <th>address</th> -->
 				</tr>
 		 	</thead> 
 			{#each inquiries as applicant }			 
@@ -63,7 +63,7 @@
 					<td>{applicant.firstname + '  ' + applicant.lastname}</td> 
 					<td>{applicant.email}</td> 
 					<td>{applicant.number}</td> 
-					<td>{applicant.houseNo + ', ' + 'Brgy. ' + applicant.barangay + ', ' + applicant.municipality + ', ' + applicant.province}</td>
+					<!-- <td>{applicant.houseNo + ', ' + 'Brgy. ' + applicant.barangay + ', ' + applicant.municipality + ', ' + applicant.province}</td> -->
 				</tr>
 			{/each}	
 		</table>	
