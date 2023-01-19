@@ -10,19 +10,24 @@
 		"format": "prettier --write ."
 	},
 	"devDependencies": {
+		"@firebase/app-types": "^0.9.0",
 		"@sveltejs/adapter-auto": "next",
 		"@sveltejs/kit": "next",
-		"prettier": "^2.6.2",
-		"prettier-plugin-svelte": "^2.7.0",
-		"svelte": "^3.44.0",
-		"vite": "^3.1.0",
+		"@tailwindcss/forms": "^0.5.2",
+		"autoprefixer": "^10.4.7",
+		"daisyui": "^2.18.1",
 		"postcss": "^8.4.14",
 		"postcss-load-config": "^4.0.1",
+		"prettier": "^2.6.2",
+		"prettier-plugin-svelte": "^2.7.0",
+		"svelte": "^3.54.0",
 		"svelte-preprocess": "^4.10.7",
-		"autoprefixer": "^10.4.7",
 		"tailwindcss": "^3.1.5",
-		"@tailwindcss/forms": "^0.5.2",
-		"daisyui": "^2.18.1"
+		"vite": "^4.0.0"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"firebase": "^9.15.0",
+		"firebase-admin": "^11.4.1"
+	}
 }

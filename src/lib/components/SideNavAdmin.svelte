@@ -1,3 +1,17 @@
+<script>
+  import {goto} from '$app/navigation'
+  import {auth} from '$lib/firebase/client.js'
+  import {signOut} from 'firebase/auth'
+
+  async function logout(){
+      await signOut(auth)
+      await goto('/')
+  }
+
+
+</script>
+
+
 <aside class=" flex flex-col flex-auto flex-shrink-0 antialiased bg-gray-50 text-gray-800 ">
   <div class="fixed flex flex-col top-0 left-0 w-64 bg-white h-full border-r">
     <div class="flex pt-4 h-14 border-b">
@@ -26,10 +40,10 @@
               <span class="ml-2 text-sm tracking-wide truncate">Client Management</span>
               <svg sidebar-toggle-item class="w-6 h-6 " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
             </a>
-            <ul class="dropdown-content menu p-2 shadow bg-base-100 w-full">
-              <li><a href="/admin/clientprof">Client Profile</a></li>
-              <li><a href="/admin/inquiries">Inquiries</a></li>
-              <li><a href="/admin/client_arrangement">Client Arrangement</a></li>
+            <ul class="dropdown-content menu p-2 shadow bg-gray-200 w-full">
+              <li><a href="/admin/clientmanage/clientprof">Client Profile</a></li>
+              <li><a href="/admin/clientmanage/inquiries">Inquiries</a></li>
+              <li><a href="/admin/clientmanage/client_arrangement">Client Arrangement</a></li>
             </ul>
           </div>
 
@@ -50,23 +64,19 @@
                 <span class="ml-2 text-sm tracking-wide truncate">Transactions</span>
                 <svg sidebar-toggle-item class="w-6 h-6 " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
               </a>
-              <ul class="dropdown-content menu p-2 shadow bg-base-100 w-full">
-                <li><a href="/admin/loan_transactions">Loan Processing</a></li>
-                <li><a href="#1">Payments</a></li>
-                <li><a href="#1">Payment Transfer</a></li>
-                <li><a href="#1">Adjustments</a></li>
-                <li><a href="#1">PR series</a></li>
-                <li><a href="#1">Cashier Entry</a></li>
+              <ul class="dropdown-content menu p-2 shadow bg-gray-200 w-full">
+                <li><a href="/admin/transactions/loan_processing">Loan Processing</a></li>
+                <li><a href="/admin/transactions/payments">Payments</a></li>
               </ul>
           </div>
 
-          <a href="#promotions" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6">
+          <!-- <a href="/admin/promotions" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6">
             <span class="inline-flex justify-center items-center ml-4">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
             </span>
             <span class="ml-2 text-sm tracking-wide truncate">Promotions</span>
             
-          </a>
+          </a> -->
 
           <div class=" dropdown ">
             <a href="#1" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6">
@@ -78,20 +88,19 @@
               <span class="ml-2 text-sm tracking-wide truncate">System Administration</span>
               <svg sidebar-toggle-item class="w-6 h-6 " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
             </a>
-            <ul class="dropdown-content menu p-2 shadow bg-base-100 w-full">
-              <li><a href="/admin/users">Users</a></li>
-              <li><a href="/admin/change_password">Change Password</a></li>
-              <li><a href="/admin/db_backup">DB Backup</a></li>
+            <ul class="dropdown-content menu p-2 shadow bg-gray-200 w-full">
+              <li><a href="/admin/systemad/users">Users</a></li>
+              <!-- <li><a href="/admin/systemad/db_backup">DB Backup</a></li> -->
             </ul>
           </div>
 
         <!-- logout hiwalay ko lang --> 
-          <a href="#1" class="absolute bottom-0 left-0 flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-gray-600 hover:text-gray-800 border-l-4 border-transparent">
+          <button class="absolute bottom-0 left-0 flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-gray-600 hover:text-gray-800 border-l-4 border-transparent" on:click={logout}>
             <span class="inline-flex justify-center items-center ml-4">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
             </span>
             <span class=" ml-2 text-sm tracking-wide truncate">Logout</span>
-          </a>
+          </button>
        
       </div>
 
