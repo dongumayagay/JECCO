@@ -4,6 +4,6 @@
     
 </script>
 
-    <div class="flex flex-wrap bg-white p-4 ">
+    <div class="flex bg-white w-11/12 max-w-3xl p-4 ">
         <canvas id="myChart"> <Chart/> </canvas>
     </div>
