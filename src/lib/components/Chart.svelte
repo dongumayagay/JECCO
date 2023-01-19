@@ -5,7 +5,7 @@
         new Chart(ctx, {
                 type: 'bar',
                 data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
                 datasets: [{
                     label: 'Number of Clients',
                     data: [12, 19, 3, 5, 2, 3],
