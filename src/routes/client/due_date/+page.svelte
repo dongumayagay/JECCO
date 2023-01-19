@@ -16,13 +16,13 @@
 					<tbody>
 						<tr class="hover">
 							<th>1</th> 
-							<td>5,000.00 php</td> 
+							<td>50,000.00 php</td> 
 							<td>12/16/2020</td> 				
 						</tr>
 						<tr class="hover">
 							<th>2</th> 
-							<td>5,000.00 php</td> 
-							<td>12/5/2020</td> 				
+							<td>100,000.00 php</td> 
+							<td>3/5/2021</td> 				
 						</tr>
 					</tbody> 
 				</table>	
