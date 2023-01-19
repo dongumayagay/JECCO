@@ -25,7 +25,7 @@
 							<th>2</th> 
 							<td>Active</td> 
 							<td>10,000.00 php</td> 
-							<td>11/17/2020</td> 
+							<td>12/15/2020</td> 
 						</tr>
 					</tbody> 
 				</table>	

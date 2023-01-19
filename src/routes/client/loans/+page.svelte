@@ -9,8 +9,6 @@
 					<thead>
 						<tr class="hover">
 							<th></th> 
-							<th>Type of Loan</th> 
-							<th>Mode of Payment</th> 
 							<th>Loan Amount</th> 
 							<th>Duration</th> 
 							<th>Status</th> 
@@ -19,19 +17,15 @@
 					<tbody>
 						<tr class="hover">
 							<th>1</th> 
-							<td>CSB Loan</td> 
-							<td>Monthly Payment</td> 
-							<td>500,000.00 php</td> 
-							<td>3 years</td> 
-							<td>Active</td> 
+							<td>50,000.00 php</td> 
+							<td>80 days</td> 
+							<td>Fully Paid</td> 
 						</tr>
 						<tr class="hover">
 							<th>2</th>  
-							<td>CSB Loan</td> 
-							<td>Monthly Payment</td> 
-							<td>300,000.00 php</td> 
-							<td>3 years</td> 
-							<td>Fully Paid</td> 
+							<td>100,000.00 php</td> 
+							<td>80 days</td> 
+							<td>Active</td> 
 						</tr>
 					</tbody> 
 				</table>	
