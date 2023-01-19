@@ -90,7 +90,7 @@
             </a>
             <ul class="dropdown-content menu p-2 shadow bg-gray-200 w-full">
               <li><a href="/admin/systemad/users">Users</a></li>
-              <li><a href="/admin/systemad/db_backup">DB Backup</a></li>
+              <!-- <li><a href="/admin/systemad/db_backup">DB Backup</a></li> -->
             </ul>
           </div>
 

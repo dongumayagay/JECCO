@@ -13,7 +13,7 @@
 </script>
 
 	<div class="flex items-center p-4 shadow-md sm:rounded-lg h-10 bg-white gap-4">
-		Admin Users
+		Users
 		<div class="flex items-center absolute right-10 sm:rounded-lg bg-white gap-4">
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<label for="add" class=" btn btn-ghost bg-gray-200 btn-xs sm:btn-2xs md:btn-xs lg:btn-sm hover:bg-green-300">
