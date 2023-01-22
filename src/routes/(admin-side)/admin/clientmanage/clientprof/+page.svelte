@@ -17,7 +17,13 @@
         
     })
     async function deleteClient(id){
-        await deleteDoc(doc(db, "clientinfo", id));
+        try {
+            await deleteDoc(doc(db, "clientinfo", id));
+			const response = await fetch(`/api/users/${uid}`, { method: 'DELETE' });
+			console.log(response);
+		} catch (error) {
+			console.log(error);
+		}
     }
 </script>    
 <div class="flex items-center p-4 shadow-md sm:rounded-lg h-10 bg-white gap-4">
