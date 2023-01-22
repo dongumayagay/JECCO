@@ -34,7 +34,7 @@
     {#if show}
     <main class="flex" >
 
-        <section class="flex flex-col w-64 h-full px-4 py-8 overflow-y-auto md:mr-6">
+        <section class="w-64 h-screen px-4 py-8 overflow-y-auto">
         <SideNavAdmin/>
         </section>
     
