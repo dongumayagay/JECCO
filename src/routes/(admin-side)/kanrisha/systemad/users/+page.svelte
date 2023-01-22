@@ -35,11 +35,6 @@
 		<table class=" table w-full text-sm text-left text-gray-500 dark:text-gray-700 dark:bg-gray-700">
 			<thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-700">
 				<tr>
-<<<<<<< HEAD:src/routes/(admin-side)/admin/systemad/users/+page.svelte
-					<th scope="col" class="px-6">	
-					</th>
-=======
->>>>>>> 5dd499ca60c10eac98f63ed631f521dbe7fa1bc3:src/routes/(admin-side)/kanrisha/systemad/users/+page.svelte
 					<th scope="col" class="px-6">
 						Name
 					</th>
@@ -52,29 +47,6 @@
 			<tbody>
 				{#each users as user }
 				<tr class="bg-white border-b hover:bg-gray-50 dark:hover:bg-gray-600">
-<<<<<<< HEAD:src/routes/(admin-side)/admin/systemad/users/+page.svelte
-					<td class="px-4">
-						<div  class="flex items-center space-x-2 text-sm">
-							<div class="dropdown">
-								<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-								<label for='' tabindex="0" class="flex items-center justify-between text-sm font-medium leading-5 rounded-lg text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Delete">
-									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19 19" fill="currentColor" class="w-5 h-5">
-										<path d="M10.5 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm0 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm0 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" clip-rule="evenodd" />
-									</svg>
-								</label>
-								<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-								<ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-38">
-									<!-- <li><label for="update">Edit</label></li> -->
-									<li><button on:click={deleteUser(user.uid)}>Delete</button></li>
-								</ul>
-							</div>
-						</div>  
-					</td>
-					<!-- <td>            
-						{user.uid}
-					</td> -->
-=======
->>>>>>> 5dd499ca60c10eac98f63ed631f521dbe7fa1bc3:src/routes/(admin-side)/kanrisha/systemad/users/+page.svelte
 					<td class="px-6">
 						{user.displayName}
 					</td>
