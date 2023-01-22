@@ -35,11 +35,8 @@
 		<table class=" table w-full text-sm text-left text-gray-500 dark:text-gray-700 dark:bg-gray-700">
 			<thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-700">
 				<tr>
-<<<<<<< HEAD:src/routes/(admin-side)/admin/systemad/users/+page.svelte
 					<th scope="col" class="px-6">	
 					</th>
-=======
->>>>>>> 5dd499ca60c10eac98f63ed631f521dbe7fa1bc3:src/routes/(admin-side)/kanrisha/systemad/users/+page.svelte
 					<th scope="col" class="px-6">
 						Name
 					</th>
@@ -52,7 +49,6 @@
 			<tbody>
 				{#each users as user }
 				<tr class="bg-white border-b hover:bg-gray-50 dark:hover:bg-gray-600">
-<<<<<<< HEAD:src/routes/(admin-side)/admin/systemad/users/+page.svelte
 					<td class="px-4">
 						<div  class="flex items-center space-x-2 text-sm">
 							<div class="dropdown">
@@ -73,8 +69,6 @@
 					<!-- <td>            
 						{user.uid}
 					</td> -->
-=======
->>>>>>> 5dd499ca60c10eac98f63ed631f521dbe7fa1bc3:src/routes/(admin-side)/kanrisha/systemad/users/+page.svelte
 					<td class="px-6">
 						{user.displayName}
 					</td>
