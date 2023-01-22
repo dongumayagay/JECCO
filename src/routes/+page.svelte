@@ -1,5 +1,5 @@
 
-<main class=" flex flex-col bg-cream-300 h-full w-full">
+<main class=" flex flex-col bg-cream-300 h-screen w-full">
 	
 	<nav class="flex gap-x-10 p-6 place-items-center shadow-xl ">
 		<h1 class=" text-left ml-10 text-4xl font-bold">JECCO</h1>
@@ -34,9 +34,7 @@
 <footer class="footer footer-center p-10 bg-base-200 text-base-content rounded">
 	<div class="grid grid-flow-col gap-4">
 	  <a class="link link-hover" href="#aboutus">About us</a> 
-	  <!-- <a class="link link-hover" href="#contact">Contact us</a>  -->
-	  <!-- <a class="link link-hover" href="/admin/login">Administration</a>  -->
-	</div>  
+	</div>
 	<div>
 	  <p>Copyright © 2022 - All right reserved by JECCO - Jempower's Credit Corporation </p>
 	</div>

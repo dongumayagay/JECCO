@@ -39,7 +39,7 @@
 
 </script>
 
-<main class=" bg-gray-200 h-full flex">
+<main class=" bg-gray-200 h-screen flex">
 
 	<div class=" flex-1 grid place-items-center">
 		<img class=" max-w-xl " src="/loginillu.svg" alt="">
