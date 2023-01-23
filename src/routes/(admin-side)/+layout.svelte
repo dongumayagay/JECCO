@@ -34,12 +34,13 @@
     {#if show}
     <main class="flex" >
 
-        <section class="w-64 h-screen px-4 py-8 overflow-y-auto">
+        <section class="w-64 h-screen px-4 py-8 overflow-y-auto pr-20">
         <SideNavAdmin/>
         </section>
     
     
     <section class="flex flex-col w-full h-screen p-6 ml-8 overflow-y-auto bg-gray-200 ">
+
         <slot />           
 
 
