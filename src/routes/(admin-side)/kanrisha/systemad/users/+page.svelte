@@ -9,7 +9,10 @@
 
 	async function deleteUser(uid) {
 		try {
-			const response = await fetch(`/api/users/${uid}`, { method: 'DELETE' });
+			const response = await fetch(`/api/users/${uid}`, { method: 'DELETE',
+			body: JSON.stringify({
+					uid:uid,
+			})});
 			console.log(response);
 		} catch (error) {
 			console.log(error);

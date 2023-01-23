@@ -3,17 +3,17 @@ import {json} from '@sveltejs/kit';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET() {
-    return new Response('welcom to jigorakus');
+    return new Response('welcom to jigoraku');
 };
 
+/** @type {import('./$types').RequestHandler} */
 export async function DELETE({request}) {
-    try {
-        const uid = request.query.uid;
-        await adminAuth.deleteUser(uid);
+    const useruid = await request.json();
+    const deleted = await adminAuth.deleteUser(useruid.uid).then(() => {
         console.log('Successfully deleted user');
-        return json({deleted: true});
-    } catch (error) {
+        })
+        .catch((error) => {
         console.log('Error deleting user:', error);
-        return json({deleted: false, error});
-    }
+        });
+    return json(deleted);
 }
