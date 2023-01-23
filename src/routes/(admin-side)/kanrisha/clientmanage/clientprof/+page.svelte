@@ -19,7 +19,10 @@
     async function deleteClient(id){
         try {
             await deleteDoc(doc(db, "clientinfo", id));
-			const response = await fetch(`/api/users/${uid}`, { method: 'DELETE' });
+			const response = await fetch(`/api/users/${id}`, { method: 'DELETE',
+            body: JSON.stringify({
+					uid:id,
+			})});
 			console.log(response);
 		} catch (error) {
 			console.log(error);
