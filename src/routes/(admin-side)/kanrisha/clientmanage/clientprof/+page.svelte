@@ -2,32 +2,28 @@
     import AddClientProfile from "$lib/components/AddClientProfile.svelte";
     import EditClientModal from "./EditClientModal.svelte";
     import AddLoanPProcess from "$lib/components/AddLoanPProcess.svelte";
-    import { onMount } from 'svelte';
-    import { collection, onSnapshot, doc, deleteDoc } from 'firebase/firestore';
-    import {db} from '$lib/firebase/client.js';
 	let clientsInfo
     let clientInfo
     let clients = []
 
-    onMount(() => {
-        const unsubscribe = onSnapshot(collection(db, 'clientinfo'), (querySnapshot) => {
-            clients = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-        });
-        return () => unsubscribe();
-        
-    })
+    async function getListOfClients(){
+		const response = await fetch('/api/clients')
+		clients = await response.json()
+	}
+
     async function deleteClient(id){
         try {
-            await deleteDoc(doc(db, "clientinfo", id));
-			const response = await fetch(`/api/users/${id}`, { method: 'DELETE',
+			const response = await fetch(`/api/clients/${id}`, { method: 'DELETE',
             body: JSON.stringify({
-					uid:id,
+					id:id,
 			})});
 			console.log(response);
 		} catch (error) {
 			console.log(error);
 		}
     }
+
+    getListOfClients()
 </script>    
 <div class="flex items-center p-4 shadow-md sm:rounded-lg h-10 bg-white gap-4">
         
