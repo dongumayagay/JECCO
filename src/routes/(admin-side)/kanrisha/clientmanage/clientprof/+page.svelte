@@ -17,7 +17,6 @@
             body: JSON.stringify({
 					id:id,
 			})});
-			console.log(response);
 		} catch (error) {
 			console.log(error);
 		}
