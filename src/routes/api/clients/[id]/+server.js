@@ -4,11 +4,6 @@ import { doc, deleteDoc, updateDoc } from 'firebase/firestore';
 import {json} from '@sveltejs/kit';
 
 /** @type {import('./$types').RequestHandler} */
-export async function GET() {
-    return new Response('welcom to jigoraku');
-};
-
-/** @type {import('./$types').RequestHandler} */
 export async function DELETE({request}) {
     const user = await request.json();
     await deleteDoc(doc(db, "clientinfo", user.id));

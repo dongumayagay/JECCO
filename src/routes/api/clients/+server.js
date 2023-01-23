@@ -1,4 +1,3 @@
-import { adminAuth } from '$lib/firebase/admin.server';
 import {json} from '@sveltejs/kit';
 import { collection, getDocs} from 'firebase/firestore';
 import {db} from '$lib/firebase/client.js';
