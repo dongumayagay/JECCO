@@ -13,6 +13,10 @@
             email:cliInfo.email,
             number:cliInfo.number,
             address:cliInfo.address,
+            barangay:cliInfo.barangay,
+            houseNo:cliInfo.houseNo,
+            municipality:cliInfo.municipality,
+            province:cliInfo.province
 	    }
     }
 
@@ -28,16 +32,22 @@
 
     async function updateClient(){
         try {
-            await updateDoc(doc(db, 'clientinfo', cliInfo.id),{
+			const response = await fetch(`/api/clients/${cliInfo.id}`, { method: 'PUT',
+            body: JSON.stringify({
+                id:cliInfo.id,
                 firstname:addUserInput.firstname,
                 lastname:addUserInput.lastname,
                 email:addUserInput.email,
                 number:addUserInput.number,
-                address:addUserInput.address,
-        });    
-        } catch (e) {
-            console.error("Error adding document: ", e); 
-        }
+                barangay:addUserInput.barangay,
+                houseNo:addUserInput.houseNo,
+                municipality:addUserInput.municipality,
+                province:addUserInput.province
+			})});
+			console.log(response);
+		} catch (error) {
+			console.log("Error adding document: ",error);
+		}
         resetAddUserInput()
 		updateModal = false
     }
@@ -67,16 +77,28 @@
                         <input type="text" bind:value={addUserInput.firstname} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="First Name" required>
                     </div>
                     <div class="col-span-6 sm:col-span-3">
-                        <label for="adress" class="block mb-2 text-sm font-medium  ">Address</label>
-                        <input type="text" bind:value={addUserInput.address} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Address" required>
-                    </div>
-                    <div class="col-span-6 sm:col-span-3">
                         <label for="email" class="block mb-2 text-sm font-medium  ">Email</label>
                         <input type="email" bind:value={addUserInput.email} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Email" required>
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <label for="contact-number" class="block mb-2 text-sm font-medium  ">Contact Number</label>
                         <input type="text" bind:value={addUserInput.number} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Contact Info" required>
+                    </div>
+                    <div class="col-span-6 sm:col-span-3">
+                        <label for="house" class="block mb-2 text-sm font-medium  ">House No.</label>
+                        <input type="text" bind:value={addUserInput.houseNo} class="shadow-sm  border text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="House No." required>
+                    </div>
+                    <div class="col-span-6 sm:col-span-3">
+                        <label for="brgy" class="block mb-2 text-sm font-medium  ">Barangay</label>
+                        <input type="text" bind:value={addUserInput.barangay} class="shadow-sm  border text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Barangay" required>
+                    </div>
+                    <div class="col-span-6 sm:col-span-3">
+                        <label for="muni" class="block mb-2 text-sm font-medium  ">Municipality</label>
+                        <input type="text"  bind:value={addUserInput.municipality} class="shadow-sm  border text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Municipality" required="">
+                    </div>
+                    <div class="col-span-6 sm:col-span-3">
+                        <label for="prov" class="block mb-2 text-sm font-medium  ">Province</label>
+                        <input type="text" bind:value={addUserInput.province} class="shadow-sm  border text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500 " placeholder="Province" required="">
                     </div>
                 </div>
             </div>
