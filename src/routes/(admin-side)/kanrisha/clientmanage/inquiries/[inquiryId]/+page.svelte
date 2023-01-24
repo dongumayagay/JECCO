@@ -1,9 +1,10 @@
 <script>
     import AddClientProfile from "$lib/components/AddClientProfile.svelte";
 	import { doc, onSnapshot } from 'firebase/firestore';
-    import {db} from '$lib/firebase/client.js';
+    import {db, storage} from '$lib/firebase/client.js';
     import { onMount } from 'svelte';
-    import { getStorage, ref, listAll } from "firebase/storage";
+    import { ref, getDownloadURL } from 'firebase/storage'
+
 
     let clientInfo
 
@@ -12,6 +13,8 @@
 
     let inquiry = null;
 
+    let downloadLink = null;
+
     const {inquiryId} = data
 
     onMount(() => {
@@ -19,28 +22,22 @@
           inquiry =  {...querySnapshot.data(), id: inquiryId}
 
         });
+        getDownloadLink();
         return () => unsubscribe();
     })
 
-    const storage = getStorage();
-    const listRef = ref(storage, 'inquiries');
+    // file display1
 
-    listAll(listRef).then((res) => {
-        res.prefixes.forEach((folderRef) =>{
-      
-            
-        });
-        res.items.forEach((itemRef) =>{
+    async function getDownloadLink(){
+        const pathName = 'inquiries/' + inquiryId + '/' + 'ApplicationForm.pdf' 
+        const pathReference = ref(storage, pathName);
 
-            
+        downloadLink = await getDownloadURL(pathReference);
+        
+    }
 
-        });
-
-    }).catch((error) => {
-
-    });
-   
-
+    
+    
 
 </script>
 
@@ -82,10 +79,12 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13" />
               </svg>Attachmets 
               </h1>
-
         </div>
-        
-        
+             {#if downloadLink}
+            <a class="p-4" href={downloadLink}>View Application</a> 
+
+            {/if}
+
         {/if}
 
 </div>
