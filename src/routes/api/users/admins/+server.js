@@ -1,5 +1,6 @@
 import { adminAuth } from '$lib/firebase/admin.server';
 import {json} from '@sveltejs/kit';
+import { setDoc } from 'firebase/firestore';
 
 /** @type {import('./$types').RequestHandler} */
 export async function POST({request}) {

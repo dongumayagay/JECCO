@@ -2,6 +2,7 @@
     import AddClientProfile from "$lib/components/AddClientProfile.svelte";
     import EditClientModal from "./EditClientModal.svelte";
     import AddLoanPProcess from "$lib/components/AddLoanPProcess.svelte";
+    
 	let clientsInfo
     let clientInfo
     let clients = []
