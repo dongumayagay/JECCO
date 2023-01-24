@@ -1,6 +1,4 @@
 <script>
-    import { db } from '$lib/firebase/client.js'
-    import { updateDoc, doc } from 'firebase/firestore';
     let updateModal = false;
     let uInfo = [];
     let addUserInput = {} 
@@ -24,11 +22,13 @@
 
     async function updateEmployee(){
         try {
-            await updateDoc(doc(db, 'employees', uInfo.id),{
+            const response = await fetch(`/api/employees/${uInfo.id}`, { method: 'PUT',
+            body: JSON.stringify({
+            id:uInfo.id,    
             name:addUserInput.name,
 		    address:addUserInput.address,
             contactInfo:addUserInput.contactInfo
-        });    
+        })});    
         } catch (e) {
             console.error("Error adding document: ", e); 
         }

@@ -1,6 +1,4 @@
 <script>
-    import { addDoc, collection } from "firebase/firestore"; 
-    import {db} from '$lib/firebase/client.js'
     let addModal = false
 
     let addUserInput = {
@@ -18,11 +16,12 @@
 	}
     async function addEmployee(){
         try {
-        const docRef = await addDoc(collection(db, "employees"), {
+        const docRef = await fetch('/api/employees',{method:'POST',
+			body: JSON.stringify({
             name:addUserInput.name,
 		    address:addUserInput.address,
             contactInfo:addUserInput.contactInfo
-        });
+        })});
         } catch (e) {
         console.error("Error adding document: ", e);
         }

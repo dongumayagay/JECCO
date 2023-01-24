@@ -1,27 +1,30 @@
 <script>
     import AddModal from "./AddModal.svelte";
     import UpdateModal from "./UpdateModal.svelte";
-    import { collection, onSnapshot, doc, deleteDoc } from 'firebase/firestore';
-    import { onMount } from 'svelte';
-    import {db} from '$lib/firebase/client.js';
 	let userInfo
     let employees = []
 
-    onMount(() => {
-        const unsubscribe = onSnapshot(collection(db, 'employees'), (querySnapshot) => {
-        employees = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-        });
-        return () => unsubscribe();
-        
-    })
+    async function getListOfEmployees(){
+		const response = await fetch('/api/employees')
+		employees = await response.json()
+	}
+
     async function deleteEmployee(id){
-        await deleteDoc(doc(db, "employees", id));
+        try {
+			const response = await fetch(`/api/employees/${id}`, { method: 'DELETE',
+            body: JSON.stringify({
+					id:id,
+			})});
+		} catch (error) {
+			console.log(error);
+		}
     }
 
+    getListOfEmployees()
 </script>
 
 <div class="flex items-center p-4 shadow-md sm:rounded-lg h-10 bg-white gap-4">
-    Collectors Profile
+    Employees Profile
     <label for="add" class=" btn btn-ghost absolute right-10 bg-gray-200 btn-xs sm:btn-2xs md:btn-xs lg:btn-sm hover:bg-green-300">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="black" class="w-5 h-5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
