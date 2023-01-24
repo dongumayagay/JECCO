@@ -75,11 +75,11 @@
                 <div class="flex gap-4">
                 <div>
                     <label for="borrowerName" class="font-medium">Name</label>
-                    <input id="borrowerName" type="text" disabled class=" border text-sm rounded-lg w-72 "> 
+                    <input type="text" disabled class=" border text-sm rounded-lg w-72 "> 
                 </div>
                 <div>
                     <label for="borrowerName" class="font-medium">Client Number</label>
-                    <input id="borrowerName" type="text" disabled class=" border text-sm rounded-lg w-72 "> 
+                    <input type="text" disabled class=" border text-sm rounded-lg w-72 "> 
                 </div>
                 <div>
                     <label for="loanNum" class="font-medium">Loan #:</label>
@@ -135,8 +135,8 @@
             
             <div class=" flex flex-col gap-2">
                 <p><input type="number" class=" h-8 rounded-md w-60" ></p>
-                <p class="flex gap-2"><input type="number" class=" h-8 rounded-md w-60" ><input id="iRate" type="number" class=" h-8 rounded-md w-28" >%</p>
-                <p class="flex gap-2"><input type="number" class=" h-8 rounded-md w-60" ><input id="iRate" type="number" class=" h-8 rounded-md w-28" >%</p>
+                <p class="flex gap-2"><input type="number" class=" h-8 rounded-md w-60" ><input type="number" class=" h-8 rounded-md w-28" >%</p>
+                <p class="flex gap-2"><input type="number" class=" h-8 rounded-md w-60" ><input type="number" class=" h-8 rounded-md w-28" >%</p>
                 <p><input type="number" class=" h-8 rounded-md w-60" ></p>
                 <p><input type="number" class=" h-8 rounded-md w-60" ></p>
                 <p class="flex gap-2"><input type="number" class=" h-8 rounded-md w-60" ><input type="number" class=" h-8 rounded-md w-28" >%</p>
