@@ -1,6 +1,4 @@
 <script>
-    import { db } from '$lib/firebase/client.js';
-    import { updateDoc, doc } from 'firebase/firestore';
     let updateModal = false;
     let cliInfo = [];
     let addUserInput = {} 
@@ -44,7 +42,6 @@
                 municipality:addUserInput.municipality,
                 province:addUserInput.province
 			})});
-			console.log(response);
 		} catch (error) {
 			console.log("Error adding document: ",error);
 		}

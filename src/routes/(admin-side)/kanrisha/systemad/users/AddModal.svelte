@@ -1,7 +1,4 @@
 <script>
-    import {setDoc, doc } from 'firebase/firestore';
-	import {db} from '$lib/firebase/client.js';
-    
     let addModal = false
 	let addUserInput = {
 		name:'',
@@ -24,12 +21,6 @@
 					password:addUserInput.password,
 
 				})})
-			const userRecord = await response.json()
-			const docRef = await setDoc(doc(db, "userinfo", userRecord.uid), {
-				admin: true
-
-        	});
-			
 		} catch (error) {
 			console.log(error)
 
