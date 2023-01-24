@@ -69,7 +69,7 @@
 
 
 
-<main class="h-full grid place-items-center bg-gray-100">
+<main class="h-screen grid place-items-center bg-gray-100">
     <div class=" flex flex-col p-4 rounded-lg bg-white w-full max-w-3xl h-fit shadow ">
 	<form class=" form-control gap-10" on:submit|preventDefault={submitHandler}>
 		<h1 class="font-bold text-2xl">Reach Us</h1>
