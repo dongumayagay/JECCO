@@ -24,7 +24,8 @@
     }
 
     getListOfClients()
-</script>    
+</script>  
+  
 <div class="flex items-center p-4 shadow-md sm:rounded-lg h-10 bg-white gap-4">
         
     <h1 class=" left-0 pr-10">Client Profile</h1>

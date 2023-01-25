@@ -3,6 +3,7 @@
     import { collection, onSnapshot, doc, deleteDoc } from 'firebase/firestore';
     import {db} from '$lib/firebase/client.js';
 	import UpdateLoanModal from './UpdateLoanModal.svelte';
+    import SearchClientModal from '$lib/components/SearchClientModal.svelte';
     
     let loans = []
     let clientInfo
@@ -17,7 +18,9 @@
     async function deleteLoan(id){
         await deleteDoc(doc(db, "loanprocess", id));
     }
+
 </script>
+
 
 <div class="flex items-center p-4 shadow-md sm:rounded-lg bg-white gap-4">
     <h1 class=" font-bold">LOAN PROCESSING</h1>
@@ -26,7 +29,7 @@
 <div class="overflow-x-auto shadow-md sm:rounded-lg w-full h-60 bg-white mt-4">
     <div class="flex">
         <div class=" p-4">
-            <button class=" btn btn-sm">Search</button>
+            <label for="search" class=" btn btn-sm">Search</label>
         </div>
         <div class=" flex p-4 font-semibold">
             <p>Client Number: </p><p class=" text-blue-600 pl-4"> SPL20230125001</p>
@@ -129,3 +132,4 @@
 	</div>		
 </div>
 <UpdateLoanModal bind:clientInfo={clientInfo}/>
+<SearchClientModal/>
