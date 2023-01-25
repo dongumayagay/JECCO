@@ -1,6 +1,6 @@
 <script>
     import { addDoc, collection } from 'firebase/firestore';
-    import { ref, uploadBytes } from "firebase/storage";
+    import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 	import { db, storage } from '$lib/firebase/client';
 	import { goto } from '$app/navigation';
  
@@ -58,6 +58,16 @@
         
     }
 
+    async function getDownloadLink(){
+        const pathName = 'applicationForm/Sanchez-AceForm.pdf' 
+        const pathReference = ref(storage, pathName);
+
+         const downloadApp = await getDownloadURL(pathReference);
+         
+         return downloadApp;
+        
+    }
+
 </script>
 
 
@@ -72,10 +82,16 @@
         <input class=" rounded-lg" type="email" bind:value={applicant.email} placeholder="Email"  required />
         <input class=" rounded-lg" type="text" bind:value={applicant.number} placeholder="Number" pattern="[0-9]+"  required />
         <div>
-        <button class=" text-blue-500 underline">Download</button> the Application form here.
+        <!-- svelte-ignore a11y-missing-attribute -->
+        {#await getDownloadLink()}
+            <p>Loading....</p>
+        {:then downloadApp}
+        <a href={downloadApp} class=" text-blue-500 underline" rel="noreferrer" target="_blank" download>Download</a> the Application form here.
+        {/await}
+
         </div>
         </div>
-        <input class=" file-input file-input-xs " id="clearance" type="file" accept=" .pdf " on:change={(event)=>changeHandler(event.target.files, 'ApplicationForm')} required />
+        <input class=" file-input file-input-xs " id="clearance" type="file" accept=".pdf" on:change={(event)=>changeHandler(event.target.files, 'ApplicationForm')} required />
     
    
 		<button class="bg-blue-500 py-2 rounded-lg text-white transition duration-200 ease-in-out hover:bg-blue-900" type="submit">Submit</button>
