@@ -81,7 +81,10 @@
               </h1>
         </div>
              {#if downloadLink}
-            <a class="p-4" href={downloadLink}>View Application</a> 
+
+                <!-- svelte-ignore a11y-missing-attribute -->
+
+                <iframe class="p-4 w-full h-full" src={downloadLink} frameborder="1"></iframe>
 
             {/if}
 
