@@ -19,22 +19,51 @@
     }
 </script>
 
-<div class="flex items-center p-4 shadow-md sm:rounded-lg h-10 bg-white gap-4">
-    Loan Processing 
+<div class="flex items-center p-4 shadow-md sm:rounded-lg bg-white gap-4">
+    <h1 class=" font-bold">LOAN PROCESSING</h1>
 </div>
 
-<div class="overflow-x-auto relative shadow-md sm:rounded-lg h-full bg-white mt-4">
+<div class="overflow-x-auto shadow-md sm:rounded-lg w-full h-60 bg-white mt-4">
+    <div class="flex">
+        <div class=" p-4">
+            <button class=" btn btn-sm">Search</button>
+        </div>
+        <div class=" flex p-4 font-semibold">
+            <p>Client Number: </p><p class=" text-blue-600 pl-4"> SPL20230125001</p>
+        </div>
+    </div>
+        <div class="flex pl-6 font-semibold">
+            <div class=" flex flex-col gap-2">
+                <p>BORROWER:</p>
+                <p>ADDRESS:</p>
+                <p>CO-MAKER:</p>
+            </div>
+            <div class=" flex flex-col gap-2 text-blue-600 font-semibold pl-6">
+                <p>FRANCIS ARGOSINO SANCHEZ</p>
+                <p>Blk1 Lot1 Ph1 Estrella San Pedro Laguna</p>
+                <p>ANGEL PAUL PASCUAL AGNABO</p>
+            </div>
+        </div>
+</div>
+
+<div class="overflow-x-auto shadow-md sm:rounded-lg h-full bg-white mt-4">
 	<div>
 		<table class="table table-normal w-full">
 			<thead>
 				<tr class="hover">
                     <th scope="col" class="px-6"></th>
-                    <th scope="col" class="px-6">Loan Number</th>
-					<th scope="col" class="px-6">Username</th>
-                    <th scope="col" class="px-6">Area</th>
-					<th scope="col" class="px-6">Loan Amount</th> 
-					<th scope="col" class="px-6">Duration</th> 
-					<th scope="col" class="px-6">Release Date</th> 
+                    <th scope="col" class="px-6">#</th>
+                    <th scope="col" class="px-6">REF</th>
+					<th scope="col" class="px-6">TYPE</th>
+                    <th scope="col" class="px-6">R.DAYS</th>
+					<th scope="col" class="px-6">RELEASED DATE</th> 
+					<th scope="col" class="px-6">DUE DATE</th> 
+                    <th scope="col" class="px-6">LOAN AMOUNT</th> 
+                    <th scope="col" class="px-6">D.I.</th> 
+					<th scope="col" class="px-6">BALANCE</th> 
+                    <th scope="col" class="px-6">T.PAYMNET</th> 
+                    <th scope="col" class="px-6">STATUS</th> 
+                    <th scope="col" class="px-6">JEM'S BENEFIT FUND</th> 
 				</tr>
 			</thead> 
 			{#each loans as loan }
@@ -61,19 +90,38 @@
                         {loan.loanNumber}
                     </td>
                     <td class="px-6">
-                        {loan.username}
+                        
                     </td>
                     <td class="px-6">
-                        {loan.area}
+                        
                     </td>
                     <td class="px-6">
-                        {loan.loanAmount}
-                    </td>
-                    <td class="px-6">
-                        {loan.duration}
+                        
                     </td>
                     <td class="px-6">
                         {loan.releaseDate}
+                    </td>
+                    <td class="px-6">
+                        
+                    </td>
+                    <td class="px-6">
+                        {loan.loanAmount}
+                        <!-- {loan.username} -->
+                    </td>
+                    <td class="px-6">
+                        <!-- {loan.area} -->
+                    </td>
+                    <td class="px-6">
+                        
+                    </td>
+                    <td class="px-6">
+                        <!-- {loan.duration} -->
+                    </td>
+                    <td class="px-6">
+                        
+                    </td>
+                    <td class="px-6">
+                        
                     </td>
                 </tr>
             {/each}
