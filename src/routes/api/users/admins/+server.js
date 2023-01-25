@@ -1,6 +1,25 @@
 import { adminAuth } from '$lib/firebase/admin.server';
 import {json} from '@sveltejs/kit';
-import { setDoc } from 'firebase/firestore';
+import { collection, getDocs, setDoc, doc } from 'firebase/firestore';
+import {db} from '$lib/firebase/client.js';
+
+/** @type {import('./$types').RequestHandler} */
+export async function GET() {
+    let adminInfo = []
+    let adminUser = []
+    const querySnapshot = await getDocs(collection(db, "userinfo"));
+    querySnapshot.forEach((doc) => {
+    adminInfo = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    });
+    for (let i = 0; i < adminInfo.length; i++) {
+        const userRecord = await adminAuth.getUser(adminInfo[i].id);
+        adminUser.push(userRecord);
+    }
+    return json(adminUser);
+};
+
+
+
 
 /** @type {import('./$types').RequestHandler} */
 export async function POST({request}) {
