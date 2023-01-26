@@ -1,13 +1,20 @@
 <script>
     import AddModal from "./AddModal.svelte";
     import UpdateModal from "./UpdateModal.svelte";
-	let userInfo
+    import { collection, onSnapshot } from 'firebase/firestore';
+    import {db} from '$lib/firebase/client.js';
+
+    let userInfo
     let employees = []
 
     async function getListOfEmployees(){
-		const response = await fetch('/api/employees')
-		employees = await response.json()
-	}
+        const unsubscribe = onSnapshot(collection(db, 'employees'), (querySnapshot) => {
+        employees = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        });
+        return () => unsubscribe();
+    }
+
+    getListOfEmployees()
 
     async function deleteEmployee(id){
         try {
@@ -20,7 +27,6 @@
 		}
     }
 
-    getListOfEmployees()
 </script>
 
 <div class="flex items-center p-4 shadow-md sm:rounded-lg h-10 bg-white gap-4">
@@ -54,7 +60,7 @@
             </tr>
         </thead>
         <tbody>
-            {#each employees as employee }
+            {#each employees as employee}
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                 <td class="px-4">
                     <div  class="flex items-center space-x-2 text-sm">
