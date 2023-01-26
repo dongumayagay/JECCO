@@ -30,11 +30,6 @@
             houseNo:'',
             municipality:'',
             province:'',
-            acctOfficer:'',
-            crdtInv:'',
-            approved:'',
-            released:'',
-            collector:'',
             firstname:cliInfo.firstname,
             lastname:cliInfo.lastname,
             email:cliInfo.email,
@@ -68,11 +63,6 @@
                 houseNo:addUserInput.houseNo,
                 municipality:addUserInput.municipality,
                 province:addUserInput.province,
-                acctOfficer:addUserInput.acctOfficer,
-                crdtInv:addUserInput.crdtInv,
-                approved:addUserInput.approved,
-                released:addUserInput.released,
-                collector:addUserInput.collector
 			})})
 			
 			
@@ -92,7 +82,7 @@
     <div class="modal-box max-w-xl">
 
         <!-- Modal -->
-        <form class="relative bg-white rounded shadow dark:bg-gray-700" on:submit={addUser}>
+        <form class="relative bg-white rounded shadow dark:bg-gray-700 dark:text-whites" on:submit={addUser}>
             <!-- Modal header -->
             <div class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
@@ -100,7 +90,7 @@
                 </h3>
             </div>
             <!-- Modal body -->
-            <div class="p-6 space-y-6">
+            <div class="p-6 space-y-6 dark:text-white">
                 <div class="grid grid-cols-2 gap-6">
                     <div class="">
                         <label for="first-name" class="block mb-2 text-sm font-medium  ">First Name</label>
@@ -111,7 +101,7 @@
                         <input type="text" bind:value={addUserInput.lastname} class="shadow-sm border text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 w-56 p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Last Name" required>
                     </div>
                     <div class="col-span-2">
-                        <label for="username" class="block mb-2 text-sm font-medium  ">Email</label>
+                        <label for="username" class="block mb-2 text-sm font-medium  ">Username</label>
                         <input type="email" bind:value={addUserInput.username} class="shadow-sm  border text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 w-56 p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Email" required>
                     </div>
                     <div class="">
@@ -125,6 +115,10 @@
                     <div class="">
                         <label for="email" class="block mb-2 text-sm font-medium  ">Email</label>
                         <input type="email" bind:value={addUserInput.email} class="shadow-sm  border text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-56 p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Email" required>
+                    </div>
+                    <div class>
+                        <label for="last-name" class="block mb-2 text-sm font-medium  ">Co Maker</label>
+                        <input type="text" bind:value={addUserInput.lastname} class="shadow-sm border text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 w-56 p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Last Name" required>
                     </div>
                     <div class="">
                         <label for="contact-number" class="block mb-2 text-sm font-medium  ">Contact Number</label>
@@ -145,26 +139,6 @@
                     <div class="">
                         <label for="prov" class="block mb-2 text-sm font-medium  ">Province</label>
                         <input type="text" bind:value={addUserInput.province} class="shadow-sm  border overflow-y-auto text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-56 p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500 " placeholder="Province" required>
-                    </div>
-                    <div class="">
-                        <label for="prov" class="block mb-2 text-sm font-medium  ">Account Officer:</label>
-                        <input type="text" bind:value={addUserInput.acctOfficer} class="shadow-sm  border overflow-y-auto text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-56 p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500 " placeholder="Account Officer" required>
-                    </div>
-                    <div class="">
-                        <label for="prov" class="block mb-2 text-sm font-medium  ">Credit Investigated By:</label>
-                        <input type="text" bind:value={addUserInput.crdtInv} class="shadow-sm  border overflow-y-auto text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-56 p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500 " placeholder="Credit Investigated By" required>
-                    </div>
-                    <div class="">
-                        <label for="prov" class="block mb-2 text-sm font-medium  ">Approved By:</label>
-                        <input type="text" bind:value={addUserInput.approved} class="shadow-sm  border overflow-y-auto text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-56 p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500 " placeholder="Approved By" required>
-                    </div>
-                    <div class="">
-                        <label for="prov" class="block mb-2 text-sm font-medium  ">Released By:</label>
-                        <input type="text" bind:value={addUserInput.released} class="shadow-sm  border overflow-y-auto text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-56 p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500 " placeholder="Released By" required>
-                    </div>
-                    <div class="">
-                        <label for="prov" class="block mb-2 text-sm font-medium  ">Collector Assigned:</label>
-                        <input type="text" bind:value={addUserInput.collector} class="shadow-sm  border overflow-y-auto text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-56 p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500 " placeholder="Collector Assigned" required>
                     </div>
                 </div>
             </div>

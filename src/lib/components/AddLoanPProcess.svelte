@@ -64,7 +64,7 @@
     <div class="modal-box max-w-5xl overflow-y-auto">
 
         <!-- Modal -->
-        <form class="relative bg-white rounded-lg shadow dark:bg-gray-700" on:submit={addUser}>
+        <form class="relative bg-white rounded-lg shadow dark:bg-gray-700 dark:text-white" on:submit={addUser}>
             <!-- Modal header -->
             <div class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
