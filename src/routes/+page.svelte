@@ -19,7 +19,7 @@
 			<article class="flex flex-col gap-5 max-w-2xl ">
 				<h1 class="lg:text-5xl md:text-3xl sm:text-lg font-bold ">Jempower's Credit Corporation</h1>
 				<p class="md:text-lg sm:text-sm ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia voluptates quidem dignissimos debitis ad dolore nihil, fugiat officiis neque ipsum at omnis veritatis blanditiis cumque asperiores alias. Quis, soluta porro.</p>
-				<a class=" border border-black py-3 px-16 w-fit rounded-md font-semibold transition duration-200 ease-in-out hover:bg-blue-900 hover:text-white" href="/register">Reach us Now</a>
+				<a class=" border border-black py-3 px-16 w-fit rounded-md font-semibold transition duration-200 ease-in-out hover:bg-blue-900 hover:text-white" href="/register">Apply Now</a>
 			</article>
 		</div>
 
