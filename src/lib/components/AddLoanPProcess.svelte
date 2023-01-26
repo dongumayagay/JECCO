@@ -2,6 +2,7 @@
     import {setDoc, doc, onSnapshot, collection } from 'firebase/firestore';
 	import {db} from '$lib/firebase/client.js';
 	import AddClientProfile from './AddClientProfile.svelte';
+    import LoanMatrixModal from './LoanMatrixModal.svelte';
 
     let addModal = false  
     let cliInfo = [];
@@ -95,7 +96,7 @@
                     <div class="flex flex-col gap-4">
                     <div class="flex">
                         <div class=" pl-4">
-                            <button class="btn btn-sm">Loan Matrix:</button>
+                            <label for="matrix" class=" btn btn-sm">Loan Matrix</label>
                             <input type="text" disabled bind:value={addUserInput.duration} class="border text-sm rounded-lg w-24">
                         </div>
                         <div  class=" absolute right-16">
@@ -167,16 +168,16 @@
                 <p><input type="text" class=" h-10 rounded-md w-60" ></p>
                 <p>
                     <select class="w-60" name="areas" id="area">
-                    <option value="volvo">Estrella</option>
-                    <option value="saab">Langgam</option>
-                    <option value="opel">Laram</option>
-                    <option value="audi">Narra</option>
+                    <option value="estrella">Estrella</option>
+                    <option value="langgam">Langgam</option>
+                    <option value="laram">Laram</option>
+                    <option value="narra">Narra</option>
                   </select>
                 </p>
             </div>
         </div>
             <div class="modal-action pt-8">    
-                <button type="submit" class="btn border-transparent bg-green-600">Update</button>
+                <button type="submit" class="btn border-transparent bg-green-600">Process</button>
                 <!-- svelte-ignore a11y-click-events-have-key-events -->
                 <label for="add2" on:click={resetAddUserInput()} class="btn border-transparent bg-red-600">Cancel</label>
             </div>
@@ -184,3 +185,4 @@
     </div>
 </div>
 <AddClientProfile/>
+<LoanMatrixModal/>  
