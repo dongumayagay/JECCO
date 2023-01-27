@@ -1,7 +1,26 @@
 <script>
-
+  import { onMount } from 'svelte';
     let loanMatrixModal = false;
+
+    let loanAmount = 100;
+    let days = 80;
+    let interestRate = 20.0;
+    let loanMatrix = [];
+
+    // let dailyPayment = calculateDailyPayment(loanAmount, days, interestRate);
+    // console.log(dailyPayment);
+
+    async function calculateDailyPayment(loanAmount, days, interestRate) {
+        let dailyInterest = (interestRate/100)/80;
+        let dailyPayment = (loanAmount/days) + (loanAmount*dailyInterest);
+        return dailyPayment;
+    }
     
+    let dailyPayment;
+
+  onMount(async () => {
+        dailyPayment = await calculateDailyPayment(loanAmount, days, interestRate);
+    });
     </script>
     
     
@@ -35,32 +54,19 @@
                                     <th>Loan Amount</th>
                                     <th>Daily Payment</th>
                                 </thead>
+
+                                
+                                    
+                                
                             <tr class="hover">
-                                <td>80</td>
-                                <td>100</td>
-                                <td>1.50</td>
+                                <td>{days}</td>
+                                <td>{loanAmount}</td>
+                                <td>{dailyPayment}</td>
+                                
                             </tr>
-                            <tr class="hover">
-                                <td>80</td>
-                                <td>100</td>
-                                <td>1.50</td>
-                            </tr>
-                            <tr class="hover">
-                                <td>80</td>
-                                <td>100</td>
-                                <td>1.50</td>
-                            </tr>
-                            <tr class="hover">
-                                <td>80</td>
-                                <td>100</td>
-                                <td>1.50</td>
-                            </tr>
-                            <tr class="hover">
-                                <td>80</td>
-                                <td>100</td>
-                                <td>1.50</td>
-                            </tr>
-   
+                            
+                            
+
                             </table>   
                         </div>
     
