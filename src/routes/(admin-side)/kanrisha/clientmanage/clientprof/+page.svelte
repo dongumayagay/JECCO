@@ -2,14 +2,18 @@
     import AddClientProfile from "$lib/components/AddClientProfile.svelte";
     import EditClientModal from "./EditClientModal.svelte";
     import AddLoanPProcess from "$lib/components/AddLoanPProcess.svelte";
-    
+    import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
+    import {db} from '$lib/firebase/client.js';
+    const q = query(collection(db, 'clientinfo'), orderBy("clientNumber","desc"))
 	let clientsInfo
     let clientInfo
+    let clienInfo
     let clients = []
-
     async function getListOfClients(){
-		const response = await fetch('/api/clients')
-		clients = await response.json()
+		const unsubscribe = onSnapshot(q, (querySnapshot) => {
+            clients = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        });
+        return () => unsubscribe();
 	}
 
     async function deleteClient(id){
@@ -22,17 +26,20 @@
 			console.log(error);
 		}
     }
-
-    getListOfClients()
 </script>  
   
 <div class="flex items-center p-4 shadow-md sm:rounded-lg h-10 bg-white gap-4">
         
     <h1 class=" left-0 pr-10">Client Profile</h1>
-    <label for="add" class=" btn btn-ghost absolute right-10 px-2 bg-gray-200 btn-xs sm:btn-2xs md:btn-xs lg:btn-sm hover:bg-green-300">
+    {#await getListOfClients()}
+        <p class="absolute right-10">Loading....</p>
+    {:then}
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <label for="add" on:click={clientInfo( '',clients)} class=" btn btn-ghost absolute right-10 px-2 bg-gray-200 btn-xs sm:btn-2xs md:btn-xs lg:btn-sm hover:bg-green-300">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="black" class="w-5 h-5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
     </label>
+    {/await}
     
 </div>    
 
@@ -42,6 +49,7 @@
         <thead>
             <tr>
                 <th class=""></th>
+                <th class="">Client#</th> 
                 <th class="">Username</th> 
                 <th class="">First Name</th> 
                 <th class="">Last Name</th> 
@@ -66,11 +74,14 @@
                                 <!-- svelte-ignore a11y-click-events-have-key-events -->
                                 <li><label for="update" on:click={clientsInfo(client)}>Edit Client Information</label></li>
                                 <!-- svelte-ignore a11y-click-events-have-key-events -->
-                                <li><label for="add2" on:click={clientInfo(client)}>Process Loan</label></li>
+                                <li><label for="add2" on:click={clienInfo(client)}>Process Loan</label></li>
                                 <li><button on:click={deleteClient(client.id)}>Delete</button></li>
                             </ul>
                         </div>
                     </div>
+                </td>
+                <td class="">
+                    {client.clientNumber}
                 </td>
                 <td class="">
                     {client.username}
@@ -94,6 +105,6 @@
         {/each}
     </table>	
 </div>
-<AddClientProfile/>
 <EditClientModal bind:clientsInfo={clientsInfo} />    
-<AddLoanPProcess bind:clientInfo={clientInfo} />   
+<AddClientProfile bind:clientInfo={clientInfo}/>
+<AddLoanPProcess bind:clienInfo={clienInfo} />   

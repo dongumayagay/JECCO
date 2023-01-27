@@ -17,7 +17,7 @@
     });
     //
 
-    export async function clientInfo(infoClient){
+    export async function clienInfo(infoClient){
         cliInfo = infoClient
         addUserInput = {
             loanNumber:totalLoans,
@@ -31,7 +31,7 @@
     function resetAddUserInput(){
 		addUserInput = {
             loanNumber:totalLoans,
-            loanAmount:'',
+            loanAmount:'10',
             duration:'80 days',
             purpose:'',
             releaseDate:'',
