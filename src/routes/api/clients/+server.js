@@ -22,20 +22,19 @@ export async function POST({request}) {
     const addUserInput = await request.json();
     const userRecord = await adminAuth.createUser({ email:addUserInput.username, password:addUserInput.password, displayName:addUserInput.name});
     const docRef = await setDoc(doc(db, "clientinfo", userRecord.uid), {
+        clientNumber:addUserInput.clientNumber,
         username:addUserInput.username,
         firstname:addUserInput.firstname,
         lastname:addUserInput.lastname,
         email:addUserInput.email,
+        coMaker:addUserInput.coMaker,
         number:addUserInput.number,
         barangay:addUserInput.barangay,
         houseNo:addUserInput.houseNo,
         municipality:addUserInput.municipality,
         province:addUserInput.province,
-        acctOfficer:addUserInput.acctOfficer,
-        crdtInv:addUserInput.crdtInv,
-        approved:addUserInput.approved,
-        released:addUserInput.released,
-        collector:addUserInput.collector
+        dateCreated:addUserInput.dateCreated,
+        
     });
 
     return json(docRef);
