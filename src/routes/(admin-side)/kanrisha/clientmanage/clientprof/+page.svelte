@@ -2,15 +2,15 @@
     import AddClientProfile from "$lib/components/AddClientProfile.svelte";
     import EditClientModal from "./EditClientModal.svelte";
     import AddLoanPProcess from "$lib/components/AddLoanPProcess.svelte";
-    import { collection, onSnapshot } from 'firebase/firestore';
+    import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
     import {db} from '$lib/firebase/client.js';
+    const q = query(collection(db, 'clientinfo'), orderBy("clientNumber","desc"))
 	let clientsInfo
     let clientInfo
     let clienInfo
     let clients = []
-
     async function getListOfClients(){
-		const unsubscribe = onSnapshot(collection(db, 'clientinfo'), (querySnapshot) => {
+		const unsubscribe = onSnapshot(q, (querySnapshot) => {
             clients = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         });
         return () => unsubscribe();

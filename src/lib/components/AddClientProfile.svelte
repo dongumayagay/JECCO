@@ -7,9 +7,9 @@
     let ctrlNumber = "000000"
     let thisClientNumber=""
 
-    export async function clientInfo(infoClient,total){
+    export async function clientInfo(infoClient,clients){
         cliInfo = infoClient
-        count = total.length+1
+        count = parseInt(clients[0].clientNumber.slice(7))+1
         ctrlNumber = ctrlNumber + count.toString()
         thisClientNumber = prefix+new Date().getFullYear()+ctrlNumber.slice(-6)
         addUserInput = {
