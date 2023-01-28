@@ -8,8 +8,20 @@ let searchResults = [];
 let searchResultOne = [];
 let searchResultTwo = [];
 let searchResultThree = [];
+export let selected = [];
+
+function selectUser(chosen){
+    selected = chosen;
+    searchResults = [];
+    searchModal = false; 
+}
+function resetAddUserInput () {
+    searchInput = "";
+    searchResults = [];
+}
 
 async function getListofClients(){
+    searchResults = [];
     const qOne = query(collection(db, 'clientinfo'), where("firstname", "==", searchInput));
     const querySnapshotOne = await getDocs(qOne);
     querySnapshotOne.forEach((doc) => {
@@ -26,7 +38,6 @@ async function getListofClients(){
         searchResultThree = querySnapshotThree.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     });
     searchResults = searchResultOne.concat(searchResultTwo,searchResultThree);
-    console.log(searchResultOne);
     searchInput = "";
 }
 </script>
@@ -47,7 +58,8 @@ async function getListofClients(){
                 </div>
                 <div class="modal-action">    
                     <button type="submit" class="btn border-transparent bg-blue-600">Search</button>
-                    <label for="search" class="btn border-transparent bg-red-600">Cancel</label>
+                    <!-- svelte-ignore a11y-click-events-have-key-events -->
+                    <label for="search" on:click={resetAddUserInput} class="btn border-transparent bg-red-600">Cancel</label>
                 </div>
             </form>
             <!-- Modal body -->
@@ -61,7 +73,7 @@ async function getListofClients(){
                             <th>Full Name</th>
                         </thead>
                     {#each searchResults as searchResult }    
-                    <tr class="hover">
+                    <tr class="hover cursor-pointer" on:click={() => selectUser(searchResult)}>
                         <td>{searchResult.clientNumber}</td>
                         <td>{searchResult.firstname + " " + searchResult.lastname}</td>
                     </tr>

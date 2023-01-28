@@ -7,7 +7,7 @@
     
     let loans = []
     let clientInfo
-    
+    let client = []
     onMount(() => {
         const unsubscribe = onSnapshot(collection(db, 'loanprocess'), (querySnapshot) => {
             loans = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
@@ -31,20 +31,30 @@
         <div class=" p-4">
             <label for="search" class=" btn btn-sm">Search</label>
         </div>
-        <div class=" flex p-4 font-semibold">
-            <p>Client Number: </p><p class=" text-blue-600 pl-4"> SPL20230125001</p>
-        </div>
     </div>
         <div class="flex pl-6 font-semibold">
             <div class=" flex flex-col gap-2">
+                <p>Client Number: </p>
                 <p>BORROWER:</p>
                 <p>ADDRESS:</p>
                 <p>CO-MAKER:</p>
             </div>
             <div class=" flex flex-col gap-2 text-blue-600 font-semibold pl-6">
-                <p>FRANCIS ARGOSINO SANCHEZ</p>
-                <p>Blk1 Lot1 Ph1 Estrella San Pedro Laguna</p>
-                <p>ANGEL PAUL PASCUAL AGNABO</p>
+                {#await client}
+                    <p>...waiting</p>
+                {:then info}
+                    {#if info.clientNumber == undefined}
+                        <p></p>
+                    {:else}
+                        <p>{info.clientNumber}</p>
+                        <p>{info.firstname + " " + info.lastname}</p>
+                        <p>{info.houseNo + ', ' + info.barangay + ', ' + info.municipality + ', ' + info.province}</p>
+                        <p>{info.coMaker}</p>
+                    {/if}
+                {:catch error}
+                    <p style="color: red">{error.message}</p>
+                {/await}
+                                
             </div>
         </div>
 </div>
@@ -132,4 +142,4 @@
 	</div>		
 </div>
 <UpdateLoanModal bind:clientInfo={clientInfo}/>
-<SearchClientModal/>
+<SearchClientModal bind:selected={client}/>
