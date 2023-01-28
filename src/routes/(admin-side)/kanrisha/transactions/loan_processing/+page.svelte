@@ -4,10 +4,11 @@
     import {db} from '$lib/firebase/client.js';
 	import UpdateLoanModal from './UpdateLoanModal.svelte';
     import SearchClientModal from '$lib/components/SearchClientModal.svelte';
-    
+
     let loans = []
     let clientInfo
     let client = []
+    let getAllClients
     onMount(() => {
         const unsubscribe = onSnapshot(collection(db, 'loanprocess'), (querySnapshot) => {
             loans = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
@@ -29,7 +30,8 @@
 <div class="overflow-x-auto shadow-md sm:rounded-lg w-full h-60 bg-white mt-4">
     <div class="flex">
         <div class=" p-4">
-            <label for="search" class=" btn btn-sm">Search</label>
+            <!-- svelte-ignore a11y-click-events-have-key-events -->
+            <label for="search" on:click={getAllClients} class=" btn btn-sm">Search</label>
         </div>
     </div>
         <div class="flex pl-6 font-semibold">
@@ -141,5 +143,5 @@
 		</table>	
 	</div>		
 </div>
-<UpdateLoanModal bind:clientInfo={clientInfo}/>
-<SearchClientModal bind:selected={client}/>
+<UpdateLoanModal bind:clientInfo={clientInfo} />
+<SearchClientModal bind:selected={client} bind:getAllClients={getAllClients}/>
