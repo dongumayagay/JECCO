@@ -4,21 +4,23 @@
     let loanMatrixModal = false;
 
     let loanAmount = [100,5000,6000,7000,8000,9000,10000];
-    let days = 80;
+    let days = [40,60,80,100,120];
+    let selectedDay = days[0];
     let interestRate = 20.0;
     let dailyPayment =[];
 
+    async function handleSelection(event) {
+    selectedDay = event.target.value;
+    dailyPayment = await Promise.all(loanAmount.map(amount => calculateDailyPayment(amount, selectedDay, interestRate)));
+    }
 
-    async function calculateDailyPayment(loanAmount, days, interestRate) {
-        let dailyInterest = (interestRate/100)/80;
-        let dailyPayment = (loanAmount/days) + (loanAmount*dailyInterest);
+    async function calculateDailyPayment(loanAmount, selectedDay, interestRate) {
+        let dailyInterest = (interestRate/100)/selectedDay;
+        let dailyPayment = (loanAmount*dailyInterest) + (loanAmount/selectedDay);
         return dailyPayment;
+        
     }
     
-    onMount(async () => {
-        let promises = loanAmount.map(amount => calculateDailyPayment(amount, days, interestRate));
-        dailyPayment = await Promise.all(promises);
-    });
     </script>
     
     
@@ -33,12 +35,13 @@
                         <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                             Number of Days  
                         </h3>
-                        <select name="days" id="day">
-                            <option value="70">70</option>
-                            <option value="80">80</option>
-                            <option value="90">90</option>
-                            <option value="100">100</option>
+                        
+                        <select on:change={handleSelection}>
+                            {#each days as day}
+                            <option value={day}>{day}</option>
+                            {/each}
                         </select>
+                        
                     </div>
                     <!-- Modal body -->
                     <div class="overflow-y-auto h-full bg-white">
@@ -50,11 +53,11 @@
                                     <th>Loan Amount</th>
                                     <th>Daily Payment</th>
                                 </thead>
-                                {#each loanAmount as amount, index}
+                                {#each loanAmount as amount, i}
                                 <tr class="hover">
-                                    <td>{days}</td>
-                                    <td>{amount + '.00'}</td>
-                                    <td>{dailyPayment[index] + '.00'}</td>
+                                    <td>{selectedDay}</td>
+                                    <td>{amount}</td>
+                                    <td>{dailyPayment[i]}</td>
                                 
                                 </tr>
                             {/each}
