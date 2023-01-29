@@ -48,8 +48,9 @@
                                                 <th class="px-6">Transaction Date</th>
                                                 
                                         </tr>
-                                </thead> 
-                                <tr on:click={() => rowSelected = !rowSelected} class:bg-blue-300={rowSelected}>
+                                </thead>
+
+                                <tr on:click={() => rowSelected = !rowSelected} class={rowSelected ? ' hover cursor-pointer bg-blue-400 text-white ' : 'hover cursor-pointer'}>
                                     <td>
                                         SPL-2023001
                             
@@ -64,6 +65,7 @@
                                         01/01/2023
                                     </td>
                                 </tr>
+
                         </table>	
                 </div>		
         </div>

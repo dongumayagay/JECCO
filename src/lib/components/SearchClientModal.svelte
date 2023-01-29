@@ -53,7 +53,7 @@
 
 <input type="checkbox" bind:checked={searchModal} id="search" class="modal-toggle" />
     <div class="modal">
-        <div class="modal-box">
+        <div class=" modal-box ">
             
             <!-- on:submit={updateEmployee} -->
 
@@ -65,16 +65,8 @@
                     </h3>
                     <input type="search" bind:value={searchInput} class="w-full border-0 border-b-2">
                 </div>
-                <div class="modal-action">    
-                    <button type="submit" class="btn border-transparent bg-blue-600">Search</button>
-                    <!-- svelte-ignore a11y-click-events-have-key-events -->
-                    <label for="search" on:click={resetAddUserInput} class="btn border-transparent bg-red-600">Cancel</label>
-                </div>
-            </form>
-            <!-- Modal body -->
-            <div class="overflow-y-auto h-full bg-white">
-                <!-- table div -->
-                
+
+                <!-- table -->
                 <div>
                     <table class=" table w-full overflow-y-auto">
                         <thead>
@@ -89,6 +81,17 @@
                         {/each}
                     </table>   
                 </div>
+
+                <div class="modal-action">    
+                    <button type="submit" class="btn border-transparent bg-blue-600">Search</button>
+                    <!-- svelte-ignore a11y-click-events-have-key-events -->
+                    <label for="search" on:click={resetAddUserInput} class="btn border-transparent bg-red-600">Cancel</label>
+                </div>
+            </form>
+            <!-- Modal body -->
+            <div class="overflow-y-auto h-full bg-white">
+                <!-- table div -->
+                
             </div>
         </div>
     </div>
