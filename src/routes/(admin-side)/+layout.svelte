@@ -32,7 +32,7 @@
     
 </script>
     {#if show}
-    <main class="sm:flex hidden " >
+    <main class="md:flex hidden " >
 
         <section class="w-64 h-screen px-4 py-8 overflow-y-auto pr-20">
         <SideNavAdmin/>
@@ -46,10 +46,10 @@
 
     </section>
     </main>
-    <main class=" flex justify-center items-center w-screen h-screen sm:hidden " >
+    <main class=" flex justify-center items-center w-screen h-screen md:hidden " >
         <div class=" flex flex-col items-center gap-6">
              <img class=" w-48 " src="/accessdenied.svg" alt="">
-             <p class=" flex text-2xl font-semibold"> Please open in `Larger Screen` </p>
+             <p class=" flex text-2xl font-semibold"> Please open on a `Larger Screen` </p>
         </div>
     </main>
     {/if}
