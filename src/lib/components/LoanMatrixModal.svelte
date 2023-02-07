@@ -7,14 +7,14 @@
     let days = [40,60,80,100,120];
     let selectedDay = days[0];
     let interestRate = 20.0;
-    let dailyPayment =[];
+    let dailyPayment = loanAmount.map((value) => calculateDailyPayment(value,selectedDay,interestRate) )
 
     async function handleSelection(event) {
     selectedDay = event.target.value;
     dailyPayment = await Promise.all(loanAmount.map(amount => calculateDailyPayment(amount, selectedDay, interestRate)));
     }
 
-    async function calculateDailyPayment(loanAmount, selectedDay, interestRate) {
+    function calculateDailyPayment(loanAmount, selectedDay, interestRate) {
         let dailyInterest = (interestRate/100)/selectedDay;
         let dailyPayment = (loanAmount*dailyInterest) + (loanAmount/selectedDay);
         return dailyPayment;
