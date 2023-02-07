@@ -1,7 +1,11 @@
     <script>
         import PaymentModal from "$lib/components/paymentModal.svelte";
 
-        let rowSelected = false;
+    //     let selectedRow;
+
+    // function handleRowSelection(row) {
+    // selectedRow = row;
+    // }
 
     
     </script>
@@ -10,7 +14,7 @@
     <div class="flex items-center p-4 shadow-md sm:rounded-lg h-10 bg-white gap-4">
                  <p class=" font-semibold ">Payments</p> 
                  <div class=" absolute right-10">
-                 <label for="payment" class={rowSelected ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={!rowSelected}>UPDATE PAYMENT</label>
+                 <!-- <label for="payment" class={rowSelected ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={!rowSelected}>UPDATE PAYMENT</label> -->
                 </div>
             </div>
 
@@ -37,35 +41,40 @@
                     </div>
             </div>
             
-        <div class="overflow-x-auto relative shadow-md sm:rounded-lg h-full bg-white mt-4">
+        <div class="overflow-x-auto shadow-md sm:rounded-lg h-full bg-white mt-4">
                 <div>
-                        <table class="table table-normal w-full">
+                        <table class="table table-auto w-full">
                                 <thead>
                                         <tr>
-                                                <th>Client Number</th> 
-                                                <th>Name</th> 
+                                                <th>#</th>
+                                                <th>Ref</th> 
                                                 <th class="px-6">Loan Number</th>
+                                                <th>Amount</th> 
                                                 <th class="px-6">Transaction Date</th>
                                                 
                                         </tr>
                                 </thead>
 
-                                <tr on:click={() => rowSelected = !rowSelected} class={rowSelected ? ' hover cursor-pointer bg-blue-400 text-white ' : 'hover cursor-pointer'}>
+                                <!-- {#each payments as payment }
+                                
+                                <tr class:selected={row === selectedRow ? 'bg-blue-500' : ''} on:click={handleRowSelection(row)}>
                                     <td>
-                                        SPL-2023001
-                            
+                                        {payment.column1}
                                     </td>
                                     <td>
-                                        Francis Sanchez
+                                        {payment.column2}
                                     </td>
                                     <td class="px-6">
-                                        #01
+                                        {payment.column3}
                                     </td>
                                     <td class="px-6">
-                                        01/01/2023
+                                        {payment.column4}
+                                    </td>
+                                    <td>
+                                        {payment.column5}
                                     </td>
                                 </tr>
-
+                                {/each} -->
                         </table>	
                 </div>		
         </div>
