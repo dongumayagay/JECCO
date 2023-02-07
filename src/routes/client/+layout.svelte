@@ -33,10 +33,8 @@
 </script>
 
 {#if show}
-<main class=" flex">
-	<section class="flex flex-col w-64 h-full px-4 py-8 overflow-y-auto">
+<main class="flex w-full h-screen">
 		<SideNav/>
-	</section>
 	<slot />
 </main>
 {/if}

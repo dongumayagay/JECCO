@@ -1,14 +1,13 @@
-<section class="flex flex-col w-full h-screen p-6 ml-8 overflow-y-auto bg-gray-200">
+<section class="flex flex-col w-full h-screen overflow-y-auto bg-gray-200">
 	<div class=" w-full flex flex-col p-3 bg-gray-200 h-full">
-		<div class="bg-white mb-3 p-2 text-2xl">
+		<div class="bg-white mb-3 rounded-lg p-2 text-2xl">
 			Loans
 		</div>
-		<div class="bg-white mb-3 p-2 h-full">
-			<div class="overflow-x-auto">
-				<table class="table table-normal w-full">
+		<div class="bg-white rounded-lg p-2 h-screen overflow-x-auto ">
+				<table class="table max-sm:table-compact w-full">
 					<thead>
 						<tr class="hover">
-							<th></th> 
+							<td>#</td> 
 							<th>Loan Amount</th> 
 							<th>Duration</th> 
 							<th>Status</th> 
@@ -16,20 +15,19 @@
 					</thead> 
 					<tbody>
 						<tr class="hover">
-							<th>1</th> 
+							<td>1</td> 
 							<td>50,000.00 php</td> 
 							<td>80 days</td> 
 							<td>Fully Paid</td> 
 						</tr>
 						<tr class="hover">
-							<th>2</th>  
+							<td>2</td>  
 							<td>100,000.00 php</td> 
 							<td>80 days</td> 
 							<td>Active</td> 
 						</tr>
 					</tbody> 
 				</table>	
-			</div>		
 		</div>
 	</div>
 </section>	
