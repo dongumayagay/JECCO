@@ -11,6 +11,7 @@
 	},
 	"devDependencies": {
 		"@firebase/app-types": "^0.9.0",
+		"@iconify/svelte": "^3.1.0",
 		"@sveltejs/adapter-auto": "next",
 		"@sveltejs/kit": "next",
 		"@tailwindcss/forms": "^0.5.2",
