@@ -8,6 +8,7 @@
     let searchResultOne = [];
     let searchResultTwo = [];
     let searchResultThree = [];
+    
     export let selected = [];
 
     export async function getAllClients(){
@@ -48,7 +49,6 @@
         searchInput = "";
     }
 
-
 </script>
 
 <input type="checkbox" bind:checked={searchModal} id="search" class="modal-toggle" />
@@ -88,10 +88,5 @@
                     <label for="search" on:click={resetAddUserInput} class="btn border-transparent bg-red-600">Cancel</label>
                 </div>
             </form>
-            <!-- Modal body -->
-            <div class="overflow-y-auto h-full bg-white">
-                <!-- table div -->
-                
-            </div>
         </div>
     </div>
