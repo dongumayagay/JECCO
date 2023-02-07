@@ -1,7 +1,6 @@
 <script>
     import Chart from "$lib/components/Chart.svelte";
     
-    
 </script>
 
 <div class="flex gap-6">

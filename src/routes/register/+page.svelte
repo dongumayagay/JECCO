@@ -3,6 +3,7 @@
     import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 	import { db, storage } from '$lib/firebase/client';
 	import { goto } from '$app/navigation';
+    import Icon from '@iconify/svelte';
  
     
     let applicant = {
@@ -71,12 +72,12 @@
 </script>
 
 
-<main class="h-screen grid place-items-center bg-gray-100">
-    <div class=" flex flex-col p-4 rounded-lg bg-white w-full max-w-3xl h-fit shadow ">
+<main class="h-screen flex justify-center items-center bg-gray-100">
+    <div class=" flex p-4 rounded-lg bg-white shadow ">
 	<form class=" form-control gap-10" on:submit|preventDefault={submitHandler}>
 		<h1 class="font-bold text-2xl">Apply Now </h1>
         
-        <div class=" grid grid-cols-2 gap-10">
+        <div class=" grid grid-cols-2 gap-10 max-sm:grid-cols-1">
 		<input class=" rounded-lg" type="text" bind:value={applicant.firstname} placeholder="Firstname" required />
 		<input class=" rounded-lg" type="text" bind:value={applicant.lastname} placeholder="Lastname"  required />
         <input class=" rounded-lg" type="email" bind:value={applicant.email} placeholder="Email"  required />
@@ -86,7 +87,9 @@
         {#await getDownloadLink()}
             <p>Loading....</p>
         {:then downloadApp}
-        <a href={downloadApp} class=" text-blue-500 underline" rel="noreferrer" target="_blank" download>Download</a> the Application form here.
+        <div class="flex gap-2 max-sm:text-xs">
+        <a href={downloadApp} class=" text-blue-500 underline flex items-center" rel="noreferrer" target="_blank" download> <Icon icon="line-md:download-outline-loop" /> Download </a>  the Application form here.
+        </div>
         {/await}
 
         </div>

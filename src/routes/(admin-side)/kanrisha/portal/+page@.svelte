@@ -40,15 +40,15 @@
 
 </script>
 
-<main class=" bg-gray-200 h-screen flex">
+<main class=" flex max-lg:flex-col bg-gray-200 h-screen items-center">
 
-	<div class=" flex-1 grid place-items-center ">
-		<img class=" w-lg " src="/Admin.svg" alt="">
+	<div class=" flex flex-1 justify-center items-center p-6 max-lg:p-0 max-sm:hidden ">
+		<img class=" max-lg:w-96 " src="/Admin.svg" alt="">
 	</div>
 
-<div class="flex flex-1  ">
-	<div class=" flex-1 grid place-items-center p-10">
-		<form class=" bg-white rounded-lg shadow-lg w-96 flex flex-col p-4 gap-4" on:submit|preventDefault={login}>
+<div class="flex flex-1 max-sm:items-center justify-center w-56 ">
+	<div class="flex items-center justify-center bg-white rounded-lg shadow-lg max-sm:w-72 w-[400px] h-[300px]">
+		<form class="flex flex-col w-96 p-4 gap-4" on:submit|preventDefault={login}>
 		<h1 class="text-center font-bold">Admin Login</h1>
 		<input class=" rounded-lg" type="email" placeholder="Email" bind:value={username} required />
 		<input class=" rounded-lg" type="password" placeholder="Password" bind:value={password} required /> 
