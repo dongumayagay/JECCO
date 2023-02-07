@@ -37,7 +37,7 @@
     <h1 class=" font-bold">LOAN PROCESSING</h1>
     <div class=" absolute right-10">
         <label for="editborrow" class={rowSelected ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={!rowSelected}>EDIT</label>
-        <label for="add2" class={searchSelected ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={!searchSelected}>BORROWER SETUP</label>
+        <label for="add2" class={searchSelected ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={!searchSelected}>Add Loan</label>
     </div>
 </div>
 
