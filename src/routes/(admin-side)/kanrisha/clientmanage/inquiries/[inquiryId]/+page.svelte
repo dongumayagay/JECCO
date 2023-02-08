@@ -14,16 +14,18 @@
     let inquiry = null;
 
     let downloadLink = null;
+    let title;
 
     const {inquiryId} = data
 
     onMount(() => {
         const unsubscribe = onSnapshot(doc(db,'inquiries', inquiryId ), (querySnapshot)=> {
           inquiry =  {...querySnapshot.data(), id: inquiryId}
-
+          title = inquiry.firstname + ' ' + inquiry.lastname
         });
         getDownloadLink();
         return () => unsubscribe();
+        
     })
 
     // file display1
@@ -36,10 +38,11 @@
         
     }
 
-    
-    
-
 </script>
+
+<svelte:head>
+        <title>{title} | JECCO </title>
+</svelte:head>
 
 <div class="flex items-center p-4 sm:rounded-lg h-10">
     <a href="/kanrisha/clientmanage/inquiries/"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">

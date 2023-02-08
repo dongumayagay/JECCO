@@ -3,6 +3,10 @@
     
 </script>
 
+<svelte:head>
+	<title>JECCO | Admin Dashboard</title>
+</svelte:head>
+
 <div class="flex gap-6">
     <div class="flex flex-1 bg-white w-11/12 max-w-3xl p-4 ">
         <canvas id="myChart"> <Chart/> </canvas>

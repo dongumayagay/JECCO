@@ -39,6 +39,10 @@
 
 </script>
 
+<svelte:head>
+	<title>Client | Login</title>
+</svelte:head>
+
 <main class="flex max-lg:flex-col bg-gray-200 h-screen items-center">
 
 	<div class=" flex flex-1 justify-center items-center p-6 max-lg:p-0 max-sm:hidden">

@@ -27,6 +27,10 @@
 		}
     }
 </script>  
+
+<svelte:head>
+	<title>JECCO | Client Profile</title>
+</svelte:head>
   
 <div class="flex items-center p-4 shadow-md sm:rounded-lg h-10 bg-white gap-4">
         

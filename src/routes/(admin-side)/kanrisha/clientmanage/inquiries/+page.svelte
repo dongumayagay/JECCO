@@ -28,6 +28,10 @@
 
 </script>
 		
+<svelte:head>
+	<title>JECCO | Applications</title>
+</svelte:head>
+
 	<div class="overflow-x-auto relative shadow-md rounded-lg h-full bg-white mt-4">
 		<table class="table table-normal w-full bg-white ">
 		  	<thead>				
@@ -54,7 +58,6 @@
 								<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 								<ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-38">
 									<!-- svelte-ignore a11y-click-events-have-key-events -->
-									<li><label for="update">Edit</label></li>
 									<li><button>Delete</button></li>
 								</ul>
 							</div>

@@ -1,3 +1,6 @@
+<svelte:head>
+	<title>JECCO | Due Dates</title>
+</svelte:head>
 <section class="flex flex-col w-full h-screen overflow-y-auto bg-gray-200">
 	<div class=" w-full flex flex-col p-3 bg-gray-200 h-full">
 		<div class="bg-white mb-3 rounded-lg p-2 text-2xl">

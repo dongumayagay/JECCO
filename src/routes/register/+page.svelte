@@ -71,6 +71,10 @@
 
 </script>
 
+<svelte:head>
+	<title>Client | Application</title>
+</svelte:head>
+
 
 <main class="h-screen flex justify-center items-center bg-gray-100">
     <div class=" flex p-4 rounded-lg bg-white shadow ">

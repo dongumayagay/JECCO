@@ -1,3 +1,7 @@
+<svelte:head>
+	<title>Jempower's Credit Corp.</title>
+</svelte:head>
+
 
 <main class=" flex flex-col bg-cream-300 h-screen w-full">
 	

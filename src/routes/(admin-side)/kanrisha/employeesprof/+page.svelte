@@ -29,6 +29,10 @@
 
 </script>
 
+<svelte:head>
+	<title>JECCO | Employee Profile</title>
+</svelte:head>
+
 <div class="flex items-center p-4 shadow-md sm:rounded-lg h-10 bg-white gap-4">
     Employees Profile
     <label for="add" class=" btn btn-ghost absolute right-10 bg-gray-200 btn-xs sm:btn-2xs md:btn-xs lg:btn-sm hover:bg-green-300">
