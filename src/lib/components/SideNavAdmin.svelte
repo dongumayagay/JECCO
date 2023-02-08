@@ -63,7 +63,7 @@ isDropdownOpent = false
 
             <ul class=" dropdown-content menu p-2 bg-gray-200 w-full" style:visibility={isDropdownOpen ? 'visible' : 'hidden'}>
               <li><a href="/kanrisha/clientmanage/clientprof">Client Profile</a></li>
-              <li><a href="/kanrisha/clientmanage/inquiries">Inquiries</a></li>
+              <li><a href="/kanrisha/clientmanage/inquiries">Applications</a></li>
               <li><a href="/kanrisha/clientmanage/client_arrangement">Client Arrangement</a></li>
             </ul>
           </div>
