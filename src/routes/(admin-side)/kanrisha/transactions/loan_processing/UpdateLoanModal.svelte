@@ -1,74 +1,56 @@
 <script>
-    import {setDoc, doc, onSnapshot, collection } from 'firebase/firestore';
-	import {db} from '$lib/firebase/client.js';
-	import AddClientProfile from './AddClientProfile.svelte';
-    import LoanMatrixModal from './LoanMatrixModal.svelte';
+    import { db } from '$lib/firebase/client.js'
+    import { updateDoc, doc } from 'firebase/firestore';
 
-    let addModal = false  
+    let updateModal = false;
     let cliInfo = [];
     let addUserInput = {} 
 
-    //auto incrementers
-    let loans = []
-    let totalLoans = 0 
-    const unsubscribe = onSnapshot(collection(db, 'loanprocess'), (querySnapshot) => {
-            loans = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-            totalLoans = loans.length + 1;
-    });
-    //
-
-    export async function clienInfo(infoClient){
-        cliInfo = infoClient
+    export async function clientInfo(infoEmployee){
+        cliInfo = infoEmployee
         addUserInput = {
-            loanNumber:totalLoans,
-            id:cliInfo.id,
-            username: cliInfo.username,
-            duration:'80 days',
-            area:cliInfo.barangay
-        }
+            username:cliInfo.username,
+            loanAmount:cliInfo.loanAmount,
+            duration:cliInfo.duration,
+            releaseDate:cliInfo.releaseDate
+	    }
     }
 
     function resetAddUserInput(){
 		addUserInput = {
-            loanNumber:totalLoans,
-            loanAmount:'10',
-            duration:'80 days',
-            purpose:'',
-            releaseDate:'',
-            area:cliInfo.barangay
+            loanAmount:cliInfo.loanAmount,
+            duration:cliInfo.duration,
+            releaseDate:cliInfo.releaseDate
 	    } 
 	}
 
-    async function addUser(){
-		try {
-			const docRef = await setDoc(doc(db, "loanprocess", cliInfo.id), {
-                loanNumber:addUserInput.loanNumber,
-                username:cliInfo.username,
+    async function updateEmployee(){
+        try {
+            await updateDoc(doc(db, 'loanprocess', cliInfo.id),{
+                paymentMode:addUserInput.paymentMode,
                 loanAmount:addUserInput.loanAmount,
                 duration:addUserInput.duration,
-                releaseDate:addUserInput.releaseDate,
-                area:addUserInput.area
-        	});
-		} catch (error) {
-			console.log(error)
-
-		}
-		resetAddUserInput()
-		addModal = false
-	}
+                releaseDate:addUserInput.releaseDate
+        });    
+        } catch (e) {
+            console.error("Error adding document: ", e); 
+        }
+        resetAddUserInput()
+		updateModal = false
+    }
 
 </script>
 
-<input type="checkbox" bind:checked={addModal} id="add2" class="modal-toggle" />
+<input type="checkbox" bind:checked={updateModal} id="editborrow" class="modal-toggle" />
 <div class="modal">
     <div class="modal-box max-w-5xl overflow-y-auto">
 
         <!-- Modal -->
-        <form class="relative bg-white rounded-lg shadow dark:bg-gray-700 dark:text-white" on:submit={addUser}>
+        <form class="relative bg-white rounded-lg shadow dark:bg-gray-700 dark:text-white" on:submit={updateEmployee}>
             <!-- Modal header -->
             <div class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                    Borrow Set-up
+                   Edit Borrower
                 </h3>
             </div>
             <!-- Modal body -->
@@ -96,22 +78,22 @@
                     <div class="flex flex-col gap-4">
                     <div class="flex">
                         <div class=" pl-4">
-                            <label for="matrix" class=" btn btn-sm">Loan Matrix</label>
-                            <input type="text" disabled bind:value={addUserInput.duration} class="border text-sm rounded-lg w-24">
+                            <label for="matrix" class=" btn btn-sm" disabled>Loan Matrix</label>
+                            <input type="text" disabled bind:value={addUserInput.duration} class="border text-sm rounded-lg w-24 opacity-50">
                         </div>
                         <div  class=" absolute right-16">
                             <label for="loanNum" class="font-medium">Number of Loan:</label>
-                             <input type="text" disabled class=" relative left-6 text-sm rounded-lg w-24">
+                             <input type="text" disabled class=" relative left-6 text-sm rounded-lg w-24 opacity-50">
                         </div>
                     </div>
                     <div class="flex">
                         <div class=" pl-4">
                              <label for="rDate" class="font-medium">Release Date:</label>
-                             <input type="date" disabled class=" relative left-6 text-sm rounded-lg w-36">
+                             <input type="date" disabled class=" relative left-6 text-sm rounded-lg w-36 opacity-50">
                          </div>
                          <div class=" absolute right-16">
                             <label for="dDate" class="font-medium">Due Date:</label>
-                            <input type="date" disabled class=" relative left-6 text-sm rounded-lg w-36">
+                            <input type="date" disabled class=" relative left-6 text-sm rounded-lg w-36 opacity-50">
                         </div>
                     </div>
                     </div>
@@ -177,12 +159,10 @@
             </div>
         </div>
             <div class="modal-action pt-8">    
-                <button type="submit" class="btn border-transparent bg-green-600">Process</button>
+                <button type="submit" class="btn border-transparent bg-blue-600">Update</button>
                 <!-- svelte-ignore a11y-click-events-have-key-events -->
-                <label for="add2" on:click={resetAddUserInput()} class="btn border-transparent bg-red-600">Cancel</label>
+                <label for="editborrow" on:click={resetAddUserInput()} class="btn border-transparent bg-red-600">Cancel</label>
             </div>
         </form>
     </div>
 </div>
-<AddClientProfile/>
-<LoanMatrixModal/>  

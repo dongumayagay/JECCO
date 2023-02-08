@@ -1,8 +1,9 @@
 <script>
     import { addDoc, collection } from 'firebase/firestore';
-    import { getStorage, ref, uploadBytes } from "firebase/storage";
-	import { db } from '$lib/firebase/client';
+    import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+	import { db, storage } from '$lib/firebase/client';
 	import { goto } from '$app/navigation';
+    import Icon from '@iconify/svelte';
  
     
     let applicant = {
@@ -12,7 +13,7 @@
 		number: ''
 	};
 
-    // let filesToUpload = []
+    let filesToUpload = []
 
     async function submitHandler() {
 
@@ -25,85 +26,77 @@
 					number: applicant.number
 				});
 
-			// const uploadFiles = filesToUpload.map((value)=>{
-            //     const pathName = 'inquiries/' + inquiryRef.id + '/' + value.fileName + '.' + value.fileList[0].type.split('/')[1]
-            //     const storageRef = ref(storage, pathName);
-            //      uploadBytes(storageRef, value.fileList[0])
+			    const uploadFiles = filesToUpload.map((value)=>{
+                const pathName = 'inquiries/' + inquiryRef.id + '/' + value.fileName + '.' + value.fileList[0].type.split('/')[1]
+                const storageRef = ref(storage, pathName);
+                 uploadBytes(storageRef, value.fileList[0])
                 
-            // })
+            })
 
-                alert('Thank you for reaching Us');
+                alert('Application Submitted');
 				await goto('/');
 			} catch (error) {
-				console.log(error);
-				alert('Error sending inquiry');
+				alert('Error sending Application');
 			}
     }
 
-    // const storage = getStorage();
+    function changeHandler(file, fileId){
 
-    // function changeHandler(file, fileId){
+        const result = filesToUpload.find((item)=>item.fileList[0] === file[0])
+            if(result){
+                result.file = file
 
-    //     const result = filesToUpload.find((item)=>item.fileList[0] === file[0])
-    //         if(result){
-    //             result.file = file
-
-    //         }
-    //         else{
+            }
+            else{
             
-    //         filesToUpload = [...filesToUpload, {
-    //         fileList: file, 
-    //         fileName: fileId,
+            filesToUpload = [...filesToUpload, {
+            fileList: file, 
+            fileName: fileId,
 
-    //         }]
+            }]
 
-    //         }
-
-    //         console.log(filesToUpload)
+            }
         
-    // }
+    }
 
+    async function getDownloadLink(){
+        const pathName = 'applicationForm/Sanchez-AceForm.pdf' 
+        const pathReference = ref(storage, pathName);
 
+         const downloadApp = await getDownloadURL(pathReference);
+         
+         return downloadApp;
+        
+    }
 
 </script>
 
 
-
-<main class="h-full grid place-items-center bg-gray-100">
-    <div class=" flex flex-col p-4 rounded-lg bg-white w-full max-w-3xl h-fit shadow ">
+<main class="h-screen flex justify-center items-center bg-gray-100">
+    <div class=" flex p-4 rounded-lg bg-white shadow ">
 	<form class=" form-control gap-10" on:submit|preventDefault={submitHandler}>
-		<h1 class="font-bold text-2xl">Reach Us</h1>
+		<h1 class="font-bold text-2xl">Apply Now </h1>
         
-        <div class=" grid grid-cols-2 gap-10">
+        <div class=" grid grid-cols-2 gap-10 max-sm:grid-cols-1">
 		<input class=" rounded-lg" type="text" bind:value={applicant.firstname} placeholder="Firstname" required />
 		<input class=" rounded-lg" type="text" bind:value={applicant.lastname} placeholder="Lastname"  required />
         <input class=" rounded-lg" type="email" bind:value={applicant.email} placeholder="Email"  required />
         <input class=" rounded-lg" type="text" bind:value={applicant.number} placeholder="Number" pattern="[0-9]+"  required />
-        <!-- <input class=" rounded-lg" type="text" bind:value={applicant.hNo} placeholder="House No."  required />
-        <input class=" rounded-lg" type="text" bind:value={applicant.brgy} placeholder="Barangay"  required />
-        <input class=" rounded-lg" type="text" bind:value={applicant.muni} placeholder="Municipality/City"  required />
-        <input class=" rounded-lg" type="text" bind:value={applicant.prov} placeholder="Province"  required /> -->
+        <div>
+        <!-- svelte-ignore a11y-missing-attribute -->
+        {#await getDownloadLink()}
+            <p>Loading....</p>
+        {:then downloadApp}
+        <div class="flex gap-2 max-sm:text-xs">
+        <a href={downloadApp} class=" text-blue-500 underline flex items-center" rel="noreferrer" target="_blank" download> <Icon icon="line-md:download-outline-loop" /> Download </a>  the Application form here.
         </div>
-    <!-- <div class=" rounded-lg flex flex-col gap-2 p-2 bg-white border border-zinc-500">
-        <label class=" font-extralight text-zinc-700" for="clearance">Brgy. Clearance</label>
-        <input class=" file-input file-input-xs " id="clearance" type="file" accept=".jpg, .jpeg, .png, .svg, .webp" on:change={(event)=>changeHandler(event.target.files, 'BrgyClearance')}/>
-    </div>
-    <div class=" rounded-lg flex flex-col gap-2 p-2 bg-white border border-zinc-500">
-        <label class="font-extralight text-zinc-700" for="clearance">Business permit</label>
-        <input class=" file-input file-input-xs " id="clearance" type="file" accept=".jpg, .jpeg, .png, .svg, .webp" on:change={(event)=>changeHandler(event.target.files, 'BusinessPermit')}/>                       
-    </div>
-    <div class=" rounded-lg flex flex-col gap-2 p-2 bg-white border border-zinc-500">
-        <label class="font-extralight text-zinc-700" for="clearance">Proof of Billing</label>
-        <input class=" file-input file-input-xs " id="clearance" type="file" accept=".jpg, .jpeg, .png, .svg, .webp" on:change={(event)=>changeHandler(event.target.files, 'ProofofBilling')}/>                       
-    </div>
-    <div class=" rounded-lg flex flex-col gap-2 p-2 bg-white border border-zinc-500">
-        <label class="font-extralight text-zinc-700" for="clearance">Copy of Valid Id</label>
-        <input class=" file-input file-input-xs " id="clearance" type="file" accept=".jpg, .jpeg, .png, .svg, .webp" on:change={(event)=>changeHandler(event.target.files, 'ValidID')}/>                       
-    </div>
-    <div class=" rounded-lg flex flex-col gap-2 p-2 bg-white border border-zinc-500">
-        <label class="font-extralight text-zinc-700" for="clearance">2x2 Picture</label>
-        <input class=" file-input file-input-xs " id="clearance" type="file" accept=".jpg, .jpeg, .png, .svg, .webp" on:change={(event)=>changeHandler(event.target.files, '2x2Picture')}/>                       
-    </div> -->
+        {/await}
+
+        </div>
+        </div>
+        <input class=" file-input file-input-xs " id="clearance" type="file" accept=".pdf" on:change={(event)=>changeHandler(event.target.files, 'ApplicationForm')} required />
+    
+   
 		<button class="bg-blue-500 py-2 rounded-lg text-white transition duration-200 ease-in-out hover:bg-blue-900" type="submit">Submit</button>
 	</form>
     </div>
