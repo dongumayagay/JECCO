@@ -14,6 +14,7 @@
 	};
 
     let filesToUpload = []
+    let errorMessage = '';
 
     async function submitHandler() {
 
@@ -26,7 +27,7 @@
 					number: applicant.number
 				});
 
-			    const uploadFiles = filesToUpload.map((value)=>{
+			    filesToUpload.map((value)=>{
                 const pathName = 'inquiries/' + inquiryRef.id + '/' + value.fileName + '.' + value.fileList[0].type.split('/')[1]
                 const storageRef = ref(storage, pathName);
                  uploadBytes(storageRef, value.fileList[0])
@@ -41,11 +42,12 @@
     }
 
     function changeHandler(file, fileId){
+        const fileInput = file[0];
+        const fileType = fileInput.type;
 
         const result = filesToUpload.find((item)=>item.fileList[0] === file[0])
             if(result){
-                result.file = file
-
+                result.file = file;
             }
             else{
             
@@ -54,10 +56,20 @@
             fileName: fileId,
 
             }]
-
-            }
+        }
         
-    }
+        if (fileType !== 'application/pdf') {
+           errorMessage = 'Only PDF files are allowed.';
+        } else {
+            errorMessage = '';
+        }
+
+        if (errorMessage) {
+             document.querySelector('input[type="file"]').value = '';
+        }
+    }  
+   
+    
 
     async function getDownloadLink(){
         const pathName = 'applicationForm/Sanchez-AceForm.pdf' 
@@ -98,8 +110,12 @@
 
         </div>
         </div>
-        <input class=" file-input file-input-xs " id="clearance" type="file" accept=".pdf" on:change={(event)=>changeHandler(event.target.files, 'ApplicationForm')} required />
-    
+        <div>
+            <input class=" file-input file-input-xs " id="clearance" type="file" accept="application/pdf" on:change={(event)=>changeHandler(event.target.files, 'ApplicationForm')} required />
+            {#if errorMessage}
+                <p class="text-red-500">{errorMessage}</p>
+            {/if}
+        </div>
    
 		<button class="bg-blue-500 py-2 rounded-lg text-white transition duration-200 ease-in-out hover:bg-blue-900" type="submit">Submit</button>
 	</form>
