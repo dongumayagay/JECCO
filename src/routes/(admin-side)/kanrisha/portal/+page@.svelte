@@ -44,7 +44,7 @@
 	<title>Admin | Login</title>
 </svelte:head>
 
-<main class=" flex max-lg:flex-col bg-gray-200 h-screen items-center">
+<main class=" md:flex hidden max-lg:flex-col bg-gray-200 h-screen items-center">
 
 	<div class=" flex flex-1 justify-center items-center p-6 max-lg:p-0 max-sm:hidden ">
 		<img class=" max-lg:w-96 " src="/Admin.svg" alt="">
@@ -60,5 +60,11 @@
 		</form>
 	</div>
 </div>
+</main>
 
+<main class=" flex justify-center items-center w-screen h-screen md:hidden " >
+        <div class=" flex flex-col items-center gap-6">
+             <img class=" w-48 " src="/accessdenied.svg" alt="">
+             <p class=" flex text-2xl font-semibold max-sm:text-lg"> Please open on a `Larger Screen` </p>
+        </div>
 </main>
