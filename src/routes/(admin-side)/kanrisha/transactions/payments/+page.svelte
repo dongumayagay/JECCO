@@ -1,14 +1,9 @@
-    <script>
-        import PaymentModal from "$lib/components/paymentModal.svelte";
+<script>
+    import PaymentModal from "$lib/components/paymentModal.svelte";
 
-    //     let selectedRow;
+    let rowSelected = false;
 
-    // function handleRowSelection(row) {
-    // selectedRow = row;
-    // }
-
-    
-    </script>
+</script>
     
     <svelte:head>
 	<title>JECCO | Payments</title>
@@ -17,7 +12,7 @@
     <div class="flex items-center p-4 shadow-md sm:rounded-lg h-10 bg-white gap-4">
                  <p class=" font-semibold ">Payments</p> 
                  <div class=" absolute right-10">
-                 <!-- <label for="payment" class={rowSelected ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={!rowSelected}>UPDATE PAYMENT</label> -->
+                 <label for="payment" class={rowSelected ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={!rowSelected}>EDIT PAYMENT</label>
                 </div>
             </div>
 
@@ -50,7 +45,7 @@
                                 <thead>
                                         <tr>
                                                 <th>#</th>
-                                                <th>Ref</th> 
+                                                <th>Payment Ref</th> 
                                                 <th class="px-6">Loan Number</th>
                                                 <th>Amount</th> 
                                                 <th class="px-6">Transaction Date</th>
@@ -58,26 +53,26 @@
                                         </tr>
                                 </thead>
 
-                                <!-- {#each payments as payment }
+                                <!-- {#each payments as payment } -->
                                 
-                                <tr class:selected={row === selectedRow ? 'bg-blue-500' : ''} on:click={handleRowSelection(row)}>
+                                <tr on:click={() => rowSelected = !rowSelected} class={rowSelected ? ' hover cursor-pointer bg-blue-400 text-white ' : 'hover cursor-pointer'}>
                                     <td>
-                                        {payment.column1}
+                                        1
                                     </td>
                                     <td>
-                                        {payment.column2}
+                                        02a290xvg80x8u9s
                                     </td>
                                     <td class="px-6">
-                                        {payment.column3}
+                                        00123
                                     </td>
                                     <td class="px-6">
-                                        {payment.column4}
+                                        100php
                                     </td>
                                     <td>
-                                        {payment.column5}
+                                        2/10/2023
                                     </td>
                                 </tr>
-                                {/each} -->
+                                <!-- {/each} -->
                         </table>	
                 </div>		
         </div>
