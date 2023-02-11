@@ -29,7 +29,7 @@
 		</div>
 
 		<div class=" flex flex-1 justify-center">
-			<img class=" w-96 max-sm:w-60 max-sm:m-5" src="/landingpageicon.svg" alt="">
+			<img class=" w-96 max-sm:w-60 max-sm:m-5" src="/Wallet.svg" alt="">
 		</div>
 
 	</section>

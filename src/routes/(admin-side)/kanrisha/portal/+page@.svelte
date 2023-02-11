@@ -15,8 +15,7 @@
 			
 		} catch (error) {
 
-			console.log(error);
-			alert(error);
+			alert('Wrong Email/Password. Please try again with correct credentials.');
 		}
 	}
 
@@ -36,6 +35,7 @@
 
         await goto('/kanrisha');
     }
+
 	$: checkIfAdmin($userStore)
 
 </script>
