@@ -89,7 +89,7 @@
 
 
 <main class="h-screen flex justify-center items-center bg-gray-100">
-    <div class=" flex p-4 rounded-lg bg-white shadow p-10">
+    <div class=" flex rounded-lg bg-white shadow p-10">
         <form class=" form-control gap-10" on:submit|preventDefault={submitHandler}>
             <h1 class="font-bold text-2xl">Apply Now </h1>
             
@@ -99,15 +99,17 @@
                     <input class=" rounded-lg" type="email" bind:value={applicant.email} placeholder="Email"  required />
                     <input class=" rounded-lg" type="text" bind:value={applicant.number} placeholder="Number" pattern="[0-9]+"  required />
                 
-            
+                    <div class="flex gap-2">
                     {#await getDownloadLink()}
-                        <p>Loading....</p>
+                        <p>Loading...</p>
                     {:then downloadApp}
                         <div class="flex gap-2 max-sm:text-xs">
                             <!-- svelte-ignore a11y-invalid-attribute -->
-                            <a href="#" on:click={() => downloadApp} class=" text-blue-500 underline flex items-center" download={'Sanchez-AceForm.pdf'}>  Download </a>  the Application form here.
+                            <a href="#" on:click={() => downloadApp} class=" text-blue-500 underline flex items-center" download={'Sanchez-AceForm.pdf'}>  Download </a>  
                         </div>
                     {/await}
+                    <p>the application form here.</p>
+                    </div>
 
                 </div>
                 <div>
