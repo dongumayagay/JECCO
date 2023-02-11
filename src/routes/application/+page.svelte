@@ -104,7 +104,8 @@
                         <p>Loading....</p>
                     {:then downloadApp}
                         <div class="flex gap-2 max-sm:text-xs">
-                            <a href="#ApplicationForm" on:click={() => downloadApp} class=" text-blue-500 underline flex items-center" download={'Sanchez-AceForm.pdf'}>  Download </a>  the Application form here.
+                            <!-- svelte-ignore a11y-invalid-attribute -->
+                            <a href="#" on:click={() => downloadApp} class=" text-blue-500 underline flex items-center" download={'Sanchez-AceForm.pdf'}>  Download </a>  the Application form here.
                         </div>
                     {/await}
 
