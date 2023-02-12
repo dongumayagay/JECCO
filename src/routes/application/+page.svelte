@@ -94,10 +94,10 @@
             <h1 class="font-bold text-2xl">Apply Now </h1>
             
                 <div class=" grid grid-cols-2 gap-10 max-sm:grid-cols-1">
-                    <input class=" rounded-lg" type="text" bind:value={applicant.firstname} placeholder="Firstname" required />
-                    <input class=" rounded-lg" type="text" bind:value={applicant.lastname} placeholder="Lastname"  required />
-                    <input class=" rounded-lg" type="email" bind:value={applicant.email} placeholder="Email"  required />
-                    <input class=" rounded-lg" type="text" bind:value={applicant.number} placeholder="Number" pattern="[0-9]+"  required />
+                    <input class=" rounded-lg" type="text" maxlength="30" minlength="2" bind:value={applicant.firstname} placeholder="Firstname" required />
+                    <input class=" rounded-lg" type="text" maxlength="30" minlength="2" bind:value={applicant.lastname} placeholder="Lastname"  required />
+                    <input class=" rounded-lg" type="email" bind:value={applicant.email} placeholder="Email" title="(ex. jecco@jecco.com)"  required />
+                    <input class=" rounded-lg" type="text" minlength="11" maxlength="11" bind:value={applicant.number} placeholder="Number" pattern="[0-9]+" title="(ex. 09XXXXXXXXX)"  required />
                 
                     <div class="flex gap-2">
                     {#await getDownloadLink()}
