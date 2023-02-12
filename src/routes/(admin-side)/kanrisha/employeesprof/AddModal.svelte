@@ -47,15 +47,15 @@
                 <div class="grid grid-cols-6 gap-6">
                     <div class="col-span-6 sm:col-span-3">
                         <label for="first-name" class="block mb-2 text-sm font-medium">Fullname</label>
-                        <input type="text" bind:value={addUserInput.name} class="shadow-sm bg-gray-50 border border-gray-300 text-sm rounded-lg w-full p-2.5 capitalize" placeholder="Fullname" minlength="4" maxlength="60" required>
+                        <input type="text" bind:value={addUserInput.name} class="bg-gray-50 border border-gray-400 text-sm rounded-lg w-full p-2.5 capitalize" placeholder="Fullname" minlength="4" maxlength="60" required>
                     </div>
                     <div class="col-span-6 sm:col-span-3">
-                        <label for="last-name" class="block mb-2 text-sm font-medium">Complete Adress</label>
-                        <input type="text" bind:value={addUserInput.address} class="shadow-sm bg-gray-50 border border-gray-300 text-sm rounded-lg w-full p-2.5 capitalize" placeholder="complete address" maxlength="100" required>
+                        <label for="address" class="block mb-2 text-sm font-medium">Complete Adress</label>
+                        <input type="text" bind:value={addUserInput.address} class="bg-gray-50 border border-gray-400 text-sm rounded-lg w-full p-2.5 capitalize" placeholder="complete address" maxlength="100" required>
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <label for="phone-number" class="block mb-2 text-sm font-medium">Contact Number</label>
-                        <input type="text" bind:value={addUserInput.contactInfo} class="shadow-sm bg-gray-50 border border-gray-300 text-sm rounded-lg w-full p-2.5" placeholder="Contact Number" pattern="[0-9]+" title="(ex. 09XX XXX XXXX)" minlength="11" maxlength="11" required>
+                        <input type="text" bind:value={addUserInput.contactInfo} class="bg-gray-50 border border-gray-400 text-sm rounded-lg w-full p-2.5" placeholder="Contact Number" pattern="[0-9]+" title="(ex. 09XX XXX XXXX)" minlength="11" maxlength="11" required>
                     </div>
                 </div>
             </div>
