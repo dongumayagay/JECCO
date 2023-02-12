@@ -153,28 +153,28 @@
                         <input type="email" id="email" bind:value={addUserInput.email} class="shadow-sm  border text-sm rounded-lg w-56 p-2.5" placeholder="Email" required>
                     </div>
                     <div>
-                        <label for="co-maker" class="mb-2 text-sm font-medium">Co Maker</label>
-                        <input type="text" id="co-maker" bind:value={addUserInput.coMaker} class="shadow-sm border text-sm capitalize rounded-lg w-56 p-2.5" placeholder="Co Maker" required>
+                        <label for="co-maker" class="mb-2 text-sm font-medium">Co-Maker Complete Name</label>
+                        <input type="text" id="co-maker" bind:value={addUserInput.coMaker} class="shadow-sm border text-sm capitalize rounded-lg w-56 p-2.5" placeholder="Co Maker" maxlength="60" required>
                     </div>
                     <div>
                         <label for="contact-number" class="mb-2 text-sm font-medium">Contact Number</label>
-                        <input type="text" id="contact-number" bind:value={addUserInput.number} class="shadow-sm  border text-sm rounded-lg w-56 p-2.5" placeholder="Contact Info" required>
+                        <input type="text" id="contact-number" bind:value={addUserInput.number} class="shadow-sm  border text-sm rounded-lg w-56 p-2.5" placeholder="Contact Number" minlength="11" maxlength="11" required>
                     </div>
                     <div>
                         <label for="house" class="mb-2 text-sm font-medium">House No.</label>
-                        <input type="text" id="house" bind:value={addUserInput.houseNo} class="shadow-sm  border overflow-y-auto text-sm rounded-lg w-56 p-2.5" placeholder="House No." required>
+                        <input type="text" id="house" bind:value={addUserInput.houseNo} class="shadow-sm  border overflow-y-auto text-sm rounded-lg w-56 p-2.5" placeholder="House No." maxlength="30" required>
                     </div>
                     <div>
                         <label for="brgy" class="mb-2 text-sm font-medium">Barangay</label>
-                        <input type="text" id="brgy" bind:value={addUserInput.barangay} class="shadow-sm  border overflow-y-auto text-sm capitalize rounded-lg w-56 p-2.5" placeholder="Barangay" required>
+                        <input type="text" id="brgy" bind:value={addUserInput.barangay} class="shadow-sm  border overflow-y-auto text-sm capitalize rounded-lg w-56 p-2.5" placeholder="Barangay" minlength="3" maxlength="30" required>
                     </div>
                     <div>
                         <label for="muni" class="mb-2 text-sm font-medium">Municipality</label>
-                        <input type="text" id="muni" bind:value={addUserInput.municipality} class="shadow-sm  border overflow-y-auto text-sm capitalize rounded-lg w-56 p-2.5" placeholder="Municipality" required>
+                        <input type="text" id="muni" bind:value={addUserInput.municipality} class="shadow-sm  border overflow-y-auto text-sm capitalize rounded-lg w-56 p-2.5" placeholder="Municipality" minlength="3" maxlength="30" required>
                     </div>
                     <div>
                         <label for="prov" class="mb-2 text-sm font-medium">Province</label>
-                        <input type="text" id="prov" bind:value={addUserInput.province} class="shadow-sm  border overflow-y-auto text-sm rounded-lg w-56 p-2.5 " placeholder="Province" required>
+                        <input type="text" id="prov" bind:value={addUserInput.province} class="shadow-sm  border overflow-y-auto text-sm rounded-lg w-56 p-2.5 " placeholder="Province" minlength="3" maxlength="30" required>
                     </div>
                     <div>
                         <label for="date-created" class="mb-2 text-sm font-medium">Date Created</label>
