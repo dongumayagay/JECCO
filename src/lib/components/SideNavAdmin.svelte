@@ -1,8 +1,9 @@
 <script>
   import {goto} from '$app/navigation'
   import {auth} from '$lib/firebase/client.js'
-  import {signOut} from 'firebase/auth'
+  import {signOut, getAuth} from 'firebase/auth'
 
+  let userAdmin = getAuth().currentUser;
   async function logout(){
       await signOut(auth)
       await goto('/')
@@ -35,9 +36,13 @@ isDropdownOpent = false
 
   <div class="fixed flex flex-col top-0 left-0 w-64 h-screen bg-white">
     <div class="flex pt-4 h-14 border-b">
-      <div><a href="/kanrisha" class="flex items-center pl-2.5 mb-5">
-        <span class="self-center text-xl font-semibold whitespace-nowrap">Admin</span>
-     </a></div>
+      <div>
+        {#if userAdmin}
+          <a href="/kanrisha" class="flex items-center pl-2.5 mb-5">
+            <span class="self-center text-xl font-semibold whitespace-nowrap">Admin {userAdmin.displayName} </span>
+          </a>
+        {/if}
+    </div>
     </div>
     <div class="overflow-y-auto overflow-x-hidden flex-grow">
       <div class="flex flex-col py-4 space-y-1">
