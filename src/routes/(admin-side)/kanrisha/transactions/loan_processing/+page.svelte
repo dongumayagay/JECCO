@@ -102,16 +102,16 @@
             {#each loans as loan}
             <tr on:click={() => rowSelected = !rowSelected} class={rowSelected ? ' hover cursor-pointer bg-blue-400 text-white ' : 'hover cursor-pointer'}>
                 <td class="px-6">
-                    <p>{loan.numberOfLoan}</p>
+                <p>{loan.numberOfLoan}</p>
                 </td>
                 <td class="px-6">
-                    {loan.LoanNumber}
+                    {loan.loanNumber}
                 </td>
                 <td class="px-6">
                     {loan.releaseDate}    
                 </td>
                 <td class="px-6">
-                    {loan.dueDate}
+                    {loan.formattedDueDate}
                 </td>
                 <td class="px-6">
                     {loan.loanAmount}        

@@ -12,6 +12,7 @@
     let numberOfLoans
     let releaseDate;
     let dueDate;
+    let formattedDueDate;
     //loan ref id generator
     let loans = []
     let totalLoans = 0 
@@ -67,8 +68,8 @@
             collectorAssigned:'',
 	    }
         releaseDate = ""
-        dueDate = ""
-        document.getElementById("due-date").value = dueDate        
+        formattedDueDate = ""
+        document.getElementById("due-date").value = formattedDueDate;
 	}
 
     async function addUser(){
@@ -81,7 +82,7 @@
                 numberOfLoan: addUserInput.numberOfLoan,
                 releaseDate: releaseDate.toString(),
                 area:addUserInput.area,
-                dueDate: dueDate.toString(),
+                formattedDueDate: formattedDueDate.toString(),
                 days: chosenMatrix.days,
                 loanAmount:chosenMatrix.loanAmount,
                 serviceCharge: chosenMatrix.serviceCharge,
@@ -90,7 +91,6 @@
                 miscellanoeusFee: chosenMatrix.miscellanoeusFee,
                 notarialFee: chosenMatrix.notarialFee,
                 status: "Ongoing",
-                
                 accountOfficer: addUserInput.accountOfficer,
                 creditInvestigatedBy: addUserInput.creditInvestigatedBy,
                 approvedBy: addUserInput.approvedBy,
@@ -103,8 +103,8 @@
 		resetAddUserInput()
         resetChosenMatrix()
         releaseDate = ""
-        dueDate = ""
-        document.getElementById("due-date").value = dueDate     
+        formattedDueDate = ""
+        document.getElementById("due-date").value = formattedDueDate;
 		addModal = false
 	}
 
@@ -118,8 +118,12 @@
         // Compute due date
         dueDate = new Date(date.getTime() + 80 * 24 * 60 * 60 * 1000);
 
+        // Format the due date
+        formattedDueDate = `${dueDate.getFullYear()}-${("0" + (dueDate.getMonth() + 1)).slice(-2)}-${("0" + dueDate.getDate()).slice(-2)}`;
+
         // Set due date in input
-        document.getElementById("due-date").valueAsDate = dueDate;
+        document.getElementById("due-date").value = formattedDueDate;
+        
     }
 </script>
 
@@ -214,28 +218,28 @@
                 {:then matrix}   
                     {#if chosenMatrix.loanAmount == undefined}    
                         <p><input type="number" disabled class=" h-8 rounded-md w-60" ></p>
-                        <p class="flex gap-2"><input type="number" disabled class=" h-8 rounded-md w-60" ><input type="number" disabled class=" h-8 rounded-md w-28" >%</p>
-                        <p class="flex gap-2"><input type="number" disabled class=" h-8 rounded-md w-60" ><input type="number" disabled class=" h-8 rounded-md w-28" >%</p>
+                        <p class="flex gap-2"><input type="number" disabled class=" h-8 rounded-md w-60" ><input type="number" disabled class=" h-8 rounded-md w-28 bg-yellow-100" >%</p>
+                        <p class="flex gap-2"><input type="number" disabled class=" h-8 rounded-md w-60" ><input type="number" disabled class=" h-8 rounded-md w-28 bg-yellow-100" >%</p>
                         <p><input type="number" disabled class=" h-8 rounded-md w-60" ></p>
                         <p><input type="number" disabled class=" h-8 rounded-md w-60" ></p>
-                        <p class="flex gap-2"><input type="number" disabled class=" h-8 rounded-md w-60" ><input type="number" disabled class=" h-8 rounded-md w-28" >%</p>
+                        <p class="flex gap-2"><input type="number" disabled class=" h-8 rounded-md w-60" ><input type="number" disabled class=" h-8 rounded-md w-28 bg-yellow-100" >%</p>
                         <p><input type="number" disabled class=" h-8 rounded-md w-60" ></p>
                         <!-- <p><input type="number" disabled class=" h-8 rounded-md w-60" ></p>
                         <p class="flex gap-2"><input type="number" disabled class=" h-8 rounded-md w-60" ><input type="number" disabled class=" h-8 rounded-md w-48" ></p>
                         <p><input type="number" disabled class=" h-8 rounded-md w-28" > %</p>
                         <p><input type="number" disabled class=" h-8 rounded-md w-28" ></p> -->
                     {:else}
-                        <p><input type="number" disabled bind:value={chosenMatrix.loanAmount} class=" h-8 rounded-md w-60 text-right" ></p>
-                        <p class="flex gap-2"><input type="number" disabled bind:value={chosenMatrix.interestRate} class=" h-8 rounded-md w-60 text-right" ><input type="number" disabled bind:value={chosenMatrix.interestPercent} class=" h-8 rounded-md w-28 text-right" >%</p>
-                        <p class="flex gap-2"><input type="number" disabled bind:value={chosenMatrix.serviceCharge} class=" h-8 rounded-md w-60 text-right" ><input type="number" disabled bind:value={chosenMatrix.serviceChargePercent} class=" h-8 rounded-md w-28 text-right" >%</p>
-                        <p><input type="number" disabled bind:value={chosenMatrix.totalAmountDue} class=" h-8 rounded-md w-60 text-right" ></p>
-                        <p><input type="number" disabled bind:value={chosenMatrix.dailyPayment} class=" h-8 rounded-md w-60 text-right" ></p>
-                        <p class="flex gap-2"><input type="number" bind:value={chosenMatrix.miscellanoeusFee} disabled class=" h-8 rounded-md w-60 text-right" ><input type="number" bind:value={chosenMatrix.miscellanoeusFeePercent} disabled class=" h-8 rounded-md w-28 text-right" >%</p>
-                        <p><input type="number" bind:value={chosenMatrix.notarialFee} disabled class=" h-8 rounded-md w-60 text-right" ></p>
-                        <!-- <p><input type="number" disabled class=" h-8 rounded-md w-60 text-right" ></p>
-                        <p class="flex gap-2"><input type="number" disabled class=" h-8 rounded-md w-60" ><input type="number" disabled class=" h-8 rounded-md w-48 text-right" ></p>
-                        <p><input type="number" disabled class=" h-8 rounded-md w-28 text-right" > %</p>
-                        <p><input type="number" disabled class=" h-8 rounded-md w-28 text-right" ></p> -->
+                        <input type="number" disabled bind:value={chosenMatrix.loanAmount} class=" h-8 rounded-md w-60 text-right" >
+                        <p class="flex gap-2"><input type="number" disabled bind:value={chosenMatrix.interestRate} class=" h-8 rounded-md w-60 text-right" ><input type="number" disabled bind:value={chosenMatrix.interestPercent} class=" h-8 rounded-md w-28 text-right bg-yellow-100" >%</p>
+                        <p class="flex gap-2"><input type="number" disabled bind:value={chosenMatrix.serviceCharge} class=" h-8 rounded-md w-60 text-right" ><input type="number" disabled bind:value={chosenMatrix.serviceChargePercent} class=" h-8 rounded-md w-28 text-right bg-yellow-100" >%</p>
+                        <input type="number" disabled bind:value={chosenMatrix.totalAmountDue} class=" h-8 rounded-md w-60 text-right" >
+                        <input type="number" disabled bind:value={chosenMatrix.dailyPayment} class=" h-8 rounded-md w-60 text-right" >
+                        <p class="flex gap-2"><input type="number" bind:value={chosenMatrix.miscellanoeusFee} disabled class=" h-8 rounded-md w-60 text-right" ><input type="number" bind:value={chosenMatrix.miscellanoeusFeePercent} disabled class=" h-8 rounded-md w-28 text-right bg-yellow-100">%</p>
+                        <input type="number" bind:value={chosenMatrix.notarialFee} disabled class=" h-8 rounded-md w-60 text-right" >
+                        <!-- <input type="number" disabled class=" h-8 rounded-md w-60 text-right" >
+                        <p class="flex gap-2"><input type="number" disabled class=" h-8 rounded-md w-60" ><input type="number" disabled class=" h-8 rounded-md w-48 text-right" >
+                        <input type="number" disabled class=" h-8 rounded-md w-28 text-right" > %
+                        <input type="number" disabled class=" h-8 rounded-md w-28 text-right" > -->
                     {/if}
                 {:catch error}
                     <p style="color: red">{error.message}</p>
@@ -255,19 +259,19 @@
             </div>
             
             <div class=" flex flex-col gap-2">
-                <p><input type="text" bind:value={addUserInput.accountOfficer} class=" h-10 rounded-md w-60" ></p>
-                <p><input type="text" bind:value={addUserInput.creditInvestigatedBy} class=" h-10 rounded-md w-60" ></p>
-                <p><input type="text" bind:value={addUserInput.approvedBy} class=" h-10 rounded-md w-60" ></p>
-                <p><input type="text" bind:value={addUserInput.releasedBy} class=" h-10 rounded-md w-60" ></p>
-                <p><input type="text" bind:value={addUserInput.collectorAssigned} class=" h-10 rounded-md w-60" ></p>
-                <p>
+                <input type="text" bind:value={addUserInput.accountOfficer} class=" h-10 rounded-md w-60">
+                <input type="text" bind:value={addUserInput.creditInvestigatedBy} class=" h-10 rounded-md w-60">
+                <input type="text" bind:value={addUserInput.approvedBy} class=" h-10 rounded-md w-60">
+                <input type="text" bind:value={addUserInput.releasedBy} class=" h-10 rounded-md w-60">
+                <input type="text" bind:value={addUserInput.collectorAssigned} class=" h-10 rounded-md w-60">
+                
                     <select class="w-60" name="areas" value={addUserInput.area}>
                     <option value="estrella">Estrella</option>
                     <option value="langgam">Langgam</option>
                     <option value="laram">Laram</option>
                     <option value="narra">Narra</option>
-                  </select>
-                </p>
+                    </select>
+                
             </div>
         </div>
             <div class="modal-action pt-8">    
