@@ -46,10 +46,10 @@
     <div class="modal-box max-w-5xl overflow-y-auto">
 
         <!-- Modal -->
-        <form class="relative bg-white rounded-lg shadow dark:bg-gray-700 dark:text-white" on:submit={updateEmployee}>
+        <form class="relative bg-white rounded-lg shadow" on:submit={updateEmployee}>
             <!-- Modal header -->
-            <div class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+            <div class="flex justify-between items-start p-4 rounded-t border-b">
+                <h3 class="text-xl font-semibold text-gray-900">
                    Edit Borrower
                 </h3>
             </div>
@@ -66,7 +66,7 @@
                 </div>
                 <div>
                     <label for="loanNum" class="font-medium">Loan #:</label>
-                    <input id="loanNum" type="text" disabled bind:value={addUserInput.loanNumber} class="border text-sm rounded-lg">
+                    <input type="text" disabled bind:value={addUserInput.loanNumber} class="border text-sm rounded-lg">
                 </div>
                 </div>
                
@@ -149,7 +149,7 @@
                 <p><input type="text" class=" h-10 rounded-md w-60" ></p>
                 <p><input type="text" class=" h-10 rounded-md w-60" ></p>
                 <p>
-                    <select class="w-60" name="areas" id="area">
+                    <select class="w-60" name="areas">
                     <option value="estrella">Estrella</option>
                     <option value="langgam">Langgam</option>
                     <option value="laram">Laram</option>
