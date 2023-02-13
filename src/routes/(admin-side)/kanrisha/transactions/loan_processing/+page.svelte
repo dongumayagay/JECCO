@@ -6,7 +6,7 @@
     import SearchClientModal from '$lib/components/SearchClientModal.svelte';
     import AddLoanPProcess from '$lib/components/AddLoanPProcess.svelte';
 
-    let rowSelected = false;
+    let selectedRowIndex = null;
     let searchSelected = false;
     let loans = []
     let clientInfo
@@ -32,6 +32,10 @@
         await deleteDoc(doc(db, "loanprocess", id));
     }
 
+    const handleRowClick = (index) => {
+          selectedRowIndex = selectedRowIndex === index ? null : index;
+    };
+
     $: if(client.length !== 0){
         searchSelected = true;
     } else{
@@ -43,7 +47,7 @@
 <div class="flex items-center p-4 shadow-md sm:rounded-lg bg-white gap-4">
     <h1 class=" font-bold">LOAN PROCESSING</h1>
     <div class=" absolute right-10">
-        <label for="editborrow" class={rowSelected ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={!rowSelected}>EDIT</label>
+        <label for="editborrow" class={selectedRowIndex !== null ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={selectedRowIndex === null}>EDIT</label>
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <label for="add2" on:click={() => clienInfo(client)} class={searchSelected ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={!searchSelected}>Add Loan</label>
     </div>
@@ -88,7 +92,7 @@
 		<table class="table table-normal w-full">
 			<thead>
 				<tr class="hover">
-                    <th scope="col" class="px-6">#</th>
+                    <td class="px-6">#</td>
                     <th scope="col" class="px-6">LOAN REF</th>
 					<th scope="col" class="px-6">RELEASED DATE</th> 
 					<th scope="col" class="px-6">DUE DATE</th> 
@@ -100,7 +104,7 @@
 				</tr>
 			</thead>
             {#each loans as loan}
-            <tr on:click={() => rowSelected = !rowSelected} class={rowSelected ? ' hover cursor-pointer bg-blue-400 text-white ' : 'hover cursor-pointer'}>
+                <tr on:click={() => handleRowClick(loan.id)} class={selectedRowIndex === loan.id ? ' hover cursor-pointer bg-blue-400 text-white ' : 'hover cursor-pointer'}>
                 <td class="px-6">
                 <p>{loan.numberOfLoan}</p>
                 </td>
