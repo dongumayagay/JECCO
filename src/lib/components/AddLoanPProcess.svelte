@@ -18,6 +18,7 @@
     let totalLoans = 0 
     let ctrlNumber = "000000"
     let thisLoanNumber = ""
+    let loanNumber;
 
     const totalLoanCounter = onSnapshot(collection(db, 'loanprocess'), (querySnapshot) => {
             loans = querySnapshot.docs.map((doc) => ({ id: doc.numberOfLoan, ...doc.data() }));
@@ -27,7 +28,8 @@
     async function userLoanCounter(clientId) {
         const q = query(collection(db, 'loanprocess'), where("owner", "==", clientId));
         const snapshot = await getCountFromServer(q);
-        numberOfLoans = snapshot.data().count+1;
+        numberOfLoans = snapshot.data().count;
+        loanNumber = numberOfLoans+1;
     }
 
     export async function clienInfo(infoClient){
@@ -80,7 +82,7 @@
                 username:cliInfo.username,
                 owner:addUserInput.owner ,
                 loanAmount:addUserInput.loanAmount,
-                numberOfLoan: addUserInput.numberOfLoan,
+                numberOfLoan: loanNumber,
                 releaseDate: releaseDate.toString(),
                 area:addUserInput.area,
                 formattedDueDate: formattedDueDate.toString(),

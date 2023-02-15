@@ -1,6 +1,6 @@
 <script>
     import { onMount } from 'svelte';
-    import { collection, onSnapshot, doc, deleteDoc, query, where } from 'firebase/firestore';
+    import { collection, onSnapshot, doc, deleteDoc, query, where, orderBy } from 'firebase/firestore';
     import {db} from '$lib/firebase/client.js';
 	import UpdateLoanModal from './UpdateLoanModal.svelte';
     import SearchClientModal from '$lib/components/SearchClientModal.svelte';
@@ -16,7 +16,7 @@
 
     async function userLoans() {
         if (client.id != null) {
-            const q = query(collection(db, 'loanprocess'), where("owner", "==", client.id));
+            const q = query(collection(db, 'loanprocess'), where("owner", "==", client.id), orderBy("numberOfLoan", "desc") );
             const unsubscribe = onSnapshot(q, (querySnapshot) => {
             loans = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         });
