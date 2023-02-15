@@ -9,7 +9,7 @@
     let addUserInput = {} 
     let chosenMatrix = []
     let resetChosenMatrix
-    let numberOfLoans
+    let numberOfLoans;
     let releaseDate;
     let dueDate;
     let formattedDueDate;
@@ -18,15 +18,16 @@
     let totalLoans = 0 
     let ctrlNumber = "000000"
     let thisLoanNumber = ""
+
     const totalLoanCounter = onSnapshot(collection(db, 'loanprocess'), (querySnapshot) => {
-            loans = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+            loans = querySnapshot.docs.map((doc) => ({ id: doc.numberOfLoan, ...doc.data() }));
             totalLoans = loans.length + 1;
     });
     //user loan counter
     async function userLoanCounter(clientId) {
         const q = query(collection(db, 'loanprocess'), where("owner", "==", clientId));
         const snapshot = await getCountFromServer(q);
-        numberOfLoans = snapshot.data().count;
+        numberOfLoans = snapshot.data().count+1;
     }
 
     export async function clienInfo(infoClient){
@@ -270,6 +271,9 @@
                     <option value="langgam">Langgam</option>
                     <option value="laram">Laram</option>
                     <option value="narra">Narra</option>
+                    <option value="narra">B. Silang</option>
+                    <option value="narra">Riverside</option>
+                    <option value="narra">Pacita</option>
                     </select>
                 
             </div>

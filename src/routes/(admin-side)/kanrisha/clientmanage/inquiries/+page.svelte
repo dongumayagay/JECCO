@@ -1,20 +1,23 @@
 <script>
 	import {goto} from '$app/navigation';
-	import { collection, getDocs, onSnapshot} from "firebase/firestore";
+	import { collection, getDocs, onSnapshot, doc, deleteDoc} from "firebase/firestore";
 	import { onMount } from 'svelte';
-	import {db} from '$lib/firebase/client.js'
+	import {db} from '$lib/firebase/client.js';
 	
 	let inquiries = []
+	let selectedInquiry;
+	let unopenedCount = 0
 
 	function viewInquiry(inquiryId){
 		goto('/kanrisha/clientmanage/inquiries/' + inquiryId)
+		unopenedCount -= 1
 
 	}
-
 	
 	onMount(() => {
         const unsubscribe = onSnapshot(collection(db, 'inquiries'), (querySnapshot) => {
         inquiries = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+		unopenedCount = inquiries.filter((inquiryId) => !inquiryId.opened).length
         });
         return () => unsubscribe();
         
@@ -24,15 +27,25 @@
 		event.stopPropagation();
   }
 	
-
-
 </script>
 		
 <svelte:head>
 	<title>JECCO | Applications</title>
 </svelte:head>
 
+	<div class="flex items-center p-4 shadow-md rounded-md h-12 bg-white gap-4">
+		<h1 class="left-0 pr-10 text-xl font-semibold">Applications</h1>
+
+		{#if unopenedCount > 0}
+				<div class="absolute right-10 bg-red-500 text-white text-xs px-2 rounded-full">
+					<p>{unopenedCount}</p>
+				</div>
+		{/if}
+
+	</div>
+
 	<div class="overflow-x-auto relative shadow-md rounded-lg h-full bg-white mt-4">
+		
 		<table class="table table-normal w-full bg-white ">
 		  	<thead>				
 				<tr>
@@ -44,7 +57,8 @@
 				</tr>
 		 	</thead> 
 			{#each inquiries as applicant }			 
-				<tr class="hover cursor-pointer" on:click={() => viewInquiry(applicant.id)}>
+			<tr class={`hover cursor-pointer ${applicant.isUnopened ? 'bg-yellow-100' : ''} ${selectedInquiry === applicant.id ? 'bg-gray-100' : ''}`} on:click={() => viewInquiry(applicant.id)}>
+
 					<!-- svelte-ignore a11y-click-events-have-key-events -->
 					<td class="px-4" on:click={editOption}>
 						<div  class="flex items-center space-x-2 text-sm">
