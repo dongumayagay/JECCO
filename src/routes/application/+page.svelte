@@ -71,7 +71,7 @@
     
 
     async function getDownloadLink(){
-        const pathName = 'applicationForm/Sanchez-AceForm.pdf' 
+        const pathName = 'applicationForm/Application-Agreement_Form.pdf' 
         const pathReference = ref(storage, pathName);
 
          const downloadApp = await getDownloadURL(pathReference);
@@ -105,7 +105,7 @@
                     {:then downloadApp}
                         <div class="flex gap-2 max-sm:text-xs">
                             <!-- svelte-ignore a11y-invalid-attribute -->
-                            <a href="#" on:click={() => downloadApp} class=" text-blue-500 underline flex items-center" download={'Sanchez-AceForm.pdf'}>  Download </a>  
+                            <a href="#" on:click={() => window.open(downloadApp)} class=" text-blue-500 underline flex items-center">  Download </a>  
                         </div>
                     {/await}
                     <p>the application form here.</p>
