@@ -1,7 +1,6 @@
 <script>
     import {addDoc, onSnapshot, collection, where, query, getCountFromServer } from 'firebase/firestore';
 	import {db} from '$lib/firebase/client.js';
-	import AddClientProfile from './AddClientProfile.svelte';
     import LoanMatrixModal from './LoanMatrixModal.svelte';
 
     let addModal = false  
@@ -45,13 +44,8 @@
             numberOfLoan: numberOfLoans,
             id:cliInfo.id,
             username: cliInfo.username,
-            area:cliInfo.barangay
         }
     }
-    $: if(chosenMatrix != null) {
-
-    }
-
 
     function resetAddUserInput(){
         ctrlNumber = "000000"
@@ -111,6 +105,10 @@
 		addModal = false
 	}
 
+    $: if(chosenMatrix.days > 0 && releaseDate != null) {
+        setDueDate()
+    }
+
     function setDueDate() {
         // Create a new Date object from the release date
         let date = new Date(releaseDate);
@@ -119,7 +117,7 @@
         date.setHours(0, 0, 0, 0);
 
         // Compute due date
-        dueDate = new Date(date.getTime() + 80 * 24 * 60 * 60 * 1000);
+        dueDate = new Date(date.getTime() + chosenMatrix.days * 24 * 60 * 60 * 1000);
 
         // Format the due date
         formattedDueDate = `${dueDate.getFullYear()}-${("0" + (dueDate.getMonth() + 1)).slice(-2)}-${("0" + dueDate.getDate()).slice(-2)}`;
@@ -186,11 +184,18 @@
                         </div>
                     </div>
                     <div class="flex">
-                        <div class=" pl-4">
-                             <label for="rDate" class="font-medium">Release Date:</label>
-                             <input type="date" bind:value={releaseDate} on:input={setDueDate} class=" relative left-6 text-sm rounded-lg w-36">
-                         </div>
-                         <div class=" absolute right-16">
+                        {#if chosenMatrix.days > 0}
+                            <div class=" pl-4">
+                                <label for="rDate" class="font-medium">Release Date:</label>
+                                <input type="date" bind:value={releaseDate} on:input={setDueDate} class=" relative left-6 text-sm rounded-lg w-36">
+                            </div> 
+                        {:else}
+                            <div class=" pl-4">
+                                <label for="rDate" class="font-medium">Release Date:</label>
+                                <input type="date" disabled class=" relative left-6 text-sm rounded-lg w-36">
+                            </div>
+                        {/if}    
+                        <div class=" absolute right-16">
                             <label for="dDate" class="font-medium">Due Date:</label>
                             <input type="date" disabled id="due-date" class=" relative left-6 text-sm rounded-lg w-36">
                         </div>
@@ -268,7 +273,7 @@
                 <input type="text" bind:value={addUserInput.releasedBy} class=" h-10 rounded-md w-60">
                 <input type="text" bind:value={addUserInput.collectorAssigned} class=" h-10 rounded-md w-60">
                 
-                    <select class="w-60" name="areas" value={addUserInput.area}>
+                    <select class="w-60" name="areas" bind:value={addUserInput.area}>
                     <option value="estrella">Estrella</option>
                     <option value="langgam">Langgam</option>
                     <option value="laram">Laram</option>
@@ -288,5 +293,5 @@
         </form>
     </div>
 </div>
-<AddClientProfile/>
+
 <LoanMatrixModal bind:chosenMatrix={chosenMatrix} bind:resetChosenMatrix={resetChosenMatrix}/>  

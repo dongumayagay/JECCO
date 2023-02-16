@@ -15,14 +15,14 @@
     let getAllClients;
 
     async function userLoans() {
-        if (client.id != null) {
-            const q = query(collection(db, 'loanprocess'), where("owner", "==", client.id), orderBy("numberOfLoan", "desc") );
-            const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        loans = []
+
+        const q = query(collection(db, 'loanprocess'), where("owner", "==", client.id), orderBy("numberOfLoan", "desc") );
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
             loans = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         });
-        console.log(loans)
         return () => unsubscribe();
-        }
+        
     }
     $: if(client.id != null) {
         userLoans();
@@ -104,7 +104,7 @@
 				</tr>
 			</thead>
             {#each loans as loan}
-                <tr on:click={() => handleRowClick(loan.id)} class={selectedRowIndex === loan.id ? ' hover cursor-pointer bg-blue-400 text-white ' : 'hover cursor-pointer'}>
+                <tr on:click={() => handleRowClick(loan.id)} on:click={clientInfo(loan,client)} class={selectedRowIndex === loan.id ? ' hover cursor-pointer bg-blue-400 text-white ' : 'hover cursor-pointer'}>
                 <td class="px-6">
                 <p>{loan.numberOfLoan}</p>
                 </td>
@@ -131,6 +131,7 @@
 		</table>	
 	</div>		
 </div>
-<UpdateLoanModal bind:clientInfo={clientInfo} />
+
 <SearchClientModal bind:selected={client} bind:getAllClients={getAllClients}/>
 <AddLoanPProcess bind:clienInfo={clienInfo} />
+<UpdateLoanModal bind:clientInfo={clientInfo} />
