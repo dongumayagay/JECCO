@@ -7,6 +7,7 @@
 	let inquiries = []
 	let selectedInquiry;
 	let unopenedCount = 0
+	let openedInquiry = false;
 
 	function viewInquiry(inquiryId){
 		goto('/kanrisha/clientmanage/inquiries/' + inquiryId)
@@ -18,6 +19,7 @@
         const unsubscribe = onSnapshot(collection(db, 'inquiries'), (querySnapshot) => {
         inquiries = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 		unopenedCount = inquiries.filter((inquiryId) => !inquiryId.opened).length
+		openedInquiry = true;
         });
         return () => unsubscribe();
         
@@ -26,6 +28,7 @@
 	function editOption(event) {
 		event.stopPropagation();
   }
+
 	
 </script>
 		
@@ -57,7 +60,7 @@
 				</tr>
 		 	</thead> 
 			{#each inquiries as applicant }			 
-			<tr class={`hover cursor-pointer ${applicant.isUnopened ? 'bg-yellow-100' : ''} ${selectedInquiry === applicant.id ? 'bg-gray-100' : ''}`} on:click={() => viewInquiry(applicant.id)}>
+			<tr class={` hover:bg-blue-200 cursor-pointer ${!applicant.isUnopened ? 'bg-yellow-100' : 'bg-gray-100'} ${selectedInquiry === applicant.id ? 'bg-gray-100' : ''}`} on:click={() => viewInquiry(applicant.id)}>
 
 					<!-- svelte-ignore a11y-click-events-have-key-events -->
 					<td class="px-4" on:click={editOption}>
