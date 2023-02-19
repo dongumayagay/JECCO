@@ -1,5 +1,6 @@
 <script>
     import PaymentModal from "$lib/components/paymentModal.svelte";
+	import Editpayment from "./Editpayment.svelte";
 
     let rowSelected = false;
 
@@ -12,7 +13,8 @@
     <div class="flex items-center p-4 shadow-md sm:rounded-lg h-10 bg-white gap-4">
                  <p class=" font-semibold ">Payments</p> 
                  <div class=" absolute right-10">
-                 <label for="payment" class={rowSelected ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={!rowSelected}>EDIT PAYMENT</label>
+                <label for="edit_payment" class={rowSelected ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={!rowSelected}>EDIT</label>
+                 <label for="payment" class="btn-info rounded-lg py-1 px-2 font-semibold">ADD</label>
                 </div>
             </div>
 
@@ -76,6 +78,5 @@
                         </table>	
                 </div>		
         </div>
-    <PaymentModal/>
-
- 
+<PaymentModal/>
+<Editpayment/>
