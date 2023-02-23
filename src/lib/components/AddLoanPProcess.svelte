@@ -87,6 +87,8 @@
                 dailyPayment: chosenMatrix.dailyPayment,
                 miscellanoeusFee: chosenMatrix.miscellanoeusFee,
                 notarialFee: chosenMatrix.notarialFee,
+                balance: chosenMatrix.totalAmountDue,
+                totalPayment:0,
                 status: "Ongoing",
                 accountOfficer: addUserInput.accountOfficer,
                 creditInvestigatedBy: addUserInput.creditInvestigatedBy,

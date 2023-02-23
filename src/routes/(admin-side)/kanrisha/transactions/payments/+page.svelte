@@ -4,6 +4,7 @@
     import {db} from '$lib/firebase/client.js';
     import SearchClientModal from '$lib/components/SearchClientModal.svelte';
 	import PaymentModal from '$lib/components/paymentModal.svelte';
+    import Editpayment from "./Editpayment.svelte";
 
     let selectedRowIndex = null;
     let searchSelected = false;
@@ -12,6 +13,7 @@
     let clienInfo
     let client = []
     let getAllClients;
+    let rowSelected = false;
 
     async function deleteLoan(id){
         await deleteDoc(doc(db, "payments", id));
@@ -34,9 +36,9 @@
 <div class="flex items-center p-4 shadow-md sm:rounded-lg bg-white gap-4">
     <h1 class=" font-bold">PAYMENTS</h1>
     <div class=" absolute right-10">
-        <label for="editborrow" class={selectedRowIndex !== null ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={selectedRowIndex === null}>EDIT</label>
+        <label for="edit_payment" class={rowSelected ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={!rowSelected}>EDIT</label>
         <!-- svelte-ignore a11y-click-events-have-key-events -->
-        <label for="payment" on:click={() => clienInfo(client)} class={searchSelected ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={!searchSelected}>Update Payment</label>
+        <label for="payment" on:click={() => clienInfo(client)} class={searchSelected ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={!searchSelected}>ADD</label>
     </div>
 </div>
 
@@ -77,47 +79,31 @@
 <div class="overflow-x-auto shadow-md sm:rounded-lg h-full bg-white mt-4">
 	<div>
 		<table class="table table-normal w-full">
-			<!-- <thead>
-				<tr class="hover">
-                    <td class="px-6">#</td>
-                    <th scope="col" class="px-6">LOAN REF</th>
-					<th scope="col" class="px-6">RELEASED DATE</th> 
-					<th scope="col" class="px-6">DUE DATE</th> 
-                    <th scope="col" class="px-6">LOAN AMOUNT</th> 
-                    <th scope="col" class="px-6">D.PAYMENT</th> 
-					<th scope="col" class="px-6">BALANCE</th> 
-                    <th scope="col" class="px-6">T.PAYMENT</th>
-                    <th scope="col" class="px-6">STATUS</th> 
-				</tr>
-			</thead>
-            {#each loans as loan}
-                <tr on:click={() => handleRowClick(loan.id)} on:click={clientInfo(loan,client)} class={selectedRowIndex === loan.id ? ' hover cursor-pointer bg-blue-400 text-white ' : 'hover cursor-pointer'}>
-                    <td class="px-6">
-                    <p>{loan.numberOfLoan}</p>
-                    </td>
-                    <td class="px-6">
-                        {loan.loanNumber}
-                    </td>
-                    <td class="px-6">
-                        {loan.releaseDate}    
-                    </td>
-                    <td class="px-6">
-                        {loan.formattedDueDate}
-                    </td>
-                    <td class="px-6">
-                        {loan.loanAmount}        
-                    </td>
-                    <td class="px-6">
-                        {loan.dailyPayment}
-                    </td>
-                    <td class="px-6">
-                        {loan.status}
-                    </td>
-                </tr>
-            {/each} -->
+	<thead>
+        <tr>
+            <th>Transaction ID</th>
+            <th>Amount</th> 
+            <th class="px-6">Transaction Date</th>
+                                                
+        </tr>
+    </thead>
+        <!-- {#each payments as payment } -->                     
+            <tr on:click={() => rowSelected = !rowSelected} class={rowSelected ? ' hover cursor-pointer bg-blue-400 text-white ' : 'hover cursor-pointer'}>
+                <td>
+                    1
+                </td>
+                <td class="px-6">
+                    100php
+                </td>
+                <td>
+                    2/10/2023
+                </td>
+            </tr>
+        <!-- {/each} -->		
 		</table>	
 	</div>		
 </div>
 
 <SearchClientModal bind:selected={client} bind:getAllClients={getAllClients}/>
 <PaymentModal bind:clienInfo={clienInfo}/>
+<Editpayment/>

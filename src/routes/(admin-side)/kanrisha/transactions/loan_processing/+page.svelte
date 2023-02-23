@@ -98,8 +98,8 @@
 					<th scope="col" class="px-6">DUE DATE</th> 
                     <th scope="col" class="px-6">LOAN AMOUNT</th> 
                     <th scope="col" class="px-6">D.PAYMENT</th> 
-					<!-- <th scope="col" class="px-6">BALANCE</th> 
-                    <th scope="col" class="px-6">T.PAYMENT</th>  -->
+					<th scope="col" class="px-6">BALANCE</th> 
+                    <th scope="col" class="px-6">T.PAYMENT</th>
                     <th scope="col" class="px-6">STATUS</th> 
 				</tr>
 			</thead>
@@ -122,6 +122,12 @@
                 </td>
                 <td class="px-6">
                     {loan.dailyPayment}
+                </td>
+                <td class="px-6">
+                    {loan.balance}
+                </td>
+                <td class="px-6">
+                    {loan.totalPayment}
                 </td>
                 <td class="px-6">
                     {loan.status}
