@@ -1,20 +1,38 @@
 <script>
+	import { collection, onSnapshot, query, where, orderBy, limit, doc, getDocs } from "firebase/firestore";
+  import {db} from '$lib/firebase/client.js';
 
-let transactModal = false;
+  let loans = []
+  let transactModal = false;
+  let addUserInput = {} 
+  let cliInfo = [];
 
-    function addPayment(){
-        transactModal = true;
+  async function userLoans() {
+    //loans = []
+    const q = query(collection(db, 'loanprocess'), where("owner", "==", addUserInput.owner), orderBy("numberOfLoan", "desc"), limit(1) );
+    const docSnap = await getDocs(q);
+    loans = docSnap.docs.map((doc) => {
+      return {
+        id:doc.id,
+        ...doc.data()
+      }
+    });       
+  }
+
+  export async function clienInfo(infoClient){
+    cliInfo = infoClient
+      addUserInput = {
+        owner: cliInfo.id, 
+        name: cliInfo.firstname + ' ' + cliInfo.lastname,
+        clientNumber: cliInfo.clientNumber,
     }
-
-    function cancelPayment(){
-        transactModal = false;
-    }
-
+    await userLoans()
+  }
 </script>
 
 
 <input type="checkbox" class="modal-toggle" id="payment" bind:checked={transactModal}/>
-{#if transactModal}
+{#if transactModal && loans.length!==0}
 <div class="modal">
   <div class="modal-box w-11/12 max-w-3xl">
     <h3 class="font-bold text-lg">Daily Payment</h3>
@@ -28,22 +46,22 @@ let transactModal = false;
           <p class="my-4">Loan Number:</p>
       </div>
       <div>
-          <input type="text" class=" rounded-lg h-7 my-2" label="SPL-2023001">
-          <input type="text" class=" rounded-lg h-7 my-2" label="ID">
-          <input type="date" class=" rounded-lg h-7 my-2">
-          <input type="text" class=" rounded-lg h-7 my-2" label="Francis Sanchez">
-          <input type="text" class=" rounded-lg h-7 my-2" label="#01">
+          <input type="text" disabled bind:value={addUserInput.clientNumber} class="rounded-lg h-7 my-2">
+          <input type="text" class="rounded-lg h-7 my-2">
+          <input type="date" class="rounded-lg h-7 my-2">
+          <input type="text" disabled bind:value={addUserInput.name} class="rounded-lg h-7 my-2">
+          <input type="text" disabled bind:value={loans[0].loanNumber} class="rounded-lg h-7 my-2">
       </div>
   </div>    
 
 
   <hr class="my-2" />
   <div class="flex gap-2 w-full text-sm font-semibold">
-    <p>Loan amount <input class=" border border-black rounded-sm h-5 w-24"></p>
-    <p>R. Date<input class=" border border-black rounded-sm h-5 w-24"></p>
-    <p>Due Date<input class=" border border-black rounded-sm h-5 w-24"></p>
-    <p>Loan status<input class=" border border-black rounded-sm h-5 w-24"></p>
-    <p>D.I<input class=" border border-black rounded-sm h-5 w-24"></p>
+    <p>Loan amount <input disabled bind:value={loans[0].loanAmount} class=" border border-black rounded-sm h-5 w-24"></p>
+    <p>R. Date<input disabled bind:value={loans[0].releaseDate} class=" border border-black rounded-sm h-5 w-24"></p>
+    <p>Due Date<input disabled bind:value={loans[0].formattedDueDate} class=" border border-black rounded-sm h-5 w-24"></p>
+    <p>Loan status<input disabled bind:value={loans[0].status} class=" border border-black rounded-sm h-5 w-24"></p>
+    <p>D.I<input disabled bind:value={loans[0].dailyPayment} class=" border border-black rounded-sm h-5 w-24"></p>
     <p>T. Payment<input class=" border border-black rounded-sm h-5 w-24"></p>
     <p>Balance<input class=" border border-black rounded-sm h-5 w-24"></p>
   </div>
@@ -76,7 +94,7 @@ let transactModal = false;
     <div class="modal-action">
       <button class="btn btn-ghost bg-green-400 text-white rounded-lg hover:bg-green-300 px-8">Update</button>
       <!-- svelte-ignore a11y-click-events-have-key-events -->
-      <label for="update" on:click={cancelPayment}  class="btn border-transparent bg-red-600">Cancel</label>
+      <label for="payment" class="btn border-transparent bg-red-600">Cancel</label>
     </div>
   </div>
 </div>
