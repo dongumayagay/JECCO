@@ -62,8 +62,8 @@
     <p>Due Date<input disabled bind:value={loans[0].formattedDueDate} class=" border border-black rounded-sm h-5 w-24"></p>
     <p>Loan status<input disabled bind:value={loans[0].status} class=" border border-black rounded-sm h-5 w-24"></p>
     <p>D.I<input disabled bind:value={loans[0].dailyPayment} class=" border border-black rounded-sm h-5 w-24"></p>
-    <p>T. Payment<input class=" border border-black rounded-sm h-5 w-24"></p>
-    <p>Balance<input class=" border border-black rounded-sm h-5 w-24"></p>
+    <p>T. Payment<input disabled bind:value={loans[0].totalPayment} class=" border border-black rounded-sm h-5 w-24"></p>
+    <p>Balance<input disabled bind:value={loans[0].balance} class=" border border-black rounded-sm h-5 w-24"></p>
   </div>
 
     <hr class="my-4" />
@@ -73,7 +73,6 @@
         <p>Pr Number: </p>
         <p class=" text-blue-400 ">PR Assigned To:</p>
         <p class=" text-blue-400 ">Collector Assigned:</p>
-        <p class=" text-blue-400 ">Name:</p>
         <p>Loan Payment:</p>
         <p>Arrears Penalty Payment:</p>
         <p>Past Due Interrest Payment:</p>
@@ -82,11 +81,10 @@
     <div class="flex flex-col gap-4 w-2/3">
         <input type="text" class=" rounded-md h-6 " label="SPL-2023001">
         <input type="text" disabled class=" bg-yellow-200 rounded-md h-6 " label="ID">
-        <input type="text" disabled class=" bg-yellow-200 rounded-md h-6 ">
-        <input type="text" disabled class=" bg-yellow-200 rounded-md h-6 " label="Francis Sanchez">
-        <input type="text" class=" rounded-md h-6 " label="#01">
-        <input type="text" class=" rounded-md h-6 " label="#01">
-        <input type="text" class=" rounded-md h-6 " label="#01">
+        <input type="text" disabled bind:value={loans[0].collectorAssigned} class=" bg-yellow-200 rounded-md h-6 ">
+        <input type="number" class=" rounded-md h-6 " label="#01">
+        <input type="number" class=" rounded-md h-6 " label="#01">
+        <input type="number" class=" rounded-md h-6 " label="#01">
     </div>
 </div>
   
