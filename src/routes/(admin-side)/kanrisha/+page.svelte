@@ -11,7 +11,7 @@
     <div class="flex flex-1 flex-col bg-white gap-6 h-screen p-4 shadow-lg rounded-md overflow-auto ">
         
         <div class="p-2">
-            <h1 class="font-bold text-xl" >Client Dashboard</h1>
+            <h1 class="font-bold text-xl" >Admin Dashboard</h1>
         </div>
         <hr/>
         <h2 class="font-bold text-xl pl-2">General Report</h2>
