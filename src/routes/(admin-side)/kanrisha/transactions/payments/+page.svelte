@@ -8,12 +8,23 @@
 
     let selectedRowIndex = null;
     let searchSelected = false;
-    let loans = []
+    let payments = []
     let clientInfo
     let clienInfo
     let client = []
     let getAllClients;
     let rowSelected = false;
+
+    async function userPayments() {
+        payments = []
+
+        const q = query(collection(db, 'payments'), where("owner", "==", client.id), orderBy("transactionDate", "desc") );
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+            payments = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        });
+        return () => unsubscribe();
+        
+    }
 
     async function deleteLoan(id){
         await deleteDoc(doc(db, "payments", id));
@@ -25,8 +36,7 @@
 
     $: if(client.length !== 0){
         searchSelected = true;
-        // userLoans()
-        // console.log(loans) 
+        userPayments() 
     } else{
         searchSelected = false;
     }
@@ -87,19 +97,19 @@
                                                 
         </tr>
     </thead>
-        <!-- {#each payments as payment } -->                     
+        {#each payments as payment}                 
             <tr on:click={() => rowSelected = !rowSelected} class={rowSelected ? ' hover cursor-pointer bg-blue-400 text-white ' : 'hover cursor-pointer'}>
                 <td>
-                    1
+                    {payment.transactionId}
                 </td>
                 <td class="px-6">
-                    100php
+                    {payment.loanPayment}
                 </td>
                 <td>
-                    2/10/2023
+                    {payment.transactionDate}
                 </td>
             </tr>
-        <!-- {/each} -->		
+        {/each}	
 		</table>	
 	</div>		
 </div>

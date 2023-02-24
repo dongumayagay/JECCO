@@ -24,9 +24,6 @@
         return () => unsubscribe();
         
     }
-    $: if(client.id != null) {
-        userLoans();
-    }
 
     async function deleteLoan(id){
         await deleteDoc(doc(db, "loanprocess", id));
@@ -38,6 +35,7 @@
 
     $: if(client.length !== 0){
         searchSelected = true;
+        userLoans();
     } else{
         searchSelected = false;
     }

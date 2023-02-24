@@ -1,5 +1,5 @@
 <script>
-	import { collection, updateDoc, query, where, orderBy, limit, doc, getDocs } from "firebase/firestore";
+	import { collection, updateDoc, query, where, orderBy, limit, doc, getDocs, addDoc } from "firebase/firestore";
   import {db} from '$lib/firebase/client.js';
 
   let loans = []
@@ -51,26 +51,8 @@
         pastDuePayment: addUserInput.pastDuePayment
       });
       await updateDoc(doc(db, 'loanprocess', loans[0].id),{
-        days: loans[0].days,
-        numberOfLoan: loans[0].numberOfLoan,
-        releaseDate:loans[0].releaseDate,
-        formattedDueDate:loans[0].formattedDueDate,
-        loanAmount:loans[0].loanAmount,
-        interestRate: loans[0].interestRate,
-        serviceCharge: loans[0].serviceCharge,
-        totalAmountDue: loans[0].totalAmountDue,
-        dailyPayment: loans[0].dailyPayment,
-        miscellanoeusFee: loans[0].miscellanoeusFee,
-        notarialFee: loans[0].notarialFee,
-        balance: addUserInput.balance,
+        balance: addUserInput.balance - totalPaid,
         totalPayment: addUserInput.totalPayment + totalPaid ,
-        status: loans[0].status,
-        accountOfficer: loans[0].accountOfficer,
-        creditInvestigatedBy: loans[0].creditInvestigatedBy,
-        approvedBy: loans[0].approvedBy,
-        releasedBy: loans[0].releasedBy,
-        collectorAssigned: loans[0].collectorAssigned,
-        area: loans[0].area
       });
 		} catch (error) {
 			console.log(error)
