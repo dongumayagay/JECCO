@@ -39,7 +39,7 @@
         </section>
     
     
-    <section class="flex flex-col w-full h-screen p-6 ml-8 overflow-y-auto bg-gray-200 ">
+    <section class="flex flex-col w-full h-screen p-6 ml-8 overflow-y-auto bg-gray-100 ">
 
         <slot />           
 
