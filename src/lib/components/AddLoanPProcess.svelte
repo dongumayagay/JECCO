@@ -69,7 +69,7 @@
         document.getElementById("due-date").value = formattedDueDate;
 	}
 
-    async function addUser(){
+    async function addLoan(){
 		try {
 			const docRef = await addDoc(collection(db, "loanprocess"), {
                 loanNumber:addUserInput.loanNumber,
@@ -135,7 +135,7 @@
     <div class="modal-box max-w-5xl overflow-y-auto">
 
         <!-- Modal -->
-        <form class="relative bg-white rounded-lg shadow" on:submit={addUser}>
+        <form class="relative bg-white rounded-lg shadow" on:submit={addLoan}>
             <!-- Modal header -->
             <div class="flex justify-between items-start p-4 rounded-t border-b">
                 <h3 class="text-xl font-semibold text-gray-900">
@@ -158,8 +158,7 @@
                     <input type="text" disabled bind:value={addUserInput.loanNumber} class="border text-sm rounded-lg">
                 </div>
                 </div>
-               
-                
+
                 <hr/>
                 
             <div class="flex gap-4 py-6">
