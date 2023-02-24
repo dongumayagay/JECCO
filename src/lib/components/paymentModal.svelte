@@ -1,11 +1,14 @@
 <script>
-	import { collection, updateDoc, query, where, orderBy, limit, doc, getDocs, addDoc } from "firebase/firestore";
+	import { collection, updateDoc, query, where, orderBy, limit, doc, getDocs, addDoc, getDoc } from "firebase/firestore";
   import {db} from '$lib/firebase/client.js';
 
   let loans = []
   let transactModal = false;
   let addUserInput = {} 
   let cliInfo = [];
+  let paymentCounter
+  let ctrlNumber = "000000"
+  let transactionId = ''
 
   async function userLoans() {
     //loans = []
@@ -20,18 +23,26 @@
   }
 
   export async function clienInfo(infoClient){
+    const docSnap = await getDoc(doc(db, "id_counters", "payments_counter")); 
+    paymentCounter = docSnap.data()
+    paymentCounter.count ++
+    ctrlNumber = ctrlNumber + paymentCounter.count.toString()
+    transactionId = ctrlNumber.slice(-6)
     cliInfo = infoClient
       addUserInput = {
         owner: cliInfo.id, 
         name: cliInfo.firstname + ' ' + cliInfo.lastname,
         clientNumber: cliInfo.clientNumber,
+        transactionId: transactionId
     }
     await userLoans()
   }
 
   function resetAddUserInput(){
+    ctrlNumber = "000000"
     addUserInput = {
       transactionDate: '',
+      prNumber: '',
       loanPayment: '',
       arrearsPayment: '',
       pastDuePayment: '',
@@ -39,24 +50,34 @@
     transactModal=false
   } 
   async function addPayment(){
+    if (addUserInput.arrearsPayment == undefined) {
+      addUserInput.arrearsPayment = 0
+    }
+    if (addUserInput.pastDuePayment == undefined) {
+      addUserInput.pastDuePayment = 0
+    }
     const totalPaid = addUserInput.loanPayment + addUserInput.arrearsPayment
-    const balanceLeft = loans[0].balance - totalPaid
 		try {
 			const docRef = await addDoc(collection(db, "payments"), {
         owner: addUserInput.owner,
         transactionId: addUserInput.transactionId,
         transactionDate: addUserInput.transactionDate,
+        prNumber: addUserInput.prNumber,
         loanPayment: addUserInput.loanPayment,
         arrearsPayment: addUserInput.arrearsPayment,
         pastDuePayment: addUserInput.pastDuePayment
       });
+      await updateDoc(doc(db, "id_counters", "payments_counter"), {
+        count: paymentCounter.count
+      })
       await updateDoc(doc(db, 'loanprocess', loans[0].id),{
-        balance: addUserInput.balance - totalPaid,
-        totalPayment: addUserInput.totalPayment + totalPaid ,
+        balance: loans[0].balance - totalPaid,
+        totalPayment: loans[0].totalPayment + totalPaid ,
       });
 		} catch (error) {
 			console.log(error)
 		}
+    resetAddUserInput()
     transactModal=false
   }
 </script>
@@ -110,8 +131,8 @@
 
         </div>
         <div class="flex flex-col gap-4 w-2/3">
-            <input type="text" class=" rounded-md h-6 " label="SPL-2023001">
-            <input type="text" disabled class=" bg-yellow-200 rounded-md h-6 " label="ID">
+            <input type="text" bind:value={addUserInput.prNumber} class=" rounded-md h-6 " label="SPL-2023001">
+            <input type="text" disabled bind:value={loans[0].collectorAssigned} class=" bg-yellow-200 rounded-md h-6 " label="ID">
             <input type="text" disabled bind:value={loans[0].collectorAssigned} class=" bg-yellow-200 rounded-md h-6 ">
             <input type="number" bind:value={addUserInput.loanPayment} class=" rounded-md h-6 " label="#01">
             <input type="number" bind:value={addUserInput.arrearsPayment} class=" rounded-md h-6 " label="#01">

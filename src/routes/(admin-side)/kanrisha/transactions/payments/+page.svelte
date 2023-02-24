@@ -13,7 +13,6 @@
     let clienInfo
     let client = []
     let getAllClients;
-    let rowSelected = false;
 
     async function userPayments() {
         payments = []
@@ -46,7 +45,7 @@
 <div class="flex items-center p-4 shadow-md sm:rounded-lg bg-white gap-4">
     <h1 class=" font-bold">PAYMENTS</h1>
     <div class=" absolute right-10">
-        <label for="edit_payment" class={rowSelected ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={!rowSelected}>EDIT</label>
+        <label for="edit_payment" class={selectedRowIndex !== null ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={selectedRowIndex === null}>EDIT</label>
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <label for="payment" on:click={() => clienInfo(client)} class={searchSelected ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={!searchSelected}>ADD</label>
     </div>
@@ -98,7 +97,7 @@
         </tr>
     </thead>
         {#each payments as payment}                 
-            <tr on:click={() => rowSelected = !rowSelected} class={rowSelected ? ' hover cursor-pointer bg-blue-400 text-white ' : 'hover cursor-pointer'}>
+            <tr on:click={() => handleRowClick(payment.id)} on:click={clientInfo(payment,client)} class={selectedRowIndex === payment.id ? ' hover cursor-pointer bg-blue-400 text-white ' : 'hover cursor-pointer'}>
                 <td>
                     {payment.transactionId}
                 </td>
@@ -116,4 +115,4 @@
 
 <SearchClientModal bind:selected={client} bind:getAllClients={getAllClients}/>
 <PaymentModal bind:clienInfo={clienInfo}/>
-<Editpayment/>
+<Editpayment bind:clientInfo={clientInfo}/>
