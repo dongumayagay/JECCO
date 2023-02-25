@@ -1,5 +1,5 @@
 <script>
-    import {addDoc, onSnapshot, collection, where, query, getCountFromServer } from 'firebase/firestore';
+    import {addDoc, onSnapshot, collection, where, query, getCountFromServer, getDoc, updateDoc, doc } from 'firebase/firestore';
 	import {db} from '$lib/firebase/client.js';
     import LoanMatrixModal from './LoanMatrixModal.svelte';
 
@@ -21,7 +21,6 @@
 
     const totalLoanCounter = onSnapshot(collection(db, 'loanprocess'), (querySnapshot) => {
             loans = querySnapshot.docs.map((doc) => ({ id: doc.numberOfLoan, ...doc.data() }));
-            totalLoans = loans.length + 1;
     });
     //user loan counter
     async function userLoanCounter(clientId) {
@@ -32,7 +31,10 @@
     }
 
     export async function clienInfo(infoClient){
-        ctrlNumber = ctrlNumber + totalLoans.toString()
+        const docSnap = await getDoc(doc(db, "id_counters", "loan_counter")); 
+        totalLoans = docSnap.data()
+        totalLoans.count ++
+        ctrlNumber = ctrlNumber + totalLoans.count.toString()
         thisLoanNumber = ctrlNumber.slice(-6)
         cliInfo = infoClient
         await userLoanCounter(cliInfo.id)
@@ -96,6 +98,9 @@
                 releasedBy: addUserInput.releasedBy,
                 collectorAssigned: addUserInput.collectorAssigned,
         	});
+            await updateDoc(doc(db, "id_counters", "loan_counter"), {
+                count: totalLoans.count
+            });
 		} catch (error) {
 			console.log(error)
 		}
