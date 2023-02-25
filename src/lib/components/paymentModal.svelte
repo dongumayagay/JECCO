@@ -3,7 +3,7 @@
   import {db} from '$lib/firebase/client.js';
 
   let loans = [];
-  let transactModal = true;
+  let transactModal = false;
   let addUserInput = {};
   let cliInfo = [];
   let paymentCounter
@@ -47,7 +47,7 @@
       arrearsPayment: '',
       pastDuePayment: '',
 	  }
-    transactModal=false
+    transactModal = false;
   } 
   async function addPayment(){
     if (addUserInput.arrearsPayment == undefined) {
@@ -78,7 +78,7 @@
 			console.log(error)
 		}
     resetAddUserInput()
-    transactModal = true ;
+    transactModal = false ;
   }
 </script>
 
