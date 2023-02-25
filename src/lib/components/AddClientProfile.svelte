@@ -1,4 +1,6 @@
 <script>
+    import { collection, updateDoc, query, where, orderBy, limit, doc, getDocs, addDoc, getDoc } from "firebase/firestore";
+    import {db} from '$lib/firebase/client.js';
     let addModal = false;
     let cliInfo = []
     let addUserInput = {}
@@ -11,8 +13,10 @@
 
     export async function clientInfo(infoClient,clients){
         cliInfo = infoClient
-        count = parseInt(clients[0].clientNumber.slice(7))+1
-        ctrlNumber = ctrlNumber + count.toString()
+        const docSnap = await getDoc(doc(db, "id_counters", "clients_counter")); 
+        count = docSnap.data()
+        count.count ++  
+        ctrlNumber = ctrlNumber + count.count.toString()
         thisClientNumber = prefix+new Date().getFullYear()+ctrlNumber.slice(-6)
         addUserInput = {
             clientNumber: thisClientNumber,
@@ -72,7 +76,9 @@
                 dateCreated:addUserInput.dateCreated,
                 
 			})})
-			
+			await updateDoc(doc(db, "id_counters", "clients_counter"), {
+                count: count.count
+            })    
 			
 		} catch (error) {
 			console.log(error)
