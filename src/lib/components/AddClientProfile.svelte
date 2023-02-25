@@ -31,6 +31,25 @@
         }
     }
 
+    $: if ((addUserInput.firstname != null || addUserInput.firstname != undefined) && (addUserInput.lastname != null || addUserInput.lastname != undefined)) {
+        let fnameUser = ""
+        const fname = addUserInput.firstname.split(" ")
+        for (let i = 0; i < fname.length; i++) {
+            fnameUser = fnameUser + fname[i].slice(0,1)
+        }
+        let lnameUser = ""
+        const lname = addUserInput.lastname.split(" ")
+        for (let i = 0; i < lname.length; i++) {
+            lnameUser = lnameUser + lname[i]
+        }
+        addUserInput.username = fnameUser.toLowerCase() + lnameUser.toLowerCase() + "@jecco.com"
+
+        if (addUserInput.firstname == "" || addUserInput.lastname == "") {
+            addUserInput.username = ""
+        }
+        
+    }
+
     function resetAddUserInput(){
         ctrlNumber = "000000"
         addUserInput = {
@@ -132,7 +151,7 @@
                     </div>
                     <div>
                         <label for="username" class="mb-2 text-sm font-medium">Username</label>
-                        <input type="email" id="username" bind:value={addUserInput.username} class=" border text-sm rounded-lg w-56 p-2.5" placeholder="Email" maxlength="30" minlength="5" >
+                        <input type="email" id="username" disabled bind:value={addUserInput.username} class=" border text-sm rounded-lg w-56 p-2.5" placeholder="Email" maxlength="30" minlength="5" >
                     </div>
                     <div>
                         <label for="password" class="mb-2 text-sm font-medium">Password</label>
