@@ -79,14 +79,13 @@
 			await updateDoc(doc(db, "id_counters", "clients_counter"), {
                 count: count.count
             })    
-			
 		} catch (error) {
-			console.log(error)
+			alert(error);
 
 		}
 
 		resetAddUserInput()
-		addModal = false
+		addModal = false;
 	}
 
     function validatePassword(){
@@ -102,6 +101,7 @@
         showPassword = !showPassword;
     }
 </script>
+
 
 <input type="checkbox" bind:checked={addModal} id="add" class="modal-toggle" />
 <div class="modal">
@@ -124,22 +124,22 @@
                     </div>
                     <div>
                         <label for="first-name" class="mb-2 text-sm font-medium">First Name</label>
-                        <input type="text" id="first-name" bind:value={addUserInput.firstname} class="border text-sm capitalize rounded-lg w-56 p-2.5" placeholder="First Name" maxlength="30" minlength="2" required>
+                        <input type="text" id="first-name" bind:value={addUserInput.firstname} class="border text-sm capitalize rounded-lg w-56 p-2.5" placeholder="First Name" maxlength="30" minlength="2" >
                     </div>
                     <div>
                         <label for="last-name" class="mb-2 text-sm font-medium">Last Name</label>
-                        <input type="text" id="last-name" bind:value={addUserInput.lastname} class="border text-sm capitalize rounded-lg w-56 p-2.5" placeholder="Last Name" maxlength="30" minlength="2" required>
+                        <input type="text" id="last-name" bind:value={addUserInput.lastname} class="border text-sm capitalize rounded-lg w-56 p-2.5" placeholder="Last Name" maxlength="30" minlength="2" >
                     </div>
                     <div>
                         <label for="username" class="mb-2 text-sm font-medium">Username</label>
-                        <input type="email" id="username" bind:value={addUserInput.username} class=" border text-sm rounded-lg w-56 p-2.5" placeholder="Email" maxlength="30" minlength="5" required>
+                        <input type="email" id="username" bind:value={addUserInput.username} class=" border text-sm rounded-lg w-56 p-2.5" placeholder="Email" maxlength="30" minlength="5" >
                     </div>
                     <div>
                         <label for="password" class="mb-2 text-sm font-medium">Password</label>
                         {#if showPassword}
-						<input type="text" id="password" bind:value={addUserInput.password} on:input={validatePassword} class="border text-sm rounded-lg w-56 p-2.5" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
+						<input type="text" id="password" bind:value={addUserInput.password} on:input={validatePassword} class="border text-sm rounded-lg w-56 p-2.5" placeholder="Password" >
                         {:else}
-                        <input id="password" type="password" bind:value={addUserInput.password} on:input={validatePassword} class="border text-sm rounded-lg w-56 p-2.5" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
+                        <input id="password" type="password" bind:value={addUserInput.password} on:input={validatePassword} class="border text-sm rounded-lg w-56 p-2.5" placeholder="Password" >
                         {/if}
                         <div class=" relative text-sm mt-3 font-mono ">
                             <input type="checkbox" class="checkbox checkbox-xs" on:click={toggleShowPassword}>
@@ -149,42 +149,42 @@
 					<div>
 						<label for="confirm-pass" class="mb-2 text-sm font-medium dark:text-white">Confirm Password</label>
                         {#if showPassword}
-						<input type="text" id="confirm-pass" bind:value={addUserInput.confirmPassword} class="border text-sm rounded-lg w-56 p-2.5" placeholder="Confirm password" required>
+						<input type="text" id="confirm-pass" bind:value={addUserInput.confirmPassword} class="border text-sm rounded-lg w-56 p-2.5" placeholder="Confirm password" >
                         {:else}
-                        <input type="password" id="confirm-pass" bind:value={addUserInput.confirmPassword} class="border text-sm rounded-lg w-56 p-2.5" placeholder="Confirm password" required>
+                        <input type="password" id="confirm-pass" bind:value={addUserInput.confirmPassword} class="border text-sm rounded-lg w-56 p-2.5" placeholder="Confirm password" >
                         {/if}
 					</div> 
                     <div>
                         <label for="email" class="mb-2 text-sm font-medium">Email</label>
-                        <input type="email" id="email" bind:value={addUserInput.email} class=" border text-sm rounded-lg w-56 p-2.5" placeholder="Email" minlength="5" maxlength="50" required>
+                        <input type="email" id="email" bind:value={addUserInput.email} class=" border text-sm rounded-lg w-56 p-2.5" placeholder="Email" minlength="5" maxlength="50" >
                     </div>
                     <div>
                         <label for="co-maker" class="mb-2 text-sm font-medium">Co-Maker Complete Name</label>
-                        <input type="text" id="co-maker" bind:value={addUserInput.coMaker} class="border text-sm capitalize rounded-lg w-56 p-2.5" placeholder="Co Maker" maxlength="60" required>
+                        <input type="text" id="co-maker" bind:value={addUserInput.coMaker} class="border text-sm capitalize rounded-lg w-56 p-2.5" placeholder="Co Maker" maxlength="60" >
                     </div>
                     <div>
                         <label for="contact-number" class="mb-2 text-sm font-medium">Contact Number</label>
-                        <input type="text" id="contact-number" bind:value={addUserInput.number} class=" border text-sm rounded-lg w-56 p-2.5" placeholder="Contact Number" minlength="11" maxlength="11" required>
+                        <input type="text" id="contact-number" bind:value={addUserInput.number} class=" border text-sm rounded-lg w-56 p-2.5" placeholder="Contact Number" minlength="11" maxlength="11" >
                     </div>
                     <div>
                         <label for="house" class="mb-2 text-sm font-medium">House No.</label>
-                        <input type="text" id="house" bind:value={addUserInput.houseNo} class=" border overflow-y-auto text-sm rounded-lg w-56 p-2.5" placeholder="House No." maxlength="30" required>
+                        <input type="text" id="house" bind:value={addUserInput.houseNo} class=" border overflow-y-auto text-sm rounded-lg w-56 p-2.5" placeholder="House No." maxlength="30" >
                     </div>
                     <div>
                         <label for="brgy" class="mb-2 text-sm font-medium">Barangay</label>
-                        <input type="text" id="brgy" bind:value={addUserInput.barangay} class=" border overflow-y-auto text-sm capitalize rounded-lg w-56 p-2.5" placeholder="Barangay" minlength="3" maxlength="30" required>
+                        <input type="text" id="brgy" bind:value={addUserInput.barangay} class=" border overflow-y-auto text-sm capitalize rounded-lg w-56 p-2.5" placeholder="Barangay" minlength="3" maxlength="30" >
                     </div>
                     <div>
                         <label for="muni" class="mb-2 text-sm font-medium">Municipality</label>
-                        <input type="text" id="muni" bind:value={addUserInput.municipality} class=" border overflow-y-auto text-sm capitalize rounded-lg w-56 p-2.5" placeholder="Municipality" minlength="3" maxlength="30" required>
+                        <input type="text" id="muni" bind:value={addUserInput.municipality} class=" border overflow-y-auto text-sm capitalize rounded-lg w-56 p-2.5" placeholder="Municipality" minlength="3" maxlength="30" >
                     </div>
                     <div>
                         <label for="prov" class="mb-2 text-sm font-medium">Province</label>
-                        <input type="text" id="prov" bind:value={addUserInput.province} class=" border overflow-y-auto text-sm rounded-lg w-56 p-2.5 " placeholder="Province" minlength="3" maxlength="30" required>
+                        <input type="text" id="prov" bind:value={addUserInput.province} class=" border overflow-y-auto text-sm rounded-lg w-56 p-2.5 " placeholder="Province" minlength="3" maxlength="30" >
                     </div>
                     <div>
                         <label for="date-created" class="mb-2 text-sm font-medium">Date Created</label>
-                        <input type="date" id="date-created" bind:value={addUserInput.dateCreated} class=" border overflow-y-auto text-sm rounded-lg w-56 p-2.5" placeholder="dd/mm/yyyy" required>
+                        <input type="date" id="date-created" bind:value={addUserInput.dateCreated} class=" border overflow-y-auto text-sm rounded-lg w-56 p-2.5" placeholder="dd/mm/yyyy" >
                     </div>
                 </div>
             </div>
