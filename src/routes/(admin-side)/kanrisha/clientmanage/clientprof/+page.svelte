@@ -2,6 +2,7 @@
     import AddClientProfile from "$lib/components/AddClientProfile.svelte";
     import EditClientModal from "./EditClientModal.svelte";
     import AddLoanPProcess from "$lib/components/AddLoanPProcess.svelte";
+    import ConfirmDeleteModal from "$lib/components/ConfirmDeleteModal.svelte";
     import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
     import {db} from '$lib/firebase/client.js';
     const q = query(collection(db, 'clientinfo'), orderBy("clientNumber","desc"))
@@ -9,6 +10,11 @@
     let clientInfo
     let clienInfo
     let clients = []
+
+    let showModal = false;
+    let deleteSuccess = false;
+    let idToDelete;
+
     async function getListOfClients(){
 		const unsubscribe = onSnapshot(q, (querySnapshot) => {
             clients = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
@@ -22,16 +28,43 @@
             body: JSON.stringify({
 					id:id,
 			})});
+            if (response.ok) {
+            deleteSuccess = true;
+            setTimeout(() => { deleteSuccess = false; }, 3000);
+      }
 		} catch (error) {
 			console.log(error);
 		}
+    }
+
+    function confirmDelete() {
+        showModal = true;
+    }
+
+    function handleConfirm() {
+        deleteClient(idToDelete);
+        showModal = false;
+    }
+
+    function handleCancel() {
+        showModal = false;
     }
 </script>  
 
 <svelte:head>
 	<title>JECCO | Client Profile</title>
 </svelte:head>
-  
+
+  <div class="fixed top-4 right-4 z-50">
+    {#if deleteSuccess}
+        <div class=" absolute right-0 top-20 alert w-96 alert-success shadow-lg">
+            <div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-4 w-4" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            <span>Deleted!</span>
+            </div>
+        </div>
+    {/if}
+</div>
 <div class="flex items-center p-4 shadow-md sm:rounded-lg h-10 bg-white gap-4">
         
     <h1 class=" left-0 pr-10">Client Profile</h1>
@@ -48,7 +81,6 @@
 </div>    
 
 <div class="overflow-x-auto relative shadow-md sm:rounded-lg h-full bg-white mt-4">
-    
     <table class="table table-normal w-full ">
         <thead>
             <tr>
@@ -79,7 +111,8 @@
                                 <li><label for="update" on:click={clientsInfo(client)}>Edit Client Information</label></li>
                                 <!-- svelte-ignore a11y-click-events-have-key-events -->
                                 <li><label for="add2" on:click={clienInfo(client)}>Process Loan</label></li>
-                                <li><button on:click={deleteClient(client.id)}>Delete</button></li>
+                                <li><button on:click={() => {idToDelete = client.id, confirmDelete(); }}>Delete</button></li>
+                                
                             </ul>
                         </div>
                     </div>
@@ -112,3 +145,6 @@
 <EditClientModal bind:clientsInfo={clientsInfo} />    
 <AddClientProfile bind:clientInfo={clientInfo}/>
 <AddLoanPProcess bind:clienInfo={clienInfo} />   
+<ConfirmDeleteModal showModal={showModal}
+onConfirm={handleConfirm}
+onCancel={handleCancel}/>
