@@ -51,6 +51,8 @@
     loans[0].balance = loans[0].balance + paymentInfo.loanPayment
     loans[0].totalPayment = loans[0].totalPayment - paymentInfo.loanPayment
     const totalPaid = addUserInput.loanPayment + addUserInput.arrearsPayment
+    loans[0].balance = loans[0].balance - totalPaid
+    loans[0].totalPayment = loans[0].totalPayment + totalPaid
 		try {
 			await updateDoc(doc(db, "payments", paymentInfo.id), {
         transactionDate: addUserInput.transactionDate,
@@ -60,8 +62,8 @@
         pastDuePayment: addUserInput.pastDuePayment
       });
       await updateDoc(doc(db, 'loanprocess', loans[0].id),{
-        balance: addUserInput.balance - totalPaid,
-        totalPayment: addUserInput.totalPayment + totalPaid ,
+        balance: loans[0].balance,
+        totalPayment: loans[0].totalPayment,
       });
 		} catch (error) {
 			console.log(error)
