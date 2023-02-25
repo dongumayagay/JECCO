@@ -2,9 +2,9 @@
 	import { collection, updateDoc, query, where, orderBy, limit, doc, getDocs, addDoc, getDoc } from "firebase/firestore";
   import {db} from '$lib/firebase/client.js';
 
-  let loans = []
-  let transactModal = false;
-  let addUserInput = {} 
+  let loans = [];
+  let transactModal = true;
+  let addUserInput = {};
   let cliInfo = [];
   let paymentCounter
   let ctrlNumber = "000000"
@@ -19,7 +19,7 @@
         id:doc.id,
         ...doc.data()
       }
-    });       
+    }); 
   }
 
   export async function clienInfo(infoClient){
@@ -78,7 +78,7 @@
 			console.log(error)
 		}
     resetAddUserInput()
-    transactModal=false
+    transactModal = true ;
   }
 </script>
 
@@ -86,8 +86,8 @@
 <input type="checkbox" class="modal-toggle" id="payment" bind:checked={transactModal}/>
 {#if transactModal && loans.length!==0}
 <div class="modal">
-  <form class="relative bg-white rounded-lg shadow" on:submit={addPayment}>
-  <div class="modal-box w-11/12 max-w-3xl">
+  <form class="relative rounded-lg shadow" on:submit={addPayment}>
+  <div class="modal-box w-full max-w-3xl">
     <h3 class="font-bold text-lg">Daily Payment</h3>
     <hr class="my-2" />
     <div class="grid grid-cols-2 mt-2 mb-2">

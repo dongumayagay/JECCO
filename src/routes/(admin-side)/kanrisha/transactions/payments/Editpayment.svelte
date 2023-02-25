@@ -77,7 +77,7 @@
 {#if transactModal && loans.length!==0}
 <div class="modal">
   <form class="relative bg-white rounded-lg shadow" on:submit={updatePayment}>
-  <div class="modal-box w-11/12 max-w-3xl">
+  <div class="modal-box w-full max-w-3xl">
     <h3 class="font-bold text-lg">Daily Payment</h3>
     <hr class="my-2" />
     <div class="grid grid-cols-2 mt-2 mb-2">
