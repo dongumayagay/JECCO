@@ -1,38 +1,80 @@
+<script>
+	import {getAuth} from 'firebase/auth'
+	import {db} from '$lib/firebase/client.js';
+	import { collection, onSnapshot, query, where, orderBy } from 'firebase/firestore';
+
+	let userClient = getAuth().currentUser;
+	let loans = []
+	
+	async function userLoans() {
+        loans = []
+
+        const q = query(collection(db, 'loanprocess'), where("owner", "==", userClient.uid), orderBy("numberOfLoan", "desc") );
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+            loans = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        });
+        return () => unsubscribe();
+        
+    }
+
+	userLoans()
+  
+</script>
 <svelte:head>
 	<title>JECCO | Loans</title>
 </svelte:head>
 
-<section class="flex flex-col w-full h-screen overflow-y-auto bg-gray-200">
-	<div class=" w-full flex flex-col p-3 bg-gray-200 h-full">
+<section class="flex flex-col w-full h-screen overflow-y-auto">
 		<div class="bg-white mb-3 rounded-lg p-2 text-2xl">
 			Loans
 		</div>
 		<div class="bg-white rounded-lg p-2 h-screen overflow-x-auto ">
-				<table class="table max-sm:table-compact w-full">
-					<thead>
-						<tr class="hover">
-							<td>#</td> 
-							<th>Loan Amount</th> 
-							<th>Duration</th> 
-							<th>Status</th> 
-						</tr>
-					</thead> 
-					<tbody>
-						<tr class="hover">
-							<td>1</td> 
-							<td>50,000.00 php</td> 
-							<td>80 days</td> 
-							<td>Fully Paid</td> 
-						</tr>
-						<tr class="hover">
-							<td>2</td>  
-							<td>100,000.00 php</td> 
-							<td>80 days</td> 
-							<td>Active</td> 
-						</tr>
-					</tbody> 
-				</table>	
+			<table class="table table-normal w-full">
+				<thead>
+					<tr class="hover">
+						<td class="px-6">#</td>
+						<th scope="col" class="px-6">LOAN REF</th>
+						<th scope="col" class="px-6">RELEASED DATE</th> 
+						<th scope="col" class="px-6">DUE DATE</th> 
+						<th scope="col" class="px-6">LOAN AMOUNT</th> 
+						<th scope="col" class="px-6">D.PAYMENT</th> 
+						<th scope="col" class="px-6">BALANCE</th> 
+						<th scope="col" class="px-6">T.PAYMENT</th>
+						<th scope="col" class="px-6">STATUS</th> 
+					</tr>
+				</thead>
+				{#each loans as loan}
+					<tr>
+						<td class="px-6">
+							<p>{loan.numberOfLoan}</p>
+						</td>
+						<td class="px-6">
+							{loan.loanNumber}
+						</td>
+						<td class="px-6">
+							{loan.releaseDate}    
+						</td>
+						<td class="px-6">
+							{loan.formattedDueDate}
+						</td>
+						<td class="px-6">
+							{loan.loanAmount}        
+						</td>
+						<td class="px-6">
+							{loan.dailyPayment}
+						</td>
+						<td class="px-6">
+							{loan.balance}
+						</td>
+						<td class="px-6">
+							{loan.totalPayment}
+						</td>
+						<td class="px-6">
+							{loan.status}
+						</td>
+					</tr>
+				{/each}
+			</table>	
 		</div>
-	</div>
 </section>	
 
