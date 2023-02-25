@@ -1,10 +1,12 @@
 <svelte:head>
 	<title>JECCO | Due Dates</title>
 </svelte:head>
-<section class="flex flex-col w-full h-screen overflow-y-auto bg-gray-200">
-	<div class=" w-full flex flex-col p-3 bg-gray-200 h-full">
-		<div class="bg-white mb-3 rounded-lg p-2 text-2xl">
-			Due Dates
+<section class="flex flex-col w-full h-screen overflow-y-auto">
+		<div class=" flex bg-white mb-3 rounded-lg">
+			<h1 class=" m-2 text-2xl">Due Dates</h1>
+			<div class=" flex items-center justify-end pr-4 absolute p-2 right-10">
+				<button class="btn btn-sm bg-green-500 border-none">Pay Online</button>
+			</div>
 		</div>
 		<div class="bg-white rounded-lg p-2 h-screen overflow-x-auto">
 				<table class="table max-sm:table-compact w-full">
@@ -29,6 +31,5 @@
 					</tbody> 
 				</table>	
 		</div>
-	</div>
 </section>
 
