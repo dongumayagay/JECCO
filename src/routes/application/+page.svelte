@@ -1,11 +1,14 @@
 <script>
-    import { addDoc, collection } from 'firebase/firestore';
+    import { addDoc, collection, doc, getDoc, updateDoc } from 'firebase/firestore';
     import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 	import { db, storage } from '$lib/firebase/client';
 	import { goto } from '$app/navigation';
- 
+    
+    let numberOfInquiries;
+
     
     let applicant = {
+        inquiryNum: '',
 		firstname: '',
 		lastname: '',
 		email: '',
@@ -18,8 +21,12 @@
     async function submitHandler() {
 
         try {
+            const docSnap = await getDoc(doc(db, "id_counters", "inquiry_counter")); 
+            numberOfInquiries = docSnap.data()
+            numberOfInquiries.count ++
 
 			const inquiryRef = await addDoc(collection(db, 'inquiries'), {
+                    inquiryNum: numberOfInquiries.count,
 					firstname: applicant.firstname,
 					lastname: applicant.lastname,
 					email: applicant.email,
@@ -32,11 +39,13 @@
                  uploadBytes(storageRef, value.fileList[0])
                 
             })
-
+            await updateDoc(doc(db, "id_counters", "inquiry_counter"), {
+                count: numberOfInquiries.count
+            })
                 alert('Application Submitted');
 				await goto('/');
 			} catch (error) {
-				alert('Error sending Application');
+				alert(error);
 			}
     }
 
