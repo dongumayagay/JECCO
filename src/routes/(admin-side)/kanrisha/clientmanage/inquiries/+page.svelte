@@ -1,11 +1,11 @@
 <script>
 	import {goto} from '$app/navigation';
-	import { collection, getDocs, onSnapshot, doc, deleteDoc, updateDoc, getDoc} from "firebase/firestore";
+	import { collection, onSnapshot, orderBy, query} from "firebase/firestore";
 	import { onMount } from 'svelte';
 	import {db} from '$lib/firebase/client.js';
 	
 	let inquiries = []
-
+	
 	function viewInquiry(inquiryId){
 		localStorage.setItem(`inquiry-${inquiryId}`, 'read');
 		goto('/kanrisha/clientmanage/inquiries/' + inquiryId)
@@ -22,7 +22,8 @@
 	}
 	
 	onMount(() => {
-        const unsubscribe = onSnapshot(collection(db, 'inquiries'), (querySnapshot) => {
+		const q = query(collection(db, 'inquiries'), orderBy("inquiryNum", "desc") );
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
         inquiries = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         });
         return () => unsubscribe();
