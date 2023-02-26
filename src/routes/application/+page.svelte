@@ -30,7 +30,8 @@
 					firstname: applicant.firstname,
 					lastname: applicant.lastname,
 					email: applicant.email,
-					number: applicant.number
+					number: applicant.number,
+                    isRead: false
 				});
 
 			    filesToUpload.map((value)=>{
