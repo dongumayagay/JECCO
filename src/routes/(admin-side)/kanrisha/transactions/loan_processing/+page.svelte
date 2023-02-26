@@ -5,6 +5,7 @@
 	import UpdateLoanModal from './UpdateLoanModal.svelte';
     import SearchClientModal from '$lib/components/SearchClientModal.svelte';
     import AddLoanPProcess from '$lib/components/AddLoanPProcess.svelte';
+    import {peso} from '$lib/utils.js'
 
     let selectedRowIndex = null;
     let searchSelected = false;
@@ -116,7 +117,7 @@
                     {loan.formattedDueDate}
                 </td>
                 <td class="px-6">
-                    {loan.loanAmount}        
+                    {peso.format(loan.loanAmount)}
                 </td>
                 <td class="px-6">
                     {loan.dailyPayment}
