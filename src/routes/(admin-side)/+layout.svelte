@@ -3,6 +3,7 @@
     import {userStore} from '$lib/store.js';
     import {goto} from '$app/navigation';
     import {getDoc,doc} from 'firebase/firestore';
+    import {auth} from '$lib/firebase/client.js'
     import {db} from '$lib/firebase/client.js';
     import {signOut} from 'firebase/auth'
     let show = false;
