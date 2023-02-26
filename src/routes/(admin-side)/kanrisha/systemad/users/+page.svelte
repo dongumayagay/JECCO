@@ -22,6 +22,10 @@
 
 </script>
 
+<svelte:head>
+	<title>JECCO | Admin User</title>
+</svelte:head>
+
 	<div class="flex items-center p-4 shadow-md sm:rounded-lg h-10 bg-white gap-4">
 		Admin Users
 		<div class="flex items-center absolute right-10 sm:rounded-lg bg-white gap-4">

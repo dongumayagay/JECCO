@@ -1,33 +1,62 @@
-<section class="flex flex-col w-full h-screen overflow-y-auto bg-gray-200">
-	<div class=" w-full flex flex-col p-3 h-full">
+<script>
+	import {getAuth} from 'firebase/auth'
+	import {db} from '$lib/firebase/client.js';
+	import { collection, onSnapshot, query, where, orderBy } from 'firebase/firestore';
+
+	let userClient = getAuth().currentUser;
+	let payments = []
+	
+	async function userPaymment() {
+        payments = []
+
+        const q = query(collection(db, 'payments'), where("owner", "==", userClient.uid), orderBy("transactionDate", "desc") );
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+            payments = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        });
+        return () => unsubscribe();
+        
+    }
+
+	userPaymment()
+  
+</script>
+<svelte:head>
+	<title>JECCO | Payment History</title>
+</svelte:head>
+<section class="flex flex-col w-full h-screen overflow-y-auto">
 		<div class="bg-white mb-3 rounded-lg p-2 text-2xl">
 			Payment History
 		</div>
-			<div class="bg-white rounded-lg p-2 h-screen overflow-x-auto ">
-				<table class="table max-sm:table-compact w-full max-sm:w-fit">
-					<thead>
-						<tr class="hover">
-							<td>#</td> 
-							<th>Loan Status</th> 
-							<th>Amount Paid</th> 
-							<th>Date Paid</th> 								
-						</tr>
-					</thead> 
-					<tbody>
-						<tr class="hover">
-							<td>1</td> 
-							<td>Active</td> 
-							<td>5,000.00 php</td> 
-							<td>12/16/2020</td> 
-						</tr>
-						<tr class="hover">
-							<td>2</td> 
-							<td>Active</td> 
-							<td>10,000.00 php</td> 
-							<td>12/15/2020</td> 
-						</tr>
-					</tbody> 
-				</table>	
+		<div class="bg-white rounded-lg p-2 h-screen overflow-x-auto ">
+			<table class="table table-normal w-full">
+				<thead>
+					<tr>
+						<th>Transaction ID</th>
+						<th>Amount</th> 
+						<th>Transaction Date</th>
+						<th>Arrears Payment</th>
+						<th>Past Due Payment</th>			
+					</tr>
+				</thead>
+				{#each payments as payment}                 
+					<tr >
+						<td>
+							{payment.transactionId}
+						</td>
+						<td class="px-6">
+							{payment.loanPayment}
+						</td>
+						<td>
+							{payment.transactionDate}
+						</td>
+						<td>
+							{payment.arrearsPayment}
+						</td>
+						<td>
+							{payment.pastDuePayment}
+						</td>
+					</tr>
+				{/each}	
+			</table>			
 		</div>
-	</div>
 </section>	

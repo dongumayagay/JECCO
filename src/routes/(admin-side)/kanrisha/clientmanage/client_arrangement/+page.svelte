@@ -1,4 +1,8 @@
-		<div class="flex items-center p-4 shadow-md sm:rounded-lg h-auto bg-white gap-4">
+
+<svelte:head>
+	<title>JECCO | Client Arrangement</title>
+</svelte:head>
+        <div class="flex items-center p-4 shadow-md sm:rounded-lg h-auto bg-white gap-4">
 			<input class="p-2" type="text" placeholder="Collector Name">
 			<select name="status" id="status">
 				<option value="inactive">Inactive</option>

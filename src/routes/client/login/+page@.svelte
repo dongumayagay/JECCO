@@ -8,16 +8,17 @@
 
 	let username = '';
 	let password = '';
+	let showPassword = false;
 
 	async function login() {
 		try {
 		 	const userCredential = await signInWithEmailAndPassword(auth,username,password);
-			
+			 
 		} catch (error) {
-
-			console.log(error);
+			alert('Wrong Email/Password. Please try again with correct credentials.');
 
 		}
+		alert('Welcome ' + username);
 	}
 
 	async function checkIfAdmin(_){
@@ -37,7 +38,14 @@
     }
 	$: checkIfAdmin($userStore)
 
+	function toggleShowPassword(){
+        showPassword = !showPassword;
+    }
 </script>
+
+<svelte:head>
+	<title>Client | Login</title>
+</svelte:head>
 
 <main class="flex max-lg:flex-col bg-gray-200 h-screen items-center">
 
@@ -50,7 +58,15 @@
 		<form class=" flex flex-col w-96 p-4 gap-4" on:submit|preventDefault={login}>
 		<h1 class="text-center font-bold">Client Login</h1>
 		<input class=" rounded-lg" type="text" placeholder="Email" bind:value={username} required />
+		{#if showPassword}
+		<input class=" rounded-lg" type="text" placeholder="Password" bind:value={password} required /> 
+		{:else}
 		<input class=" rounded-lg" type="password" placeholder="Password" bind:value={password} required /> 
+		{/if}
+		<div class=" relative text-sm font-mono ">
+			<input type="checkbox" class="checkbox checkbox-xs" on:click={toggleShowPassword}>
+                {showPassword ? "Show" : "Show"} password
+        </div>
 		<button class="bg-blue-500 py-2 mt-4 rounded-lg text-white transition duration-200 ease-in-out hover:bg-blue-900" type="submit">Login</button>
 		</form>
 	</div>

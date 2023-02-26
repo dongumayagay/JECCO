@@ -47,14 +47,14 @@
 
 </script>
 
-    <input type="checkbox" bind:checked={loanMatrixModal} id="matrix" class="modal-toggle" />
+    <input type="checkbox" bind:checked={loanMatrixModal} id="matrixUpdate" class="modal-toggle" />
         <div class="modal">
             <div class="modal-box">
                 <form class="relative bg-white rounded-lg shadow" >
                     <!-- Modal header -->
                     <div class="flex items-center p-4 rounded-t border-b">   
                         <h3 class="text-xl font-semibold text-gray-900">
-                            Number of Days  
+                            Number of Days  hahaaha
                         </h3>
                         <select on:change={handleSelection}>
                             {#each days as day}
@@ -83,7 +83,7 @@
                         </div>
                     </div>
                     <div class="modal-action">    
-                        <label for="matrix" class="btn border-transparent bg-red-600">Cancel</label>
+                        <label for="matrixUpdate" class="btn border-transparent bg-red-600">Cancel</label>
                     </div>
                 </form>
             </div>

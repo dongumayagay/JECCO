@@ -53,16 +53,16 @@
             <div class="p-6 space-y-6">
                 <div class="grid grid-cols-6 gap-6">
                     <div class="col-span-6 sm:col-span-3">
-                        <label for="first-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                        <input type="text" bind:value={addUserInput.name} class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        <label for="first-name" class="mb-2 text-sm font-medium">Name</label>
+                        <input type="text" bind:value={addUserInput.name} class="bg-gray-50 border border-gray-400 text-sm rounded-lg w-full p-2.5" maxlength="60" required>
                     </div>
                     <div class="col-span-6 sm:col-span-3">
-                        <label for="last-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Adress</label>
-                        <input type="text" bind:value={addUserInput.address} class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        <label for="address" class="mb-2 text-sm font-medium">Adress</label>
+                        <input type="text" bind:value={addUserInput.address} class="bg-gray-50 border border-gray-400 text-sm rounded-lg w-full p-2.5" maxlength="100" required>
                     </div>
                     <div class="col-span-6 sm:col-span-3">
-                        <label for="phone-number" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone Number</label>
-                        <input type="text" bind:value={addUserInput.contactInfo} class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        <label for="phone-number" class="mb-2 text-sm font-medium">Phone Number</label>
+                        <input type="text" bind:value={addUserInput.contactInfo} class="bg-gray-50 border border-gray-400 text-sm rounded-lg w-full p-2.5" minlength="11" maxlength="11" required>
                     </div>
                 </div>
             </div>

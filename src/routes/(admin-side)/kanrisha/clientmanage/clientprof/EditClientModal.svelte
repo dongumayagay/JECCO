@@ -66,36 +66,36 @@
             <div class="p-6 space-y-6">
                 <div class="grid grid-cols-6 gap-6">
                     <div class="col-span-6 sm:col-span-3">
-                        <label for="last-name" class="block mb-2 text-sm font-medium  ">Last Name</label>
-                        <input type="text" bind:value={addUserInput.lastname} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Last Name" required>
+                        <label for="first-name" class="block mb-2 text-sm font-medium  ">First Name</label>
+                        <input type="text" bind:value={addUserInput.firstname} class=" border text-sm rounded-lg" placeholder="First Name" maxlength="30" minlength="2" required>
                     </div>
                     <div class="col-span-6 sm:col-span-3">
-                        <label for="first-name" class="block mb-2 text-sm font-medium  ">First Name</label>
-                        <input type="text" bind:value={addUserInput.firstname} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="First Name" required>
+                        <label for="last-name" class="block mb-2 text-sm font-medium  ">Last Name</label>
+                        <input type="text" bind:value={addUserInput.lastname} class=" border text-sm rounded-lg" placeholder="Last Name" maxlength="30" minlength="2" required>
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <label for="email" class="block mb-2 text-sm font-medium  ">Email</label>
-                        <input type="email" bind:value={addUserInput.email} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Email" required>
+                        <input type="email" bind:value={addUserInput.email} class=" border text-sm rounded-lg" placeholder="Email" minlength="5" maxlength="50" required>
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <label for="contact-number" class="block mb-2 text-sm font-medium  ">Contact Number</label>
-                        <input type="text" bind:value={addUserInput.number} class="shadow-sm  border   text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Contact Info" required>
+                        <input type="text" bind:value={addUserInput.number} class=" border text-sm rounded-lg" placeholder="Contact Info" minlength="11" maxlength="11" required>
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <label for="house" class="block mb-2 text-sm font-medium  ">House No.</label>
-                        <input type="text" bind:value={addUserInput.houseNo} class="shadow-sm  border text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="House No." required>
+                        <input type="text" bind:value={addUserInput.houseNo} class=" border text-sm rounded-lg" placeholder="House No." maxlength="30" required>
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <label for="brgy" class="block mb-2 text-sm font-medium  ">Barangay</label>
-                        <input type="text" bind:value={addUserInput.barangay} class="shadow-sm  border text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Barangay" required>
+                        <input type="text" bind:value={addUserInput.barangay} class=" border text-sm rounded-lg" placeholder="Barangay" minlength="3" maxlength="30" required>
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <label for="muni" class="block mb-2 text-sm font-medium  ">Municipality</label>
-                        <input type="text"  bind:value={addUserInput.municipality} class="shadow-sm  border text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Municipality" required="">
+                        <input type="text"  bind:value={addUserInput.municipality} class=" border text-sm rounded-lg" placeholder="Municipality" minlength="3" maxlength="30" required>
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <label for="prov" class="block mb-2 text-sm font-medium  ">Province</label>
-                        <input type="text" bind:value={addUserInput.province} class="shadow-sm  border text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500 " placeholder="Province" required="">
+                        <input type="text" bind:value={addUserInput.province} class=" border text-sm rounded-lg " placeholder="Province" minlength="3" maxlength="30" required>
                     </div>
                 </div>
             </div>

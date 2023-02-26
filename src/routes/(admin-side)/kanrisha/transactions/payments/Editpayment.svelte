@@ -1,14 +1,12 @@
 <script>
-	import { collection, updateDoc, query, where, orderBy, limit, doc, getDocs, addDoc, getDoc } from "firebase/firestore";
+	import { collection, updateDoc, query, where, orderBy, limit, doc, getDocs, addDoc } from "firebase/firestore";
   import {db} from '$lib/firebase/client.js';
 
   let loans = [];
   let transactModal = false;
   let addUserInput = {};
   let cliInfo = [];
-  let paymentCounter
-  let ctrlNumber = "000000"
-  let transactionId = ''
+  let paymentInfo = [];
 
   async function userLoans() {
     //loans = []
@@ -19,74 +17,66 @@
         id:doc.id,
         ...doc.data()
       }
-    }); 
+    });       
   }
 
-  export async function clienInfo(infoClient){
-    const docSnap = await getDoc(doc(db, "id_counters", "payments_counter")); 
-    paymentCounter = docSnap.data()
-    paymentCounter.count ++
-    ctrlNumber = ctrlNumber + paymentCounter.count.toString()
-    transactionId = ctrlNumber.slice(-6)
+  export async function clientInfo(infoPayment,infoClient){
     cliInfo = infoClient
-      addUserInput = {
-        owner: cliInfo.id, 
-        name: cliInfo.firstname + ' ' + cliInfo.lastname,
-        clientNumber: cliInfo.clientNumber,
-        transactionId: transactionId
+    paymentInfo = infoPayment
+    addUserInput = {
+      owner: cliInfo.id, 
+      name: cliInfo.firstname + ' ' + cliInfo.lastname,
+      clientNumber: cliInfo.clientNumber,
+      transactionId: paymentInfo.transactionId,
+      transactionDate: paymentInfo.transactionDate,
+      prNumber: paymentInfo.prNumber,
+      loanPayment: paymentInfo.loanPayment,
+      arrearsPayment: paymentInfo.arrearsPayment,
+      pastDuePayment: paymentInfo.pastDuePayment,
     }
     await userLoans()
   }
 
   function resetAddUserInput(){
-    ctrlNumber = "000000"
     addUserInput = {
-      transactionDate: '',
-      prNumber: '',
-      loanPayment: '',
-      arrearsPayment: '',
-      pastDuePayment: '',
+      transactionDate: paymentInfo.transactionDate,
+      prNumber: paymentInfo.prNumber,
+      loanPayment: paymentInfo.loanPayment,
+      arrearsPayment: paymentInfo.arrearsPayment,
+      pastDuePayment: paymentInfo.pastDuePayment,
 	  }
-    transactModal = false;
+    transactModal=false
   } 
-  async function addPayment(){
-    if (addUserInput.arrearsPayment == undefined) {
-      addUserInput.arrearsPayment = 0
-    }
-    if (addUserInput.pastDuePayment == undefined) {
-      addUserInput.pastDuePayment = 0
-    }
+  async function updatePayment(){
+    loans[0].balance = loans[0].balance + paymentInfo.loanPayment
+    loans[0].totalPayment = loans[0].totalPayment - paymentInfo.loanPayment
     const totalPaid = addUserInput.loanPayment + addUserInput.arrearsPayment
+    loans[0].balance = loans[0].balance - totalPaid
+    loans[0].totalPayment = loans[0].totalPayment + totalPaid
 		try {
-			const docRef = await addDoc(collection(db, "payments"), {
-        owner: addUserInput.owner,
-        transactionId: addUserInput.transactionId,
+			await updateDoc(doc(db, "payments", paymentInfo.id), {
         transactionDate: addUserInput.transactionDate,
         prNumber: addUserInput.prNumber,
         loanPayment: addUserInput.loanPayment,
         arrearsPayment: addUserInput.arrearsPayment,
         pastDuePayment: addUserInput.pastDuePayment
       });
-      await updateDoc(doc(db, "id_counters", "payments_counter"), {
-        count: paymentCounter.count
-      })
       await updateDoc(doc(db, 'loanprocess', loans[0].id),{
-        balance: loans[0].balance - totalPaid,
-        totalPayment: loans[0].totalPayment + totalPaid ,
+        balance: loans[0].balance,
+        totalPayment: loans[0].totalPayment,
       });
 		} catch (error) {
 			console.log(error)
 		}
-    resetAddUserInput()
-    transactModal = false ;
+    transactModal=false
   }
 </script>
 
 
-<input type="checkbox" class="modal-toggle" id="payment" bind:checked={transactModal}/>
+<input type="checkbox" class="modal-toggle" id="edit_payment" bind:checked={transactModal}/>
 {#if transactModal && loans.length!==0}
 <div class="modal">
-  <form class="relative rounded-lg shadow" on:submit={addPayment}>
+  <form class="relative bg-white rounded-lg shadow" on:submit={updatePayment}>
   <div class="modal-box w-full max-w-3xl">
     <h3 class="font-bold text-lg">Daily Payment</h3>
     <hr class="my-2" />
@@ -142,7 +132,7 @@
   
 
     <div class="modal-action">
-      <button type="submit" class="btn btn-ghost bg-green-400 text-white rounded-lg hover:bg-green-300 px-8">Add</button>
+      <button type="submit" class="btn btn-ghost bg-green-400 text-white rounded-lg hover:bg-green-300 px-8">Save</button>
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <label for="payment" on:click={resetAddUserInput} class="btn border-transparent bg-red-600">Cancel</label>
     </div>

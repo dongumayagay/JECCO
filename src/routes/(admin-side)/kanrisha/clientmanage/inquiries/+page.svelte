@@ -1,19 +1,18 @@
 <script>
 	import {goto} from '$app/navigation';
-	import { collection, getDocs, onSnapshot} from "firebase/firestore";
+	import { collection, onSnapshot, orderBy, query, updateDoc, doc} from "firebase/firestore";
 	import { onMount } from 'svelte';
-	import {db} from '$lib/firebase/client.js'
+	import {db} from '$lib/firebase/client.js';
 	
 	let inquiries = []
-
+	
 	function viewInquiry(inquiryId){
 		goto('/kanrisha/clientmanage/inquiries/' + inquiryId)
-
 	}
 
-	
 	onMount(() => {
-        const unsubscribe = onSnapshot(collection(db, 'inquiries'), (querySnapshot) => {
+		const q = query(collection(db, 'inquiries'), orderBy("inquiryNum", "desc") );
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
         inquiries = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         });
         return () => unsubscribe();
@@ -23,26 +22,39 @@
 	function editOption(event) {
 		event.stopPropagation();
   }
+
+  async function inquiryRead(inquiryId){
+	await updateDoc(doc(db, 'inquiries', inquiryId),{
+        isRead: true,
+      });
+  }
 	
-
-
 </script>
 		
+<svelte:head>
+	<title>JECCO | Applications</title>
+</svelte:head>
+
+	<div class="flex items-center p-4 shadow-md rounded-md h-12 bg-white gap-4">
+		<h1 class="left-0 pr-10 text-xl font-semibold">Applications</h1>
+	</div>
+
 	<div class="overflow-x-auto relative shadow-md rounded-lg h-full bg-white mt-4">
-		<table class="table table-normal w-full bg-white ">
+		
+		<table class="table table-compact w-full bg-white ">
 		  	<thead>				
 				<tr>
-					<th scope="col" class="px-6"></th>
-			  		<th>firstname</th> 
-			  		<th>email</th> 
-				  	<th>number</th>
+					<th scope="col" class="px-6 bg-stone-300"></th>
+			  		<th class="bg-stone-300">firstname</th> 
+			  		<th class="bg-stone-300">email</th> 
+				  	<th class="bg-stone-300">number</th>
 			 		<!-- <th>address</th> -->
 				</tr>
 		 	</thead> 
-			{#each inquiries as applicant }			 
-				<tr class="hover cursor-pointer" on:click={() => viewInquiry(applicant.id)}>
+			{#each inquiries as applicant }		
+				<tr class="{applicant.isRead ? 'bg-gray-100' : 'bg-white font-bold '} cursor-pointer hover:bg-sky-200" on:click={() => viewInquiry(applicant.id)} on:click={inquiryRead(applicant.id)}>
 					<!-- svelte-ignore a11y-click-events-have-key-events -->
-					<td class="px-4" on:click={editOption}>
+					<td class="flex px-4" on:click={editOption}>
 						<div  class="flex items-center space-x-2 text-sm">
 							<div class="dropdown">
 								<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
@@ -54,11 +66,11 @@
 								<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 								<ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-38">
 									<!-- svelte-ignore a11y-click-events-have-key-events -->
-									<li><label for="update">Edit</label></li>
 									<li><button>Delete</button></li>
 								</ul>
 							</div>
 						</div>  
+						<span class="{applicant.isRead ? 'hidden' : 'text-red-500'} font-bold mr-2">New</span>
 					</td>
 					<td>{applicant.firstname + '  ' + applicant.lastname}</td> 
 					<td>{applicant.email}</td> 

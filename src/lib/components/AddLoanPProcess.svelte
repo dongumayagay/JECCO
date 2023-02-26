@@ -1,62 +1,138 @@
 <script>
-    import {setDoc, doc, onSnapshot, collection } from 'firebase/firestore';
+    import {addDoc, onSnapshot, collection, where, query, getCountFromServer, getDoc, updateDoc, doc } from 'firebase/firestore';
 	import {db} from '$lib/firebase/client.js';
-	import AddClientProfile from './AddClientProfile.svelte';
     import LoanMatrixModal from './LoanMatrixModal.svelte';
 
     let addModal = false  
     let cliInfo = [];
     let addUserInput = {} 
-
-    //auto incrementers
+    let chosenMatrix = []
+    let resetChosenMatrix
+    let numberOfLoans;
+    let releaseDate;
+    let dueDate;
+    let formattedDueDate;
+    //loan ref id generator
     let loans = []
     let totalLoans = 0 
-    const unsubscribe = onSnapshot(collection(db, 'loanprocess'), (querySnapshot) => {
-            loans = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-            totalLoans = loans.length + 1;
+    let ctrlNumber = "000000"
+    let thisLoanNumber = ""
+    let loanNumber;
+
+    const totalLoanCounter = onSnapshot(collection(db, 'loanprocess'), (querySnapshot) => {
+            loans = querySnapshot.docs.map((doc) => ({ id: doc.numberOfLoan, ...doc.data() }));
     });
-    //
+    //user loan counter
+    async function userLoanCounter(clientId) {
+        const q = query(collection(db, 'loanprocess'), where("owner", "==", clientId));
+        const snapshot = await getCountFromServer(q);
+        numberOfLoans = snapshot.data().count;
+        loanNumber = numberOfLoans+1;
+    }
 
     export async function clienInfo(infoClient){
+        const docSnap = await getDoc(doc(db, "id_counters", "loan_counter")); 
+        totalLoans = docSnap.data()
+        totalLoans.count ++
+        ctrlNumber = ctrlNumber + totalLoans.count.toString()
+        thisLoanNumber = ctrlNumber.slice(-6)
         cliInfo = infoClient
+        await userLoanCounter(cliInfo.id)
         addUserInput = {
-            loanNumber:totalLoans,
+            owner: cliInfo.id, 
+            loanNumber:thisLoanNumber,
+            name: cliInfo.firstname + ' ' + cliInfo.lastname,
+            clientNumber: cliInfo.clientNumber,
+            numberOfLoan: numberOfLoans,
             id:cliInfo.id,
             username: cliInfo.username,
-            duration:'80 days',
-            area:cliInfo.barangay
         }
     }
 
     function resetAddUserInput(){
+        ctrlNumber = "000000"
 		addUserInput = {
-            loanNumber:totalLoans,
-            loanAmount:'10',
-            duration:'80 days',
+            loanNumber:thisLoanNumber,
+            name: cliInfo.firstname + ' ' + cliInfo.lastname,
+            clientNumber: cliInfo.clientNumber,
+            numberOfLoan: numberOfLoans,
+            loanAmount:'',
             purpose:'',
             releaseDate:'',
-            area:cliInfo.barangay
-	    } 
+            area:'',
+            accountOfficer:'',
+            creditInvestigatedBy:'',
+            approvedBy: '',
+            releasedBy: '',
+            collectorAssigned:'',
+	    }
+        releaseDate = ""
+        formattedDueDate = ""
+        document.getElementById("due-date").value = formattedDueDate;
 	}
 
-    async function addUser(){
+    async function addLoan(){
 		try {
-			const docRef = await setDoc(doc(db, "loanprocess", cliInfo.id), {
+			const docRef = await addDoc(collection(db, "loanprocess"), {
                 loanNumber:addUserInput.loanNumber,
                 username:cliInfo.username,
+                owner:addUserInput.owner ,
                 loanAmount:addUserInput.loanAmount,
-                duration:addUserInput.duration,
-                releaseDate:addUserInput.releaseDate,
-                area:addUserInput.area
+                numberOfLoan: loanNumber,
+                releaseDate: releaseDate.toString(),
+                area:addUserInput.area,
+                formattedDueDate: formattedDueDate.toString(),
+                days: chosenMatrix.days,
+                loanAmount:chosenMatrix.loanAmount,
+                serviceCharge: chosenMatrix.serviceCharge,
+                totalAmountDue: chosenMatrix.totalAmountDue,
+                dailyPayment: chosenMatrix.dailyPayment,
+                miscellanoeusFee: chosenMatrix.miscellanoeusFee,
+                notarialFee: chosenMatrix.notarialFee,
+                balance: chosenMatrix.totalAmountDue,
+                totalPayment:0,
+                status: "Ongoing",
+                accountOfficer: addUserInput.accountOfficer,
+                creditInvestigatedBy: addUserInput.creditInvestigatedBy,
+                approvedBy: addUserInput.approvedBy,
+                releasedBy: addUserInput.releasedBy,
+                collectorAssigned: addUserInput.collectorAssigned,
         	});
+            await updateDoc(doc(db, "id_counters", "loan_counter"), {
+                count: totalLoans.count
+            });
 		} catch (error) {
 			console.log(error)
-
 		}
 		resetAddUserInput()
+        resetChosenMatrix()
+        releaseDate = ""
+        formattedDueDate = ""
+        document.getElementById("due-date").value = formattedDueDate;
 		addModal = false
 	}
 
+    $: if(chosenMatrix.days > 0 && releaseDate != null) {
+        setDueDate()
+    }
+
+    function setDueDate() {
+        // Create a new Date object from the release date
+        let date = new Date(releaseDate);
+
+        // Remove time from release date
+        date.setHours(0, 0, 0, 0);
+
+        // Compute due date
+        dueDate = new Date(date.getTime() + chosenMatrix.days * 24 * 60 * 60 * 1000);
+
+        // Format the due date
+        formattedDueDate = `${dueDate.getFullYear()}-${("0" + (dueDate.getMonth() + 1)).slice(-2)}-${("0" + dueDate.getDate()).slice(-2)}`;
+
+        // Set due date in input
+        document.getElementById("due-date").value = formattedDueDate;
+        
+    }
 </script>
 
 <input type="checkbox" bind:checked={addModal} id="add2" class="modal-toggle" />
@@ -64,10 +140,10 @@
     <div class="modal-box max-w-5xl overflow-y-auto">
 
         <!-- Modal -->
-        <form class="relative bg-white rounded-lg shadow dark:bg-gray-700 dark:text-white" on:submit={addUser}>
+        <form class="relative bg-white rounded-lg shadow" on:submit={addLoan}>
             <!-- Modal header -->
-            <div class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+            <div class="flex justify-between items-start p-4 rounded-t border-b">
+                <h3 class="text-xl font-semibold text-gray-900">
                     Borrow Set-up
                 </h3>
             </div>
@@ -76,19 +152,18 @@
                 <div class="flex gap-4">
                 <div>
                     <label for="borrowerName" class="font-medium">Name</label>
-                    <input type="text" disabled class=" border text-sm rounded-lg w-72 "> 
+                    <input type="text" disabled bind:value={addUserInput.name} class=" border text-sm rounded-lg w-72 "> 
                 </div>
                 <div>
                     <label for="borrowerName" class="font-medium">Client Number</label>
-                    <input type="text" disabled class=" border text-sm rounded-lg w-72 "> 
+                    <input type="text" disabled bind:value={addUserInput.clientNumber} class=" border text-sm rounded-lg w-72 "> 
                 </div>
                 <div>
-                    <label for="loanNum" class="font-medium">Loan #:</label>
-                    <input id="loanNum" type="text" disabled bind:value={addUserInput.loanNumber} class="border text-sm rounded-lg">
+                    <label for="loanNum" class="font-medium">Loan Ref#:</label>
+                    <input type="text" disabled bind:value={addUserInput.loanNumber} class="border text-sm rounded-lg">
                 </div>
                 </div>
-               
-                
+
                 <hr/>
                 
             <div class="flex gap-4 py-6">
@@ -97,21 +172,38 @@
                     <div class="flex">
                         <div class=" pl-4">
                             <label for="matrix" class=" btn btn-sm">Loan Matrix</label>
-                            <input type="text" disabled bind:value={addUserInput.duration} class="border text-sm rounded-lg w-24">
+                            {#await chosenMatrix}
+                                <p>...waiting</p>
+                            {:then matrix}   
+                                {#if chosenMatrix.loanAmount == undefined}
+                                    <input type="text" disabled class="border text-sm rounded-lg w-24">
+                                {:else}
+                                <input type="text" disabled bind:value={chosenMatrix.days} class="border text-sm rounded-lg w-24">
+                                {/if}
+                            {:catch error}
+                                <p style="color: red">{error.message}</p>
+                            {/await}    
                         </div>
-                        <div  class=" absolute right-16">
-                            <label for="loanNum" class="font-medium">Number of Loan:</label>
-                             <input type="text" disabled class=" relative left-6 text-sm rounded-lg w-24">
+                        <div  class=" absolute right-16"> 
+                            <label for="loanNum" class="font-medium">Number of Loans:</label>
+                            <input type="text" disabled bind:value={addUserInput.numberOfLoan} class=" relative left-6 text-sm rounded-lg w-24">
                         </div>
                     </div>
                     <div class="flex">
-                        <div class=" pl-4">
-                             <label for="rDate" class="font-medium">Release Date:</label>
-                             <input type="date" disabled class=" relative left-6 text-sm rounded-lg w-36">
-                         </div>
-                         <div class=" absolute right-16">
+                        {#if chosenMatrix.days > 0}
+                            <div class=" pl-4">
+                                <label for="rDate" class="font-medium">Release Date:</label>
+                                <input type="date" bind:value={releaseDate} on:input={setDueDate} class=" relative left-6 text-sm rounded-lg w-36">
+                            </div> 
+                        {:else}
+                            <div class=" pl-4">
+                                <label for="rDate" class="font-medium">Release Date:</label>
+                                <input type="date" disabled class=" relative left-6 text-sm rounded-lg w-36">
+                            </div>
+                        {/if}    
+                        <div class=" absolute right-16">
                             <label for="dDate" class="font-medium">Due Date:</label>
-                            <input type="date" disabled class=" relative left-6 text-sm rounded-lg w-36">
+                            <input type="date" disabled id="due-date" class=" relative left-6 text-sm rounded-lg w-36">
                         </div>
                     </div>
                     </div>
@@ -128,24 +220,44 @@
                 <p class="font-medium">Daily Payment:</p>
                 <p class="font-medium">Miscellanoeus Fee:</p>
                 <p class="font-medium">Notarial Fee:</p>
-                <p class="font-medium"><input type="checkbox" class=" checkbox-xs "> JBF-JEM'S Benefit Fund</p>
+                <!-- <p class="font-medium"><input type="checkbox" class=" checkbox-xs "> JBF-JEM'S Benefit Fund</p>
                 <p class="font-medium">Net Proceeds:</p>
                 <p class="font-medium">Arrears Percent Penalty:</p>
-                <p class="font-medium">Past Due Percent Interest:</p>
+                <p class="font-medium">Past Due Percent Interest:</p> -->
             </div>
             
             <div class=" flex flex-col gap-2">
-                <p><input type="number" class=" h-8 rounded-md w-60" ></p>
-                <p class="flex gap-2"><input type="number" class=" h-8 rounded-md w-60" ><input type="number" class=" h-8 rounded-md w-28" >%</p>
-                <p class="flex gap-2"><input type="number" class=" h-8 rounded-md w-60" ><input type="number" class=" h-8 rounded-md w-28" >%</p>
-                <p><input type="number" class=" h-8 rounded-md w-60" ></p>
-                <p><input type="number" class=" h-8 rounded-md w-60" ></p>
-                <p class="flex gap-2"><input type="number" class=" h-8 rounded-md w-60" ><input type="number" class=" h-8 rounded-md w-28" >%</p>
-                <p><input type="number" class=" h-8 rounded-md w-60" ></p>
-                <p><input type="number" class=" h-8 rounded-md w-60" ></p>
-                <p class="flex gap-2"><input type="number" class=" h-8 rounded-md w-60" ><input type="number" class=" h-8 rounded-md w-48" ></p>
-                <p><input type="number" class=" h-8 rounded-md w-28" > %</p>
-                <p><input type="number" class=" h-8 rounded-md w-28" ></p>
+                {#await chosenMatrix}
+                    <p>...waiting</p>
+                {:then matrix}   
+                    {#if chosenMatrix.loanAmount == undefined}    
+                        <p><input type="number" disabled class=" h-8 rounded-md w-60" ></p>
+                        <p class="flex gap-2"><input type="number" disabled class=" h-8 rounded-md w-60" ><input type="number" disabled class=" h-8 rounded-md w-28 bg-yellow-100" >%</p>
+                        <p class="flex gap-2"><input type="number" disabled class=" h-8 rounded-md w-60" ><input type="number" disabled class=" h-8 rounded-md w-28 bg-yellow-100" >%</p>
+                        <p><input type="number" disabled class=" h-8 rounded-md w-60" ></p>
+                        <p><input type="number" disabled class=" h-8 rounded-md w-60" ></p>
+                        <p class="flex gap-2"><input type="number" disabled class=" h-8 rounded-md w-60" ><input type="number" disabled class=" h-8 rounded-md w-28 bg-yellow-100" >%</p>
+                        <p><input type="number" disabled class=" h-8 rounded-md w-60" ></p>
+                        <!-- <p><input type="number" disabled class=" h-8 rounded-md w-60" ></p>
+                        <p class="flex gap-2"><input type="number" disabled class=" h-8 rounded-md w-60" ><input type="number" disabled class=" h-8 rounded-md w-48" ></p>
+                        <p><input type="number" disabled class=" h-8 rounded-md w-28" > %</p>
+                        <p><input type="number" disabled class=" h-8 rounded-md w-28" ></p> -->
+                    {:else}
+                        <input type="number" disabled bind:value={chosenMatrix.loanAmount} class=" h-8 rounded-md w-60 text-right" >
+                        <p class="flex gap-2"><input type="number" disabled bind:value={chosenMatrix.interestRate} class=" h-8 rounded-md w-60 text-right" ><input type="number" disabled bind:value={chosenMatrix.interestPercent} class=" h-8 rounded-md w-28 text-right bg-yellow-100" >%</p>
+                        <p class="flex gap-2"><input type="number" disabled bind:value={chosenMatrix.serviceCharge} class=" h-8 rounded-md w-60 text-right" ><input type="number" disabled bind:value={chosenMatrix.serviceChargePercent} class=" h-8 rounded-md w-28 text-right bg-yellow-100" >%</p>
+                        <input type="number" disabled bind:value={chosenMatrix.totalAmountDue} class=" h-8 rounded-md w-60 text-right" >
+                        <input type="number" disabled bind:value={chosenMatrix.dailyPayment} class=" h-8 rounded-md w-60 text-right" >
+                        <p class="flex gap-2"><input type="number" bind:value={chosenMatrix.miscellanoeusFee} disabled class=" h-8 rounded-md w-60 text-right" ><input type="number" bind:value={chosenMatrix.miscellanoeusFeePercent} disabled class=" h-8 rounded-md w-28 text-right bg-yellow-100">%</p>
+                        <input type="number" bind:value={chosenMatrix.notarialFee} disabled class=" h-8 rounded-md w-60 text-right" >
+                        <!-- <input type="number" disabled class=" h-8 rounded-md w-60 text-right" >
+                        <p class="flex gap-2"><input type="number" disabled class=" h-8 rounded-md w-60" ><input type="number" disabled class=" h-8 rounded-md w-48 text-right" >
+                        <input type="number" disabled class=" h-8 rounded-md w-28 text-right" > %
+                        <input type="number" disabled class=" h-8 rounded-md w-28 text-right" > -->
+                    {/if}
+                {:catch error}
+                    <p style="color: red">{error.message}</p>
+                {/await}
             </div>
            
         </div>
@@ -161,28 +273,31 @@
             </div>
             
             <div class=" flex flex-col gap-2">
-                <p><input type="text" class=" h-10 rounded-md w-60" ></p>
-                <p><input type="text" class=" h-10 rounded-md w-60" ></p>
-                <p><input type="text" class=" h-10 rounded-md w-60" ></p>
-                <p><input type="text" class=" h-10 rounded-md w-60" ></p>
-                <p><input type="text" class=" h-10 rounded-md w-60" ></p>
-                <p>
-                    <select class="w-60" name="areas" id="area">
+                <input type="text" bind:value={addUserInput.accountOfficer} class=" h-10 rounded-md w-60">
+                <input type="text" bind:value={addUserInput.creditInvestigatedBy} class=" h-10 rounded-md w-60">
+                <input type="text" bind:value={addUserInput.approvedBy} class=" h-10 rounded-md w-60">
+                <input type="text" bind:value={addUserInput.releasedBy} class=" h-10 rounded-md w-60">
+                <input type="text" bind:value={addUserInput.collectorAssigned} class=" h-10 rounded-md w-60">
+                
+                    <select class="w-60" name="areas" bind:value={addUserInput.area}>
                     <option value="estrella">Estrella</option>
                     <option value="langgam">Langgam</option>
                     <option value="laram">Laram</option>
                     <option value="narra">Narra</option>
-                  </select>
-                </p>
+                    <option value="narra">B. Silang</option>
+                    <option value="narra">Riverside</option>
+                    <option value="narra">Pacita</option>
+                    </select>
+                
             </div>
         </div>
             <div class="modal-action pt-8">    
                 <button type="submit" class="btn border-transparent bg-green-600">Process</button>
                 <!-- svelte-ignore a11y-click-events-have-key-events -->
-                <label for="add2" on:click={resetAddUserInput()} class="btn border-transparent bg-red-600">Cancel</label>
+                <label for="add2" on:click={resetAddUserInput} on:click={resetChosenMatrix} class="btn border-transparent bg-red-600">Cancel</label>
             </div>
         </form>
     </div>
 </div>
-<AddClientProfile/>
-<LoanMatrixModal/>  
+
+<LoanMatrixModal bind:chosenMatrix={chosenMatrix} bind:resetChosenMatrix={resetChosenMatrix}/>  

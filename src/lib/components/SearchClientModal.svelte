@@ -57,10 +57,10 @@
             
             <!-- on:submit={updateEmployee} -->
 
-            <form class="relative bg-white rounded-lg shadow dark:bg-gray-700" on:submit={searchClient}>
+            <form class="relative bg-white rounded-lg shadow" on:submit={searchClient}>
                 <!-- Modal header -->
-                <div class="flex justify-center items-center p-4 rounded-t border-b dark:border-gray-600 gap-6">
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                <div class="flex justify-center items-center p-4 rounded-t border-b">
+                    <h3 class="text-xl font-semibold text-gray-900">
                         Search  
                     </h3>
                     <input type="search" bind:value={searchInput} class="w-full border-0 border-b-2">

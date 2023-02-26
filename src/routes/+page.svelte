@@ -1,3 +1,7 @@
+<svelte:head>
+	<title>Jempower's Credit Corp.</title>
+</svelte:head>
+
 
 <main class=" flex flex-col bg-cream-300 h-screen w-full">
 	
@@ -18,14 +22,14 @@
 				<h1 class=" text-5xl font-bold max-sm:text-xl max-lg:text-4xl max-sm:font-bold pb-2 max-sm:pb-0 uppercase ">Loans that work for you, easy application process, flexible repayment options</h1>
 				<p class=" text-lg font-semibold max-sm:text-xs text-gray-500">Empowering your financial future, one step at a time. Let Jempower's Credit Corporation be your trusted partner in realizing your dreams and securing your financial stability through multiple credit options.</p>
 			<div class="flex max-sm:justify-center">
-				<a class=" font-semibold text-white flex p-2 w-72 max-sm:text-xs max-sm:p-2 items-center justify-center rounded-xl border bg-blue-800 cursor-pointer hover:bg-blue-400 " href="/register">Apply Now</a>
+				<a class=" font-semibold text-white flex p-2 w-72 max-sm:text-xs max-sm:p-2 items-center justify-center rounded-xl border bg-blue-800 cursor-pointer hover:bg-blue-400 " href="/application">Apply Now</a>
 			</div>
 			</div>
 				
 		</div>
 
 		<div class=" flex flex-1 justify-center">
-			<img class=" w-96 max-sm:w-60 max-sm:m-5" src="/landingpageicon.svg" alt="">
+			<img class=" w-96 max-sm:w-60 max-sm:m-5" src="/Wallet.svg" alt="">
 		</div>
 
 	</section>

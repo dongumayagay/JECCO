@@ -1,32 +1,41 @@
 <script>
     import { onMount } from 'svelte';
-    import { collection, onSnapshot, doc, deleteDoc } from 'firebase/firestore';
+    import { collection, onSnapshot, doc, deleteDoc, query, where, orderBy } from 'firebase/firestore';
     import {db} from '$lib/firebase/client.js';
 	import UpdateLoanModal from './UpdateLoanModal.svelte';
     import SearchClientModal from '$lib/components/SearchClientModal.svelte';
     import AddLoanPProcess from '$lib/components/AddLoanPProcess.svelte';
 
-
-    let rowSelected = false;
+    let selectedRowIndex = null;
     let searchSelected = false;
     let loans = []
     let clientInfo
+    let clienInfo
     let client = []
     let getAllClients;
 
-    onMount(() => {
-        const unsubscribe = onSnapshot(collection(db, 'loanprocess'), (querySnapshot) => {
+    async function userLoans() {
+        loans = []
+
+        const q = query(collection(db, 'loanprocess'), where("owner", "==", client.id), orderBy("numberOfLoan", "desc") );
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
             loans = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         });
         return () => unsubscribe();
         
-    })
+    }
+
     async function deleteLoan(id){
         await deleteDoc(doc(db, "loanprocess", id));
     }
 
+    const handleRowClick = (index) => {
+          selectedRowIndex = selectedRowIndex === index ? null : index;
+    };
+
     $: if(client.length !== 0){
         searchSelected = true;
+        userLoans();
     } else{
         searchSelected = false;
     }
@@ -36,8 +45,9 @@
 <div class="flex items-center p-4 shadow-md sm:rounded-lg bg-white gap-4">
     <h1 class=" font-bold">LOAN PROCESSING</h1>
     <div class=" absolute right-10">
-        <label for="editborrow" class={rowSelected ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={!rowSelected}>EDIT</label>
-        <label for="add2" class={searchSelected ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={!searchSelected}>Add Loan</label>
+        <label for="editborrow" class={selectedRowIndex !== null ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={selectedRowIndex === null}>EDIT</label>
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <label for="add2" on:click={() => clienInfo(client)} class={searchSelected ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={!searchSelected}>Add Loan</label>
     </div>
 </div>
 
@@ -80,62 +90,52 @@
 		<table class="table table-normal w-full">
 			<thead>
 				<tr class="hover">
-                    <th scope="col" class="px-6">#</th>
-                    <th scope="col" class="px-6">REF</th>
-					<th scope="col" class="px-6">TYPE</th>
-                    <th scope="col" class="px-6">R.DAYS</th>
+                    <td class="px-6">#</td>
+                    <th scope="col" class="px-6">LOAN REF</th>
 					<th scope="col" class="px-6">RELEASED DATE</th> 
 					<th scope="col" class="px-6">DUE DATE</th> 
                     <th scope="col" class="px-6">LOAN AMOUNT</th> 
-                    <th scope="col" class="px-6">D.I.</th> 
+                    <th scope="col" class="px-6">D.PAYMENT</th> 
 					<th scope="col" class="px-6">BALANCE</th> 
-                    <th scope="col" class="px-6">T.PAYMNET</th> 
+                    <th scope="col" class="px-6">T.PAYMENT</th>
                     <th scope="col" class="px-6">STATUS</th> 
-                    <th scope="col" class="px-6">JEM'S BENEFIT FUND</th> 
 				</tr>
 			</thead>
-            <tr on:click={() => rowSelected = !rowSelected} class={rowSelected ? ' hover cursor-pointer bg-blue-400 text-white ' : 'hover cursor-pointer'}>
-                    <td class="px-6">
-                        <p>1</p>
-                    </td>
-                    <td class="px-6">
-                        09sd7a0s97xz90c7a09s7d
-                    </td>
-                    <td class="px-6">
-                        
-                    </td>
-                    <td class="px-6">
-                        <!-- {loan.releaseDate} -->
-                    </td>
-                    <td class="px-6">
-                        
-                    </td>
-                    <td class="px-6">
-                        <!-- {loan.loanAmount} -->
-                        <!-- {loan.username} -->
-                    </td>
-                    <td class="px-6">
-                        <!-- {loan.area} -->
-                    </td>
-                    <td class="px-6">
-                        
-                    </td>
-                    <td class="px-6">
-                        <!-- {loan.duration} -->
-                    </td>
-                    <td class="px-6">
-                        
-                    </td>
-                    <td class="px-6">
-                        
-                    </td>
-                    <td class="px-6">
-                        
-                    </td>
-                </tr>
+            {#each loans as loan}
+                <tr on:click={() => handleRowClick(loan.id)} on:click={clientInfo(loan,client)} class={selectedRowIndex === loan.id ? ' hover cursor-pointer bg-blue-400 text-white ' : 'hover cursor-pointer'}>
+                <td class="px-6">
+                <p>{loan.numberOfLoan}</p>
+                </td>
+                <td class="px-6">
+                    {loan.loanNumber}
+                </td>
+                <td class="px-6">
+                    {loan.releaseDate}    
+                </td>
+                <td class="px-6">
+                    {loan.formattedDueDate}
+                </td>
+                <td class="px-6">
+                    {loan.loanAmount}        
+                </td>
+                <td class="px-6">
+                    {loan.dailyPayment}
+                </td>
+                <td class="px-6">
+                    {loan.balance}
+                </td>
+                <td class="px-6">
+                    {loan.totalPayment}
+                </td>
+                <td class="px-6">
+                    {loan.status}
+                </td>
+            </tr>
+            {/each}
 		</table>	
 	</div>		
 </div>
-<UpdateLoanModal bind:clientInfo={clientInfo} />
+
 <SearchClientModal bind:selected={client} bind:getAllClients={getAllClients}/>
-<AddLoanPProcess/>
+<AddLoanPProcess bind:clienInfo={clienInfo} />
+<UpdateLoanModal bind:clientInfo={clientInfo} />
