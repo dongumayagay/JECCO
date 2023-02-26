@@ -1,26 +1,15 @@
 <script>
 	import {goto} from '$app/navigation';
-	import { collection, onSnapshot, orderBy, query} from "firebase/firestore";
+	import { collection, onSnapshot, orderBy, query, updateDoc, doc} from "firebase/firestore";
 	import { onMount } from 'svelte';
 	import {db} from '$lib/firebase/client.js';
 	
 	let inquiries = []
 	
 	function viewInquiry(inquiryId){
-		localStorage.setItem(`inquiry-${inquiryId}`, 'read');
 		goto('/kanrisha/clientmanage/inquiries/' + inquiryId)
 	}
 
-		function getInquiryStatus(inquiryId) {
-		const status = localStorage.getItem(`inquiry-${inquiryId}`);
-		return status === 'read';
-	}
-	
-	function getInquiryNewStatus(inquiryId) {
-		const status = localStorage.getItem(`inquiry-${inquiryId}`);
-		return !status;
-	}
-	
 	onMount(() => {
 		const q = query(collection(db, 'inquiries'), orderBy("inquiryNum", "desc") );
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -34,6 +23,11 @@
 		event.stopPropagation();
   }
 
+  async function inquiryRead(inquiryId){
+	await updateDoc(doc(db, 'inquiries', inquiryId),{
+        isRead: true,
+      });
+  }
 	
 </script>
 		
@@ -58,11 +52,7 @@
 				</tr>
 		 	</thead> 
 			{#each inquiries as applicant }		
-				<tr
-        class="{getInquiryStatus(applicant.id) ? 'bg-gray-100' : 'bg-yellow-50 font-bold'} cursor-pointer hover:bg-sky-200"
-        on:click={() => viewInquiry(applicant.id)}
-      >
-					
+				<tr class="{applicant.isRead ? 'bg-gray-100' : 'bg-white font-bold '} cursor-pointer hover:bg-sky-200" on:click={() => viewInquiry(applicant.id)} on:click={inquiryRead(applicant.id)}>
 					<!-- svelte-ignore a11y-click-events-have-key-events -->
 					<td class="flex px-4" on:click={editOption}>
 						<div  class="flex items-center space-x-2 text-sm">
@@ -80,7 +70,7 @@
 								</ul>
 							</div>
 						</div>  
-						<span class="{getInquiryNewStatus(applicant.id) ? 'text-red-500' : 'hidden'} font-bold mr-2">New</span>
+						<span class="{applicant.isRead ? 'hidden' : 'text-red-500'} font-bold mr-2">New</span>
 					</td>
 					<td>{applicant.firstname + '  ' + applicant.lastname}</td> 
 					<td>{applicant.email}</td> 
