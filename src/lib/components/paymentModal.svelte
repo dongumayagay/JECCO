@@ -116,6 +116,8 @@
       <p>D.I<input disabled bind:value={loans[0].dailyPayment} class=" border border-black rounded-sm h-5 w-24"></p>
       <p>T. Payment<input disabled bind:value={loans[0].totalPayment} class=" border border-black rounded-sm h-5 w-24"></p>
       <p>Balance<input disabled bind:value={loans[0].balance} class=" border border-black rounded-sm h-5 w-24"></p>
+      <p>Arrears <input disabled bind:value={loans[0].balance} class=" border border-black rounded-sm h-5 w-24"></p>
+      <p>Balance<input disabled bind:value={loans[0].balance} class=" border border-black rounded-sm h-5 w-24"></p>
     </div>
 
     <hr class="my-4" />
