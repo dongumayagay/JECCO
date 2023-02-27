@@ -1,9 +1,9 @@
 <script>
   import {goto} from '$app/navigation'
   import {auth} from '$lib/firebase/client.js'
-  import {signOut, getAuth} from 'firebase/auth'
+  import {signOut} from 'firebase/auth'
+  import {userStore} from '$lib/store.js'
 
-  let userAdmin = getAuth().currentUser;
   async function logout(){
       await signOut(auth)
       await goto('/')
@@ -14,9 +14,9 @@
   <div class="fixed flex flex-col top-0 left-0 w-64 h-screen bg-white">
     <div class="flex pt-4 h-14 border-b">
       <div>
-        {#if userAdmin}
+        {#if $userStore}
           <a href="/kanrisha" class="flex items-center pl-2.5 mb-5">
-            <span class="self-center text-xl font-semibold whitespace-nowrap">Admin {userAdmin.displayName} </span>
+            <span class="self-center text-xl font-semibold whitespace-nowrap">Admin {$userStore.displayName} </span>
           </a>
         {/if}
     </div>
