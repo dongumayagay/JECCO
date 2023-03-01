@@ -1,15 +1,15 @@
 <script>
 	import {getAuth} from 'firebase/auth'
 	import {db} from '$lib/firebase/client.js';
+	import {userStore} from '$lib/store.js'
 	import { collection, onSnapshot, query, where, orderBy } from 'firebase/firestore';
-
-	let userClient = getAuth().currentUser;
+	
 	let loans = []
 	
 	async function userLoans() {
         loans = []
 
-        const q = query(collection(db, 'loanprocess'), where("owner", "==", userClient.uid), orderBy("numberOfLoan", "desc") );
+        const q = query(collection(db, 'loanprocess'), where("owner", "==", $userStore.uid), orderBy("numberOfLoan", "desc") );
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
             loans = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         });
