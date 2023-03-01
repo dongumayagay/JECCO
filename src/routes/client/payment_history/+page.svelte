@@ -24,14 +24,14 @@
 	<title>JECCO | Payment History</title>
 </svelte:head>
 <section class="flex flex-col w-full h-screen overflow-y-auto">
-		<div class="bg-white mb-3 rounded-lg p-2 text-2xl">
+		<div class="bg-white mb-3 rounded-lg p-2 text-2xl max-sm:text-lg font-semibold">
 			Payment History
 		</div>
 		<div class="bg-white rounded-lg p-2 h-screen overflow-x-auto ">
-			<table class="table table-normal w-full">
+			<table class="table table-normal max-sm:table-compact w-full">
 				<thead>
 					<tr>
-						<th>Transaction ID</th>
+						<td>Transaction ID</td>
 						<th>Amount</th> 
 						<th>Transaction Date</th>
 						<th>Arrears Payment</th>

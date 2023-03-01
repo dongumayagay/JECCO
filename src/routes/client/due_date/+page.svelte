@@ -45,17 +45,17 @@
 </svelte:head>
 <section class="flex flex-col w-full h-screen overflow-y-auto">
 		<div class=" flex bg-white mb-3 rounded-lg">
-			<h1 class=" m-2 text-2xl">Due Dates</h1>
-			<div class=" flex items-center justify-end pr-4 absolute p-2 right-10">
-				<button class="btn btn-sm bg-green-500 border-none" on:click={payOnline}>Pay Online</button>
+			<h1 class=" font-semibold m-2 text-2xl max-sm:text-lg">Due Dates</h1>
+			<div class=" flex items-center justify-end max-sm:pr-4 absolute p-2 right-10 max-sm:right-5">
+				<button class="btn btn-sm bg-green-500 border-none max-[320px]:text-xs max-[320px]:w-12" on:click={payOnline}>Pay Online</button>
 			</div>
 		</div>
 		<div class="bg-white rounded-lg p-2 h-screen overflow-x-auto">
 				<table class="table max-sm:table-compact w-full">
 					<thead>
 
-						<tr class="hover">
-							<th>Amount to Pay</th> 
+						<tr>
+							<td>Amount to Pay</td> 
 							<th>Due Date</th> 
 							<th>Arrears Penalty</th> 
 							<th>Past Due</th> 
