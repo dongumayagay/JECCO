@@ -68,6 +68,7 @@
             <div class="flex flex-col px-0 py-0 collapse-content bg-gray-200" style=" padding-bottom: 0px"> 
               <a class=" hover:bg-gray-400 active:bg-gray-500 p-3" href="/kanrisha/transactions/loan_processing">Loan Processing</a>
               <a class=" hover:bg-gray-400 active:bg-gray-500 p-3" href="/kanrisha/transactions/payments">Payments</a>
+              <a class=" hover:bg-gray-400 active:bg-gray-500 p-3" href="https://dashboard.paymongo.com/links" target="_blank" rel="noreferrer">Online Payments</a>
             </div>
           </div>
             <a href="/kanrisha/systemad/users" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6">
