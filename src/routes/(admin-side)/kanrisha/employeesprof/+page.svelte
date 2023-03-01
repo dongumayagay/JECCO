@@ -60,6 +60,9 @@
                 <th scope="col" class="px-6">
                     Contact Info
                 </th>
+                <th scope="col" class="px-6">
+                    Role
+                </th>
                 
             </tr>
         </thead>
@@ -92,6 +95,9 @@
                 </td>
                 <td class="px-6">
                     {employee.contactInfo}
+                </td>
+                <td class="px-6">
+                    {employee.role}
                 </td>
                 
             </tr>

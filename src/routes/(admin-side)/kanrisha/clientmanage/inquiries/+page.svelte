@@ -28,6 +28,10 @@
         isRead: true,
       });
   }
+
+  async function deleteInquiry(id){
+        await deleteDoc(doc(db, "inquiries", id));
+    }
 	
 </script>
 		
@@ -64,9 +68,9 @@
 									</svg>
 								</label>
 								<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-								<ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-38">
+								<ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-38 text-black">
 									<!-- svelte-ignore a11y-click-events-have-key-events -->
-									<li><button>Delete</button></li>
+									<li><button on:click={deleteInquiry(applicant.id)}>Delete</button></li>
 								</ul>
 							</div>
 						</div>  

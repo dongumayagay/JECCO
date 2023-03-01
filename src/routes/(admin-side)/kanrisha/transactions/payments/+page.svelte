@@ -25,7 +25,7 @@
         
     }
 
-    async function deleteLoan(id){
+    async function deletePayment(id){
         await deleteDoc(doc(db, "payments", id));
     }
 
@@ -90,6 +90,7 @@
 		<table class="table table-normal w-full">
 	<thead>
         <tr>
+            <th></th>
             <th>Transaction ID</th>
             <th>Amount</th> 
             <th class="px-6">Transaction Date</th>
@@ -98,6 +99,23 @@
     </thead>
         {#each payments as payment}                 
             <tr on:click={() => handleRowClick(payment.id)} on:click={clientInfo(payment,client)} class={selectedRowIndex === payment.id ? ' hover cursor-pointer bg-blue-400 text-white ' : 'hover cursor-pointer'}>
+                <td class="p-4 w-4">
+                    <div  class="flex items-center space-x-2 text-sm">
+                        <div class="dropdown">
+                            <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+                            <label for='' tabindex="0" class="flex items-center justify-between text-sm font-medium leading-5 rounded-lg text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Delete">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19 19" fill="currentColor" class="w-5 h-5">
+                                    <path d="M10.5 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm0 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm0 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" clip-rule="evenodd" />
+                                </svg>
+                            </label>
+                            <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+                            <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-38 text-black">
+                                <li><button on:click={deletePayment(payment.id)}>Delete</button></li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </td>
                 <td>
                     {payment.transactionId}
                 </td>

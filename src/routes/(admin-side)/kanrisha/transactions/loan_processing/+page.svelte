@@ -91,6 +91,7 @@
 		<table class="table table-normal w-full">
 			<thead>
 				<tr class="hover">
+                    <th></th>
                     <td class="px-6">#</td>
                     <th scope="col" class="px-6">LOAN REF</th>
 					<th scope="col" class="px-6">RELEASED DATE</th> 
@@ -104,6 +105,22 @@
 			</thead>
             {#each loans as loan}
                 <tr on:click={() => handleRowClick(loan.id)} on:click={clientInfo(loan,client)} class={selectedRowIndex === loan.id ? ' hover cursor-pointer bg-blue-400 text-white ' : 'hover cursor-pointer'}>
+                <td class="pr-0 ">
+                    <div  class="flex items-center space-x-1 text-sm">
+                        <div class="dropdown">
+                            <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+                            <label for='' tabindex="0" class="flex items-center justify-between text-sm font-medium leading-5 rounded-lg text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Delete">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19 19" fill="currentColor" class="w-5 h-5">
+                                    <path d="M10.5 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm0 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm0 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" clip-rule="evenodd" />
+                                </svg>
+                            </label>
+                            <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+                            <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-38 text-black">
+                                <li><button on:click={deleteLoan(loan.id)}>Delete</button></li>  
+                            </ul>
+                        </div>
+                    </div>
+                </td>    
                 <td class="px-6">
                 <p>{loan.numberOfLoan}</p>
                 </td>
