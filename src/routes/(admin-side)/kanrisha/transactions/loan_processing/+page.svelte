@@ -36,6 +36,20 @@
             });
     }
 
+    async function addArrears(id){
+        const arrearsComputation = loan.dailyPayment * 0.05 
+        await updateDoc(doc(db, "loanprocess", id), {
+                arrearsPenalty: loan.dailyPayment + arrearsComputation
+            });
+    }
+    async function addDue(id){
+        const pastDueComputation = loan.balance * 0.07 
+        await updateDoc(doc(db, "loanprocess", id), {
+                arrearsPenalty: 0,
+                pastDue: loan.balance + pastDueComputation
+            });
+    }
+
     const handleRowClick = (index) => {
           selectedRowIndex = selectedRowIndex === index ? null : index;
     };
@@ -126,6 +140,9 @@
                             <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-38 text-black">
                                 {#if loan.status == "Ongoing"}
                                 <li><button on:click={statusComplete(loan.id)}>Set Status as Complete</button></li> 
+                                <li><button on:click={addArrears(loan.id)}>Add Arrears Penalty</button></li> 
+                                {:else if loan.status == "Complete"}
+                                <li><button on:click={addDue(loan.id)}>Add Past Due</button></li> 
                                 {/if}
                                 <li><button on:click={deleteLoan(loan.id)}>Delete</button></li>  
                             </ul>
