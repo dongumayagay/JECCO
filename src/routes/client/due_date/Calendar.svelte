@@ -52,7 +52,7 @@
 </script>
 
 		<section class="w-full">
-			<div class="navbar w-full bg-base-300 overflow-auto">
+			<div class="navbar w-full bg-base-300">
 				<div class="navbar-start">
 					<button on:click={previousMonth} class="btn btn-circle btn-ghost max-sm:btn-xs">
 						<svg

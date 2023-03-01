@@ -51,7 +51,7 @@
 				<button class="btn btn-sm bg-green-500 border-none max-[320px]:text-xs max-[320px]:w-12" on:click={payOnline}>Pay Online</button>
 			</div>
 		</div>
-		<div class=" flex bg-white mb-3 h-3/4 rounded-lg overflow-auto">
+		<div class=" flex bg-white mb-3 h-3/4 max-lg:h-fit max-sm:h-64 rounded-lg overflow-auto p-4">
 			<Calendar/>
 		</div>
 		<div class="bg-white rounded-lg p-2 h-96 overflow-x-auto">
