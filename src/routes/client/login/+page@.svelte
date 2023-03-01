@@ -13,12 +13,12 @@
 	async function login() {
 		try {
 		 	const userCredential = await signInWithEmailAndPassword(auth,username,password);
-			 
+			 alert('Welcome ' + username);
 		} catch (error) {
 			alert('Wrong Email/Password. Please try again with correct credentials.');
 
 		}
-		alert('Welcome ' + username);
+		
 	}
 
 	async function checkIfAdmin(_){
