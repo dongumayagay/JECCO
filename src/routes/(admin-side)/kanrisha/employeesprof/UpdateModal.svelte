@@ -8,7 +8,8 @@
         addUserInput = {
             name:uInfo.name,
 		    address:uInfo.address,
-            contactInfo:uInfo.contactInfo
+            contactInfo:uInfo.contactInfo,
+            role:uInfo.role,
 	    }
     }
 
@@ -16,7 +17,9 @@
 		addUserInput = {
             name:uInfo.name,
 		    address:uInfo.address,
-            contactInfo:uInfo.contactInfo
+            contactInfo:uInfo.contactInfo,
+            role:uInfo.role,
+            
 	    } 
 	}
 
@@ -27,7 +30,8 @@
             id:uInfo.id,    
             name:addUserInput.name,
 		    address:addUserInput.address,
-            contactInfo:addUserInput.contactInfo
+            contactInfo:addUserInput.contactInfo,
+            role:addUserInput.role,
         })});    
         } catch (e) {
             console.error("Error adding document: ", e); 
@@ -54,7 +58,7 @@
                 <div class="grid grid-cols-6 gap-6">
                     <div class="col-span-6 sm:col-span-3">
                         <label for="first-name" class="mb-2 text-sm font-medium">Name</label>
-                        <input type="text" bind:value={addUserInput.name} class="bg-gray-50 border border-gray-400 text-sm rounded-lg w-full p-2.5" maxlength="60" required>
+                        <input type="text" bind:value={addUserInput.name} class="bg-gray-50 border border-gray-400 text-sm capitalize rounded-lg w-full p-2.5" maxlength="60" required>
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <label for="address" class="mb-2 text-sm font-medium">Adress</label>
@@ -63,6 +67,10 @@
                     <div class="col-span-6 sm:col-span-3">
                         <label for="phone-number" class="mb-2 text-sm font-medium">Phone Number</label>
                         <input type="text" bind:value={addUserInput.contactInfo} class="bg-gray-50 border border-gray-400 text-sm rounded-lg w-full p-2.5" minlength="11" maxlength="11" required>
+                    </div>
+                    <div class="col-span-6 sm:col-span-3">
+                        <label for="phone-number" class="block mb-2 text-sm font-medium">Role</label>
+                        <input type="text" bind:value={addUserInput.role} class="bg-gray-50 border border-gray-400 text-sm capitalize rounded-lg w-full p-2.5" placeholder="Role" pattern="[0-9]+" title="(ex. 09XX XXX XXXX)" minlength="11" maxlength="11" required>
                     </div>
                 </div>
             </div>
