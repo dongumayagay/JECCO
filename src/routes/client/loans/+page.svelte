@@ -29,7 +29,7 @@
 			Loans
 		</div>
 		<div class="bg-white rounded-lg p-2 h-screen overflow-x-auto ">
-			<table class="table table-normal max-sm:table-compact w-full">
+			<table class="table max-sm:table-compact w-full">
 				<thead>
 					<tr>
 						<td class="px-6">#</td>
