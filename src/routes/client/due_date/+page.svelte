@@ -3,6 +3,7 @@
 	import { collection, onSnapshot, query, where, orderBy, limit } from 'firebase/firestore';
 	import { onMount } from 'svelte';
 	import {userStore} from '$lib/store.js'
+	import Calendar from './Calendar.svelte';
 
 	let dueDates = []
 
@@ -50,8 +51,11 @@
 				<button class="btn btn-sm bg-green-500 border-none max-[320px]:text-xs max-[320px]:w-12" on:click={payOnline}>Pay Online</button>
 			</div>
 		</div>
-		<div class="bg-white rounded-lg p-2 h-screen overflow-x-auto">
-				<table class="table max-sm:table-compact w-full">
+		<div class=" flex bg-white mb-3 h-3/4 rounded-lg overflow-auto">
+			<Calendar/>
+		</div>
+		<div class="bg-white rounded-lg p-2 h-96 overflow-x-auto">
+				<table class="table table-compact max-sm:table-compact w-full">
 					<thead>
 
 						<tr>
