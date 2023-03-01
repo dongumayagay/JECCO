@@ -48,10 +48,12 @@
     transactModal=false
   } 
   async function updatePayment(){
+    const previousTotalPaid = paymentInfo.loanPayment + paymentInfo.arrearsPayment + paymentInfo.pastDuePayment
     loans[0].balance = loans[0].balance + paymentInfo.loanPayment
-    loans[0].totalPayment = loans[0].totalPayment - paymentInfo.loanPayment
-    const totalPaid = addUserInput.loanPayment + addUserInput.arrearsPayment
-    loans[0].balance = loans[0].balance - totalPaid
+    loans[0].totalPayment = loans[0].totalPayment - previousTotalPaid
+    loans[0].arrearsPenalty = loans[0].arrearsPenalty + paymentInfo.arrearsPayment
+    const totalPaid = addUserInput.loanPayment + addUserInput.arrearsPayment + addUserInput.pastDuePayment
+    loans[0].balance = loans[0].balance - addUserInput.loanPayment
     loans[0].totalPayment = loans[0].totalPayment + totalPaid
 		try {
 			await updateDoc(doc(db, "payments", paymentInfo.id), {

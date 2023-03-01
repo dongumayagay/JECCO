@@ -146,6 +146,12 @@
                     {loan.totalPayment}
                 </td>
                 <td class="px-6">
+                    {loan.arrearsPenalty}
+                </td>
+                <td class="px-6">
+                    {loan.pastDue}
+                </td>
+                <td class="px-6">
                     {loan.status}
                 </td>
             </tr>

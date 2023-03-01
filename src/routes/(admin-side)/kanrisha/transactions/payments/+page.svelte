@@ -92,7 +92,9 @@
         <tr>
             <th></th>
             <th>Transaction ID</th>
-            <th>Amount</th> 
+            <th>Loan Payment</th> 
+            <th>Arrears Payment</th> 
+            <th>Past Due Payment</th> 
             <th class="px-6">Transaction Date</th>
                                                 
         </tr>
@@ -121,6 +123,12 @@
                 </td>
                 <td class="px-6">
                     {payment.loanPayment}
+                </td>
+                <td class="px-6">
+                    {payment.arrearsPayment}
+                </td>
+                <td class="px-6">
+                    {payment.pastDuePayment}
                 </td>
                 <td>
                     {payment.transactionDate}
