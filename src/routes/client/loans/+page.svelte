@@ -21,7 +21,7 @@
   
 </script>
 <svelte:head>
-	<title>JECCO | Loans</title>
+	<title>JEM | Loans</title>
 </svelte:head>
 
 <section class="flex flex-col w-full h-screen overflow-y-auto">

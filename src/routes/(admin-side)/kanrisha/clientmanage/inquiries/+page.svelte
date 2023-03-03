@@ -36,7 +36,7 @@
 </script>
 		
 <svelte:head>
-	<title>JECCO | Applications</title>
+	<title>JEM | Applications</title>
 </svelte:head>
 
 	<div class="flex items-center p-4 shadow-md rounded-md h-12 bg-white gap-4">

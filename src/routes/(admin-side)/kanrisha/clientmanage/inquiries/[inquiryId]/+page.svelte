@@ -41,7 +41,7 @@
 </script>
 
 <svelte:head>
-        <title>{title} | JECCO </title>
+        <title>{title} | JEM</title>
 </svelte:head>
 
 <div class="flex items-center p-4 sm:rounded-lg h-10">
