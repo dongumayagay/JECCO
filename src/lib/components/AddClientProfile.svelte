@@ -42,7 +42,7 @@
         for (let i = 0; i < lname.length; i++) {
             lnameUser = lnameUser + lname[i]
         }
-        addUserInput.username = fnameUser.toLowerCase() + lnameUser.toLowerCase() + "@jecco.com"
+        addUserInput.username = fnameUser.toLowerCase() + lnameUser.toLowerCase() + "@jem.com"
 
         if (addUserInput.firstname == "" || addUserInput.lastname == "") {
             addUserInput.username = ""
