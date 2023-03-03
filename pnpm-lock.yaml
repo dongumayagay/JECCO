@@ -10,6 +10,7 @@ specifiers:
   daisyui: ^2.50.2
   firebase: ^9.17.1
   firebase-admin: ^11.5.0
+  nodemailer: ^6.9.1
   postcss: ^8.4.21
   postcss-load-config: ^4.0.1
   prettier: ^2.8.4
@@ -22,6 +23,7 @@ specifiers:
 dependencies:
   firebase: 9.17.1
   firebase-admin: 11.5.0
+  nodemailer: 6.9.1
 
 devDependencies:
   '@firebase/app-types': 0.9.0
@@ -2346,6 +2348,11 @@ packages:
   /node-releases/2.0.10:
     resolution: {integrity: sha512-5GFldHPXVG/YZmFzJvKK2zDSzPKhEp0+ZR5SVaoSag9fsL5YgHbUHDfnG5494ISANDcK4KwPXAx2xqVEydmd7w==}
     dev: true
+
+  /nodemailer/6.9.1:
+    resolution: {integrity: sha512-qHw7dOiU5UKNnQpXktdgQ1d3OFgRAekuvbJLcdG5dnEo/GtcTHRYM7+UfJARdOFU9WUQO8OiIamgWPmiSFHYAA==}
+    engines: {node: '>=6.0.0'}
+    dev: false
 
   /normalize-path/3.0.0:
     resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}

@@ -29,6 +29,7 @@
 	"type": "module",
 	"dependencies": {
 		"firebase": "^9.17.1",
-		"firebase-admin": "^11.5.0"
+		"firebase-admin": "^11.5.0",
+		"nodemailer": "^6.9.1"
 	}
 }

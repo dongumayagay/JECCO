@@ -1,6 +1,7 @@
 <script>
     import { collection, updateDoc, query, where, orderBy, limit, doc, getDocs, addDoc, getDoc } from "firebase/firestore";
     import {db} from '$lib/firebase/client.js';
+    import { sendEmail } from '$lib/utils';
     let addModal = false;
     let cliInfo = []
     let addUserInput = {}
@@ -76,7 +77,6 @@
 			return;
 		}
 		try {
-
 			const response = await fetch('/api/clients',{method:'POST',
 			body: JSON.stringify({
                 clientNumber:addUserInput.clientNumber,
@@ -95,13 +95,16 @@
                 dateCreated:addUserInput.dateCreated,
                 
 			})})
-			await updateDoc(doc(db, "id_counters", "clients_counter"), {
-                count: count.count
-            })    
+            if(response.status != 500){
+                await updateDoc(doc(db, "id_counters", "clients_counter"), {
+                    count: count.count
+                })
+                await sendAccountInfoEmail()
+            }
+
 		} catch (error) {
 			alert(error);
-
-		}
+		} 
 
 		resetAddUserInput()
 		addModal = false;
@@ -119,6 +122,20 @@
     function toggleShowPassword(){
         showPassword = !showPassword;
     }
+
+    async function sendAccountInfoEmail() {
+		try {
+			const result = await sendEmail({
+				to: 'maxpascual16@gmail.com',
+				subject: 'Jem App Account Credentials',
+				html: `<h3>Username: ${addUserInput.username}</h3><br><h3>Password: ${addUserInput.password}</h3>`
+			});
+			alert('Email for Account Information sent successfully');
+		} catch (error) {
+			console.log(error);
+			alert('Error in sending Account Information');
+		}
+	}
 </script>
 
 
