@@ -1,6 +1,6 @@
 <script>
     import { onMount } from 'svelte';
-    import { collection, onSnapshot, doc, deleteDoc, query, where, orderBy } from 'firebase/firestore';
+    import { collection, onSnapshot, doc, deleteDoc, query, where, orderBy, updateDoc } from 'firebase/firestore';
     import {db} from '$lib/firebase/client.js';
 	import UpdateLoanModal from './UpdateLoanModal.svelte';
     import SearchClientModal from '$lib/components/SearchClientModal.svelte';
@@ -28,6 +28,26 @@
 
     async function deleteLoan(id){
         await deleteDoc(doc(db, "loanprocess", id));
+    }
+
+    async function statusComplete(id){
+        await updateDoc(doc(db, "loanprocess", id), {
+                status: "Completed"
+            });
+    }
+
+    async function addArrears(id){
+        const arrearsComputation = loan.dailyPayment * 0.05 
+        await updateDoc(doc(db, "loanprocess", id), {
+                arrearsPenalty: loan.dailyPayment + arrearsComputation
+            });
+    }
+    async function addDue(id){
+        const pastDueComputation = loan.balance * 0.07 
+        await updateDoc(doc(db, "loanprocess", id), {
+                arrearsPenalty: 0,
+                pastDue: loan.balance + pastDueComputation
+            });
     }
 
     const handleRowClick = (index) => {
@@ -100,6 +120,8 @@
                     <th scope="col" class="px-6">D.PAYMENT</th> 
 					<th scope="col" class="px-6">BALANCE</th> 
                     <th scope="col" class="px-6">T.PAYMENT</th>
+                    <th scope="col" class="px-6">ARREARS PENALTY</th>
+                    <th scope="col" class="px-6">PAST DUE</th>
                     <th scope="col" class="px-6">STATUS</th> 
 				</tr>
 			</thead>
@@ -116,6 +138,12 @@
                             </label>
                             <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
                             <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-38 text-black">
+                                {#if loan.status == "Ongoing"}
+                                <li><button on:click={statusComplete(loan.id)}>Set Status as Complete</button></li> 
+                                <li><button on:click={addArrears(loan.id)}>Add Arrears Penalty</button></li> 
+                                {:else if loan.status == "Complete"}
+                                <li><button on:click={addDue(loan.id)}>Add Past Due</button></li> 
+                                {/if}
                                 <li><button on:click={deleteLoan(loan.id)}>Delete</button></li>  
                             </ul>
                         </div>

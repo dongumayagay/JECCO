@@ -59,7 +59,13 @@
     if (addUserInput.pastDuePayment == undefined) {
       addUserInput.pastDuePayment = 0
     }
-    const totalPaid = addUserInput.loanPayment + addUserInput.arrearsPayment + addUserInput.pastDuePayment
+    const arrearsMultiplier = addUserInput.arrearsPayment /  loans[0].dailyPayment
+    const arrearMultiplierInt = parseInt(arrearsMultiplier)
+    if (addUserInput.pastDue == 0) {
+      const totalPaid = addUserInput.loanPayment + (loans[0].dailyPayment * arrearMultiplierInt)
+    } else {
+      const totalPaid = addUserInput.loanPayment + (loans[0].dailyPayment * arrearMultiplierInt) + loans[0].balance
+    }
 		try {
 			const docRef = await addDoc(collection(db, "payments"), {
         owner: addUserInput.owner,
