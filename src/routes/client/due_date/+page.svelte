@@ -51,10 +51,7 @@
 				<button class="btn btn-sm bg-green-500 border-none max-[320px]:text-xs max-[320px]:w-12" on:click={payOnline}>Pay Online</button>
 			</div>
 		</div>
-		<div class=" flex bg-white mb-3 h-3/4 max-lg:h-fit max-sm:h-64 rounded-lg overflow-auto p-4">
-			<Calendar/>
-		</div>
-		<div class="bg-white rounded-lg p-2 h-96 overflow-x-auto">
+		<div class="bg-white rounded-lg p-2 h-28 overflow-x-auto mb-3 max-sm:mb-10">
 				<table class="table table-compact max-sm:table-compact w-full">
 					<thead>
 
@@ -77,6 +74,9 @@
 						
 					</tbody> 
 				</table>	
+		</div>
+		<div class=" flex justify-center items-center bg-white h-screen max-lg:h-fit max-sm:h-64 rounded-lg overflow-auto pt-4 px-10 max-sm:px-0 max-sm:pt-0 max-lg:pb-5 ">
+			<Calendar/>
 		</div>
 </section>
 

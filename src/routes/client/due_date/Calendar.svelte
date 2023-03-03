@@ -51,8 +51,8 @@
 		new Date(year, month - 1, 1).getDay();
 </script>
 
-		<section class="w-full">
-			<div class="navbar w-full bg-base-300">
+		<section class="w-4/5 max-xl:w-full max-sm:w-full max-sm:p-2 ">
+			<div class="navbar w-full bg-base-300 overflow-auto">
 				<div class="navbar-start">
 					<button on:click={previousMonth} class="btn btn-circle btn-ghost max-sm:btn-xs">
 						<svg
