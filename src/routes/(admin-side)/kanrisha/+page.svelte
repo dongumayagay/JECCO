@@ -4,7 +4,7 @@
 </script>
 
 <svelte:head>
-	<title>JECCO | Admin Dashboard</title>
+	<title>JEM | Admin Dashboard</title>
 </svelte:head>
 
 

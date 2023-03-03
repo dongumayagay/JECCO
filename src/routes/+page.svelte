@@ -36,13 +36,3 @@
 
 
 </main>
-	
-<footer class="footer footer-center p-10 max-sm:p-5 max-sm:mt-24 bg-base-200 text-base-content rounded">
-	<div>
-	  <a class="link link-hover" href="#aboutus">About us</a> 
-	</div>
-	<div>
-	  <p>Copyright © 2022 - All right reserved by JECCO - Jempower's Credit Corporation </p>
-	</div>
-  </footer>
-

@@ -42,7 +42,7 @@
 
 
 <svelte:head>
-	<title>JECCO | Due Dates</title>
+	<title>JEM | Due Dates</title>
 </svelte:head>
 <section class="flex flex-col w-full h-screen overflow-y-auto">
 		<div class=" flex bg-white mb-3 rounded-lg">

@@ -52,7 +52,7 @@
 </script>  
 
 <svelte:head>
-	<title>JECCO | Client Profile</title>
+	<title>JEM | Client Profile</title>
 </svelte:head>
 
   <div class="fixed top-4 right-4 z-50">
