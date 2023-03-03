@@ -21,7 +21,7 @@
   
 </script>
 <svelte:head>
-	<title>JECCO | Payment History</title>
+	<title>JEM | Payment History</title>
 </svelte:head>
 <section class="flex flex-col w-full h-screen overflow-y-auto">
 		<div class="bg-white mb-3 rounded-lg p-2 text-2xl max-sm:text-lg font-semibold">
