@@ -1,6 +1,6 @@
 <script>
 	import {goto} from '$app/navigation';
-	import { collection, onSnapshot, orderBy, query, updateDoc, doc} from "firebase/firestore";
+	import { collection, onSnapshot, orderBy, query, updateDoc, doc, deleteDoc} from "firebase/firestore";
 	import { onMount } from 'svelte';
 	import {db} from '$lib/firebase/client.js';
 	

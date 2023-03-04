@@ -105,7 +105,7 @@
                 dateCreated:addUserInput.dateCreated,
                 
 			})})
-			if(response.status != 500){
+			if(response.status != 500 && response.status != 400){
                 await updateDoc(doc(db, "id_counters", "clients_counter"), {
                     count: count.count
                 })
@@ -196,17 +196,17 @@
                     <div>
                         <label for="password" class="mb-2 text-sm font-medium">Password</label>
                         {#if showPassword}
-						<input type="text" id="password" bind:value={addUserInput.password} on:input={validatePassword} class="border text-sm rounded-lg w-56 p-2.5" placeholder="Password" required>
+						<input type="text" id="password" bind:value={addUserInput.password} on:input={validatePassword} class="border text-sm rounded-lg w-56 p-2.5" placeholder="Password" minlength="8" required>
                         {:else}
-                        <input id="password" type="password" bind:value={addUserInput.password} on:input={validatePassword} class="border text-sm rounded-lg w-56 p-2.5" placeholder="Password" required>
+                        <input id="password" type="password" bind:value={addUserInput.password} on:input={validatePassword} class="border text-sm rounded-lg w-56 p-2.5" placeholder="Password" minlength="8" required>
                         {/if}
 					</div>
 					<div>
 						<label for="confirm-pass" class="mb-2 text-sm font-medium dark:text-white">Confirm Password</label>
                         {#if showPassword}
-						<input type="text" id="confirm-pass" bind:value={addUserInput.confirmPassword} class="border text-sm rounded-lg w-56 p-2.5" placeholder="Confirm password" required>
+						<input type="text" id="confirm-pass" bind:value={addUserInput.confirmPassword} class="border text-sm rounded-lg w-56 p-2.5" placeholder="Confirm password" minlength="8" required>
                         {:else}
-                        <input type="password" id="confirm-pass" bind:value={addUserInput.confirmPassword} class="border text-sm rounded-lg w-56 p-2.5" placeholder="Confirm password" required>
+                        <input type="password" id="confirm-pass" bind:value={addUserInput.confirmPassword} class="border text-sm rounded-lg w-56 p-2.5" placeholder="Confirm password" minlength="8" required>
                         {/if}
                         <div class=" absolute left-7 text-sm mt-2 font-mono ">
                             <input type="checkbox" class=" checkbox checkbox-xs" on:click={toggleShowPassword}>

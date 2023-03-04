@@ -44,7 +44,7 @@
             </div>
             <div class="flex flex-col collapse-content px-0 py-0 bg-gray-200 active h-full" style="padding-bottom: 0px;"> 
               <a class=" hover:bg-gray-300 p-3" href="/kanrisha/clientmanage/clientprof">Client Profile</a>
-              <a class=" hover:bg-gray-300 p-3" href="/kanrisha/clientmanage/inquiries">Applications</a>
+              <a class=" hover:bg-gray-300 p-3" href="/kanrisha/clientmanage/inquiries">Inquiries</a>
               <a class=" hover:bg-gray-300 p-3" href="/kanrisha/clientmanage/client_arrangement">Client Arrangement</a>
             </div>
           </div>
