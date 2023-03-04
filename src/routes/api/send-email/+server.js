@@ -1,12 +1,12 @@
 import { error, json } from '@sveltejs/kit';
 import nodemailer from 'nodemailer';
-import { env } from "$env/dynamic/private"
+import { SMTP_EMAIL, SMTP_PASSWORD } from "$env/static/private"
 
 const transporter = nodemailer.createTransport({
 	service: 'gmail',
 	auth: {
-		user: env.SMTP_EMAIL,
-		pass: env.SMTP_PASSWORD,
+		user: SMTP_EMAIL,
+		pass: SMTP_PASSWORD,
 	}
 });
 
