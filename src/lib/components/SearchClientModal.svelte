@@ -53,11 +53,9 @@
 
 <input type="checkbox" bind:checked={searchModal} id="search" class="modal-toggle" />
     <div class="modal">
-        <div class=" modal-box ">
-            
-            <!-- on:submit={updateEmployee} -->
+        <div class="modal-box  w-1/2">
 
-            <form class="relative bg-white rounded-lg shadow" on:submit={searchClient}>
+            <form class=" bg-white rounded-lg w-full" on:submit={searchClient}>
                 <!-- Modal header -->
                 <div class="flex justify-center items-center p-4 rounded-t border-b">
                     <h3 class="text-xl font-semibold text-gray-900">
@@ -67,10 +65,9 @@
                 </div>
 
                 <!-- table -->
-                <div>
-                    <table class=" table w-full overflow-y-auto">
+                    <table class="table table-compact w-full">
                         <thead>
-                            <th>Client Number</th>
+                            <td>Client Number</td>
                             <th>Full Name</th>
                         </thead>
                         {#each searchResults as searchResult }    
@@ -80,7 +77,6 @@
                         </tr>
                         {/each}
                     </table>   
-                </div>
 
                 <div class="modal-action">    
                     <button type="submit" class="btn border-transparent bg-blue-600">Search</button>

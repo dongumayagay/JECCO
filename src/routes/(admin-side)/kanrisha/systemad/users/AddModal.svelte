@@ -1,6 +1,7 @@
 <script>
     let addModal = false;
 	let showPassword = false;
+	let passwordError = '';
 	let addUserInput = {
 		name:'',
 		email:'',
@@ -41,14 +42,17 @@
 	}
 
 	
-    function validatePassword(){
-        if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(password)) {
-            errorPassword = 'Password must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters';
-        } else {
-            errorPassword = '';
-        }
+    // function validatePassword(){
+	// 	const passwordRegex = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[A-Z]).{8,}$/;
 
-    }
+	// 	if (!passwordRegex.test(addUserInput.password)) {
+	// 		passwordError = "Password must contain at least one uppercase letter, one special character, one number, and be at least 8 characters long";
+			
+	// 	} else {
+	// 		passwordError = "";
+	// 	}
+
+    // }
 
     function toggleShowPassword(){
         showPassword = !showPassword;
@@ -79,9 +83,9 @@
 						<div class="col-span-6 sm:col-span-3">
 							<label for="password" class="mb-2 text-sm font-medium text-gray-900">Password</label>
 							{#if showPassword}
-								<input type="text" bind:value={addUserInput.password} class=" bg-gray-50 border border-gray-300 text-sm rounded-lg w-full p-2.5" placeholder="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
+								<input type="text" bind:value={addUserInput.password} class=" bg-gray-50 border border-gray-300 text-sm rounded-lg w-full p-2.5" placeholder="password" required>
 							{:else}
-								<input type="password" bind:value={addUserInput.password} class=" bg-gray-50 border border-gray-300 text-sm rounded-lg w-full p-2.5" placeholder="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
+								<input type="password" bind:value={addUserInput.password} class=" bg-gray-50 border border-gray-300 text-sm rounded-lg w-full p-2.5" placeholder="password" required>
 							{/if}
 						</div>
 						<div class="col-span-6 sm:col-span-3">
