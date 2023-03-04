@@ -35,11 +35,9 @@
 {#if show}
 <main class="flex w-full h-screen">
 		<SideNav/>
-    <section class="flex flex-col w-full h-screen p-6 ml-8 overflow-y-auto bg-gray-100 ">
 
+    <section class="flex flex-col w-full h-screen p-6 overflow-y-auto bg-gray-100 ">
         <slot />           
-
-
     </section>
 </main>
 {/if}

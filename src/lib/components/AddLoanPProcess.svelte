@@ -91,6 +91,8 @@
                 notarialFee: chosenMatrix.notarialFee,
                 balance: chosenMatrix.totalAmountDue,
                 totalPayment:0,
+                arrearsPenalty:0,
+                pastDue:0,
                 status: "Ongoing",
                 accountOfficer: addUserInput.accountOfficer,
                 creditInvestigatedBy: addUserInput.creditInvestigatedBy,

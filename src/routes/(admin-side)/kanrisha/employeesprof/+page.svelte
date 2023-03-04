@@ -30,7 +30,7 @@
 </script>
 
 <svelte:head>
-	<title>JECCO | Employee Profile</title>
+	<title>JEM | Employee Profile</title>
 </svelte:head>
 
 <div class="flex items-center p-4 shadow-md sm:rounded-lg h-10 bg-white gap-4">
@@ -59,6 +59,9 @@
                 </th>
                 <th scope="col" class="px-6">
                     Contact Info
+                </th>
+                <th scope="col" class="px-6">
+                    Role
                 </th>
                 
             </tr>
@@ -92,6 +95,9 @@
                 </td>
                 <td class="px-6">
                     {employee.contactInfo}
+                </td>
+                <td class="px-6">
+                    {employee.role}
                 </td>
                 
             </tr>

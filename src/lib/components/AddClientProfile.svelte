@@ -1,6 +1,8 @@
 <script>
     import { collection, updateDoc, query, where, orderBy, limit, doc, getDocs, addDoc, getDoc } from "firebase/firestore";
     import {db} from '$lib/firebase/client.js';
+    import { sendEmail } from '$lib/utils';
+
     let addModal = false;
     let cliInfo = []
     let addUserInput = {}
@@ -42,7 +44,7 @@
         for (let i = 0; i < lname.length; i++) {
             lnameUser = lnameUser + lname[i]
         }
-        addUserInput.username = fnameUser.toLowerCase() + lnameUser.toLowerCase() + "@jecco.com"
+        addUserInput.username = fnameUser.toLowerCase() + lnameUser.toLowerCase() + "@jem.com"
 
         if (addUserInput.firstname == "" || addUserInput.lastname == "") {
             addUserInput.username = ""
@@ -71,6 +73,14 @@
 	}
 
     async function addUser(){
+
+        const regex = /^[A-Za-z\s]*[-.,]?[A-Za-z\s]*[-.,]?[A-Za-z\s]*$/;
+        
+        if (!regex.test(addUserInput.firstname)) {
+        alert("Invalid characters entered. Please only use letters, spaces, dashes, dots, and commas.");
+        return;
+        }
+
 		if(addUserInput.password != addUserInput.confirmPassword){
 			alert('Password does not match')
 			return;
@@ -95,20 +105,23 @@
                 dateCreated:addUserInput.dateCreated,
                 
 			})})
-			await updateDoc(doc(db, "id_counters", "clients_counter"), {
-                count: count.count
-            })    
+			if(response.status != 500 && response.status != 400){
+                await updateDoc(doc(db, "id_counters", "clients_counter"), {
+                    count: count.count
+                })
+                await sendAccountInfoEmail()
+            }
+
 		} catch (error) {
 			alert(error);
-
-		}
+		} 
 
 		resetAddUserInput()
 		addModal = false;
 	}
 
     function validatePassword(){
-        if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(password)) {
+        if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8}$/.test(password)) {
             errorPassword = 'Password must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters';
         } else {
             errorPassword = '';
@@ -119,6 +132,32 @@
     function toggleShowPassword(){
         showPassword = !showPassword;
     }
+
+    async function sendAccountInfoEmail() {
+		try {
+			const result = await sendEmail({
+				to: 'maxpascual16@gmail.com',
+				subject: 'Jem App Account Credentials',
+				html: `<h3>Username: ${addUserInput.username}</h3><br><h3>Password: ${addUserInput.password}</h3>`
+			});
+			alert('Email for Account Information sent successfully');
+		} catch (error) {
+			console.log(error);
+			alert('Error in sending Account Information');
+		}
+	}
+
+    const handleInput = (event) => {
+    const regex = /^[A-Za-z\s\-.,]{1}$/;
+    const input = event.target.value;
+    
+    if (regex.test(input)) {
+      addUserInput.firstname = input;
+    } else {
+      event.target.value = addUserInput.firstname;
+    }
+  };
+
 </script>
 
 
@@ -127,7 +166,7 @@
     <div class="modal-box max-w-xl">
 
         <!-- Modal -->
-        <form class="relative bg-white rounded shadow" on:submit={addUser}>
+        <form class="relative bg-white rounded" on:submit={addUser}>
             <!-- Modal header -->
             <div class="p-4 border-b ">
                 <h3 class="text-xl font-semibold">
@@ -136,74 +175,77 @@
             </div>
             <!-- Modal body -->
             <div class="p-6">
-                <div class="grid grid-cols-2 gap-6">
-                    <div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="flex flex-col">
+                        <span class="flex mb-2 font-bold">System Information <p class="text-red-500">*</p></span>
                         <label for="client-num" class="mb-2 text-sm font-medium">Client Number</label>
-                        <input type="text" id="client-num" disabled bind:value={addUserInput.clientNumber} class=" border text-sm rounded-lg w-56 p-2.5" placeholder="Client Number">
+                        <input type="text" id="client-num" disabled bind:value={addUserInput.clientNumber} class=" border text-sm rounded-lg w-56 p-2.5" placeholder="Client Number" required>
                     </div>
-                    <div>
+                    <div class="mt-9">
                         <label for="first-name" class="mb-2 text-sm font-medium">First Name</label>
-                        <input type="text" id="first-name" bind:value={addUserInput.firstname} class="border text-sm capitalize rounded-lg w-56 p-2.5" placeholder="First Name" maxlength="30" minlength="2" >
+                        <input type="text" id="first-name" bind:value={addUserInput.firstname} on:input={handleInput} class="border text-sm capitalize rounded-lg w-56 p-2.5"  placeholder="First Name" maxlength="30" minlength="2" required>
                     </div>
                     <div>
                         <label for="last-name" class="mb-2 text-sm font-medium">Last Name</label>
-                        <input type="text" id="last-name" bind:value={addUserInput.lastname} class="border text-sm capitalize rounded-lg w-56 p-2.5" placeholder="Last Name" maxlength="30" minlength="2" >
+                        <input type="text" id="last-name" bind:value={addUserInput.lastname} class="border text-sm capitalize rounded-lg w-56 p-2.5" placeholder="Last Name" maxlength="30" minlength="2" required>
                     </div>
                     <div>
                         <label for="username" class="mb-2 text-sm font-medium">Username</label>
-                        <input type="email" id="username" disabled bind:value={addUserInput.username} class=" border text-sm rounded-lg w-56 p-2.5" placeholder="Email" maxlength="30" minlength="5" >
+                        <input type="email" id="username" disabled bind:value={addUserInput.username} class=" border text-sm rounded-lg w-56 p-2.5" placeholder="Email" maxlength="30" minlength="5" required>
                     </div>
                     <div>
                         <label for="password" class="mb-2 text-sm font-medium">Password</label>
                         {#if showPassword}
-						<input type="text" id="password" bind:value={addUserInput.password} on:input={validatePassword} class="border text-sm rounded-lg w-56 p-2.5" placeholder="Password" >
+						<input type="text" id="password" bind:value={addUserInput.password} on:input={validatePassword} class="border text-sm rounded-lg w-56 p-2.5" placeholder="Password" minlength="8" required>
                         {:else}
-                        <input id="password" type="password" bind:value={addUserInput.password} on:input={validatePassword} class="border text-sm rounded-lg w-56 p-2.5" placeholder="Password" >
+                        <input id="password" type="password" bind:value={addUserInput.password} on:input={validatePassword} class="border text-sm rounded-lg w-56 p-2.5" placeholder="Password" minlength="8" required>
                         {/if}
-                        <div class=" relative text-sm mt-3 font-mono ">
-                            <input type="checkbox" class="checkbox checkbox-xs" on:click={toggleShowPassword}>
-                                {showPassword ? "Show" : "Show"} password
-                        </div>
 					</div>
 					<div>
 						<label for="confirm-pass" class="mb-2 text-sm font-medium dark:text-white">Confirm Password</label>
                         {#if showPassword}
-						<input type="text" id="confirm-pass" bind:value={addUserInput.confirmPassword} class="border text-sm rounded-lg w-56 p-2.5" placeholder="Confirm password" >
+						<input type="text" id="confirm-pass" bind:value={addUserInput.confirmPassword} class="border text-sm rounded-lg w-56 p-2.5" placeholder="Confirm password" minlength="8" required>
                         {:else}
-                        <input type="password" id="confirm-pass" bind:value={addUserInput.confirmPassword} class="border text-sm rounded-lg w-56 p-2.5" placeholder="Confirm password" >
+                        <input type="password" id="confirm-pass" bind:value={addUserInput.confirmPassword} class="border text-sm rounded-lg w-56 p-2.5" placeholder="Confirm password" minlength="8" required>
                         {/if}
+                        <div class=" absolute left-7 text-sm mt-2 font-mono ">
+                            <input type="checkbox" class=" checkbox checkbox-xs" on:click={toggleShowPassword}>
+                                {showPassword ? "Show" : "Show"} password
+                        </div>
 					</div> 
-                    <div>
+                    
+                    <div class=" flex flex-col mt-7">
+                        <span class=" flex mb-2 font-bold">Other Information <p class="text-red-500">*</p> </span>
                         <label for="email" class="mb-2 text-sm font-medium">Email</label>
-                        <input type="email" id="email" bind:value={addUserInput.email} class=" border text-sm rounded-lg w-56 p-2.5" placeholder="Email" minlength="5" maxlength="50" >
+                        <input type="email" id="email" bind:value={addUserInput.email} class=" border text-sm rounded-lg w-56 p-2.5" placeholder="Email" minlength="5" maxlength="50" required>
                     </div>
-                    <div>
+                    <div class="mt-16">
                         <label for="co-maker" class="mb-2 text-sm font-medium">Co-Maker Complete Name</label>
-                        <input type="text" id="co-maker" bind:value={addUserInput.coMaker} class="border text-sm capitalize rounded-lg w-56 p-2.5" placeholder="Co Maker" maxlength="60" >
+                        <input type="text" id="co-maker" bind:value={addUserInput.coMaker} class="border text-sm capitalize rounded-lg w-56 p-2.5" placeholder="Co Maker" maxlength="60" required>
                     </div>
                     <div>
                         <label for="contact-number" class="mb-2 text-sm font-medium">Contact Number</label>
-                        <input type="text" id="contact-number" bind:value={addUserInput.number} class=" border text-sm rounded-lg w-56 p-2.5" placeholder="Contact Number" minlength="11" maxlength="11" >
+                        <input type="text" id="contact-number" bind:value={addUserInput.number} class=" border text-sm rounded-lg w-56 p-2.5" placeholder="Contact Number" minlength="11" maxlength="11" required>
                     </div>
                     <div>
                         <label for="house" class="mb-2 text-sm font-medium">House No.</label>
-                        <input type="text" id="house" bind:value={addUserInput.houseNo} class=" border overflow-y-auto text-sm rounded-lg w-56 p-2.5" placeholder="House No." maxlength="30" >
+                        <input type="text" id="house" bind:value={addUserInput.houseNo} class=" border overflow-y-auto text-sm rounded-lg w-56 p-2.5" placeholder="House No." maxlength="30" required>
                     </div>
                     <div>
                         <label for="brgy" class="mb-2 text-sm font-medium">Barangay</label>
-                        <input type="text" id="brgy" bind:value={addUserInput.barangay} class=" border overflow-y-auto text-sm capitalize rounded-lg w-56 p-2.5" placeholder="Barangay" minlength="3" maxlength="30" >
+                        <input type="text" id="brgy" bind:value={addUserInput.barangay} class=" border overflow-y-auto text-sm capitalize rounded-lg w-56 p-2.5" placeholder="Barangay" minlength="3" maxlength="30" required>
                     </div>
                     <div>
                         <label for="muni" class="mb-2 text-sm font-medium">Municipality</label>
-                        <input type="text" id="muni" bind:value={addUserInput.municipality} class=" border overflow-y-auto text-sm capitalize rounded-lg w-56 p-2.5" placeholder="Municipality" minlength="3" maxlength="30" >
+                        <input type="text" id="muni" bind:value={addUserInput.municipality} class=" border overflow-y-auto text-sm capitalize rounded-lg w-56 p-2.5" placeholder="Municipality" minlength="3" maxlength="30" required>
                     </div>
                     <div>
                         <label for="prov" class="mb-2 text-sm font-medium">Province</label>
-                        <input type="text" id="prov" bind:value={addUserInput.province} class=" border overflow-y-auto text-sm rounded-lg w-56 p-2.5 " placeholder="Province" minlength="3" maxlength="30" >
+                        <input type="text" id="prov" bind:value={addUserInput.province} class=" border overflow-y-auto text-sm capitalize rounded-lg w-56 p-2.5 " placeholder="Province" minlength="3" maxlength="30" required>
                     </div>
                     <div>
                         <label for="date-created" class="mb-2 text-sm font-medium">Date Created</label>
-                        <input type="date" id="date-created" bind:value={addUserInput.dateCreated} class=" border overflow-y-auto text-sm rounded-lg w-56 p-2.5" placeholder="dd/mm/yyyy" >
+                        <input type="date" id="date-created" bind:value={addUserInput.dateCreated} class=" border overflow-y-auto text-sm rounded-lg w-56 p-2.5" placeholder="dd/mm/yyyy" required>
                     </div>
                 </div>
             </div>

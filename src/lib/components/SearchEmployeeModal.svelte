@@ -11,14 +11,14 @@
     
     export let selected = [];
 
-    export async function getAllClients(){
-        const querySnapshot = await getDocs(collection(db, "clientinfo"));
+    export async function getAllEmployees(){
+        const querySnapshot = await getDocs(collection(db, "employees"), where("role", "==", "Collector"));
         querySnapshot.forEach((doc) => {
             searchResults = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         });
     }
 
-    function selectUser(chosen){
+    function selectEmployee(chosen){
         selected = chosen;
         searchResults = [];
         searchModal = false; 
@@ -28,19 +28,19 @@
         searchResults = [];
     }
 
-    async function searchClient() {
+    async function searchEmployee() {
         searchResults = [];
-        const qOne = query(collection(db, 'clientinfo'), where("firstname", "==", searchInput));
+        const qOne = query(collection(db, 'employees'), where("firstname", "==", searchInput));
         const querySnapshotOne = await getDocs(qOne);
         querySnapshotOne.forEach((doc) => {
             searchResultOne = querySnapshotOne.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         });
-        const qTwo = query(collection(db, "clientinfo"), where("lastname", "==", searchInput));
+        const qTwo = query(collection(db, "employees"), where("lastname", "==", searchInput));
         const querySnapshotTwo = await getDocs(qTwo);
         querySnapshotTwo.forEach((doc) => {
             searchResultTwo = querySnapshotTwo.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         });
-        const qThree = query(collection(db, "clientinfo"), where("clientNumber", "==", searchInput));
+        const qThree = query(collection(db, "employees"), where("clientNumber", "==", searchInput));
         const querySnapshotThree = await getDocs(qThree);
         querySnapshotThree.forEach((doc) => {
             searchResultThree = querySnapshotThree.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
@@ -53,9 +53,11 @@
 
 <input type="checkbox" bind:checked={searchModal} id="search" class="modal-toggle" />
     <div class="modal">
-        <div class="modal-box  w-1/2">
+        <div class=" modal-box ">
+            
+            <!-- on:submit={updateEmployee} -->
 
-            <form class=" bg-white rounded-lg w-full" on:submit={searchClient}>
+            <form class="relative bg-white rounded-lg shadow" on:submit={searchEmployee}>
                 <!-- Modal header -->
                 <div class="flex justify-center items-center p-4 rounded-t border-b">
                     <h3 class="text-xl font-semibold text-gray-900">
@@ -65,18 +67,18 @@
                 </div>
 
                 <!-- table -->
-                    <table class="table table-compact w-full">
+                <div>
+                    <table class=" table w-full overflow-y-auto">
                         <thead>
-                            <td>Client Number</td>
-                            <th>Full Name</th>
+                            <th>Name</th>
                         </thead>
                         {#each searchResults as searchResult }    
-                        <tr class="hover cursor-pointer" on:click={() => selectUser(searchResult)}>
-                            <td>{searchResult.clientNumber}</td>
-                            <td>{searchResult.firstname + " " + searchResult.lastname}</td>
+                        <tr class="hover cursor-pointer" on:click={() => selectEmployee(searchResult)}>
+                            <td>{searchResult.name}</td>
                         </tr>
                         {/each}
                     </table>   
+                </div>
 
                 <div class="modal-action">    
                     <button type="submit" class="btn border-transparent bg-blue-600">Search</button>

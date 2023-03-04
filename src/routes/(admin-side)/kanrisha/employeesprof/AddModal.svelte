@@ -4,14 +4,16 @@
     let addUserInput = {
 		name:'',
 		address:'',
-        contactInfo:''
+        contactInfo:'',
+        role:''
 	} 
 
     function resetAddUserInput(){
 		addUserInput = {
             name:'',
 		    address:'',
-            contactInfo:''
+            contactInfo:'',
+            role:''
 	} 
 	}
     async function addEmployee(){
@@ -20,7 +22,8 @@
 			body: JSON.stringify({
             name:addUserInput.name,
 		    address:addUserInput.address,
-            contactInfo:addUserInput.contactInfo
+            contactInfo:addUserInput.contactInfo,
+            role:addUserInput.role,
         })});
         } catch (e) {
         console.error("Error adding document: ", e);
@@ -47,7 +50,7 @@
                 <div class="grid grid-cols-6 gap-6">
                     <div class="col-span-6 sm:col-span-3">
                         <label for="first-name" class="block mb-2 text-sm font-medium">Fullname</label>
-                        <input type="text" bind:value={addUserInput.name} class="bg-gray-50 border border-gray-400 text-sm rounded-lg w-full p-2.5 capitalize" placeholder="Fullname" minlength="4" maxlength="60" required>
+                        <input type="text" bind:value={addUserInput.name} class="bg-gray-50 border border-gray-400 text-sm capitalize rounded-lg w-full p-2.5" placeholder="Fullname" minlength="4" maxlength="60" required>
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <label for="address" class="block mb-2 text-sm font-medium">Complete Adress</label>
@@ -55,7 +58,11 @@
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <label for="phone-number" class="block mb-2 text-sm font-medium">Contact Number</label>
-                        <input type="text" bind:value={addUserInput.contactInfo} class="bg-gray-50 border border-gray-400 text-sm rounded-lg w-full p-2.5" placeholder="Contact Number" pattern="[0-9]+" title="(ex. 09XX XXX XXXX)" minlength="11" maxlength="11" required>
+                        <input type="number" bind:value={addUserInput.contactInfo} class="bg-gray-50 border border-gray-400 text-sm rounded-lg w-full p-2.5" placeholder="Contact Number" pattern="[0-9]+" title="(ex. 09XX XXX XXXX)" minlength="11" maxlength="11" required>
+                    </div>
+                    <div class="col-span-6 sm:col-span-3">
+                        <label for="phone-number" class="block mb-2 text-sm font-medium">Role</label>
+                        <input type="text" bind:value={addUserInput.role} class="bg-gray-50 border border-gray-400 text-sm capitalize rounded-lg w-full p-2.5" placeholder="Role" pattern="[0-9]+" title="(ex. 09XX XXX XXXX)" minlength="11" maxlength="11" required>
                     </div>
                 </div>
             </div>

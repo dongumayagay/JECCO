@@ -1,9 +1,9 @@
 <script>
   import {goto} from '$app/navigation'
   import {auth} from '$lib/firebase/client.js'
-  import {signOut, getAuth} from 'firebase/auth'
+  import {signOut} from 'firebase/auth'
+  import {userStore} from '$lib/store.js'
 
-  let userAdmin = getAuth().currentUser;
   async function logout(){
       await signOut(auth)
       await goto('/')
@@ -14,9 +14,9 @@
   <div class="fixed flex flex-col top-0 left-0 w-64 h-screen bg-white">
     <div class="flex pt-4 h-14 border-b">
       <div>
-        {#if userAdmin}
+        {#if $userStore}
           <a href="/kanrisha" class="flex items-center pl-2.5 mb-5">
-            <span class="self-center text-xl font-semibold whitespace-nowrap">Admin {userAdmin.displayName} </span>
+            <span class="self-center text-xl font-semibold whitespace-nowrap">Admin {$userStore.displayName} </span>
           </a>
         {/if}
     </div>
@@ -44,7 +44,7 @@
             </div>
             <div class="flex flex-col collapse-content px-0 py-0 bg-gray-200 active h-full" style="padding-bottom: 0px;"> 
               <a class=" hover:bg-gray-300 p-3" href="/kanrisha/clientmanage/clientprof">Client Profile</a>
-              <a class=" hover:bg-gray-300 p-3" href="/kanrisha/clientmanage/inquiries">Applications</a>
+              <a class=" hover:bg-gray-300 p-3" href="/kanrisha/clientmanage/inquiries">Inquiries</a>
               <a class=" hover:bg-gray-300 p-3" href="/kanrisha/clientmanage/client_arrangement">Client Arrangement</a>
             </div>
           </div>
@@ -68,6 +68,7 @@
             <div class="flex flex-col px-0 py-0 collapse-content bg-gray-200" style=" padding-bottom: 0px"> 
               <a class=" hover:bg-gray-400 active:bg-gray-500 p-3" href="/kanrisha/transactions/loan_processing">Loan Processing</a>
               <a class=" hover:bg-gray-400 active:bg-gray-500 p-3" href="/kanrisha/transactions/payments">Payments</a>
+              <a class=" hover:bg-gray-400 active:bg-gray-500 p-3" href="https://dashboard.paymongo.com/links" target="_blank" rel="noreferrer">Online Payments</a>
             </div>
           </div>
             <a href="/kanrisha/systemad/users" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6">

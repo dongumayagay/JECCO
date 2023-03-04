@@ -50,13 +50,22 @@
     transactModal = false;
   } 
   async function addPayment(){
+    if (addUserInput.loanPayment == undefined) {
+      addUserInput.loanPayment = 0
+    }
     if (addUserInput.arrearsPayment == undefined) {
       addUserInput.arrearsPayment = 0
     }
     if (addUserInput.pastDuePayment == undefined) {
       addUserInput.pastDuePayment = 0
     }
-    const totalPaid = addUserInput.loanPayment + addUserInput.arrearsPayment
+    const arrearsMultiplier = addUserInput.arrearsPayment /  loans[0].dailyPayment
+    const arrearMultiplierInt = parseInt(arrearsMultiplier)
+    if (addUserInput.pastDue == 0) {
+      const totalPaid = addUserInput.loanPayment + (loans[0].dailyPayment * arrearMultiplierInt)
+    } else {
+      const totalPaid = addUserInput.loanPayment + (loans[0].dailyPayment * arrearMultiplierInt) + loans[0].balance
+    }
 		try {
 			const docRef = await addDoc(collection(db, "payments"), {
         owner: addUserInput.owner,
@@ -71,8 +80,10 @@
         count: paymentCounter.count
       })
       await updateDoc(doc(db, 'loanprocess', loans[0].id),{
-        balance: loans[0].balance - totalPaid,
-        totalPayment: loans[0].totalPayment + totalPaid ,
+        balance: loans[0].balance - addUserInput.loanPayment,
+        totalPayment: loans[0].totalPayment + totalPaid,
+        arrearsPenalty: loans[0].arrearsPenalty - addUserInput.arrearsPayment,
+        pastDue: loans[0].pastDue - addUserInput.pastDuePayment
       });
 		} catch (error) {
 			console.log(error)
@@ -116,6 +127,12 @@
       <p>D.I<input disabled bind:value={loans[0].dailyPayment} class=" border border-black rounded-sm h-5 w-24"></p>
       <p>T. Payment<input disabled bind:value={loans[0].totalPayment} class=" border border-black rounded-sm h-5 w-24"></p>
       <p>Balance<input disabled bind:value={loans[0].balance} class=" border border-black rounded-sm h-5 w-24"></p>
+      
+    </div>
+    <div class="flex gap-2 w-24 text-sm font-semibold">
+      
+      <p>Arrears Penalty<input disabled bind:value={loans[0].arrearsPenalty} class=" border border-black rounded-sm h-5 w-24"></p>
+      <p>Past Due<input disabled bind:value={loans[0].pastDue} class=" border border-black rounded-sm h-5 w-24"></p>
     </div>
 
     <hr class="my-4" />
