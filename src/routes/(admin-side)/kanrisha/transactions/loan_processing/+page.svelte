@@ -35,6 +35,11 @@
                 status: "Completed"
             });
     }
+    async function statusPastDue(id){
+        await updateDoc(doc(db, "loanprocess", id), {
+                status: "Past Due"
+            });
+    }
 
     async function addArrears(id){
         const arrearsComputation = loan.dailyPayment * 0.05 
@@ -140,8 +145,9 @@
                             <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-38 text-black">
                                 {#if loan.status == "Ongoing"}
                                 <li><button on:click={statusComplete(loan.id)}>Set Status as Complete</button></li> 
+                                <li><button on:click={statusPastDue(loan.id)}>Set Status as Past Due</button></li> 
                                 <li><button on:click={addArrears(loan.id)}>Add Arrears Penalty</button></li> 
-                                {:else if loan.status == "Complete"}
+                                {:else if loan.status == "PastDue"}
                                 <li><button on:click={addDue(loan.id)}>Add Past Due</button></li> 
                                 {/if}
                                 <li><button on:click={deleteLoan(loan.id)}>Delete</button></li>  
