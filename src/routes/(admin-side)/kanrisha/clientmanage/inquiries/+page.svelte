@@ -3,8 +3,12 @@
 	import { collection, onSnapshot, orderBy, query, updateDoc, doc, deleteDoc} from "firebase/firestore";
 	import { onMount } from 'svelte';
 	import {db} from '$lib/firebase/client.js';
-	
+	import ConfirmDeleteModal from '$lib/components/ConfirmDeleteModal.svelte';
+
 	let inquiries = []
+	let showModal = false;
+    let deleteSuccess = false;
+    let idToDelete;
 	
 	function viewInquiry(inquiryId){
 		goto('/kanrisha/clientmanage/inquiries/' + inquiryId)
@@ -33,6 +37,18 @@
         await deleteDoc(doc(db, "inquiries", id));
     }
 	
+	function confirmDelete() {
+        showModal = true;
+    }
+
+    function handleConfirm() {
+        deleteInquiry(idToDelete);
+        showModal = false;
+    }
+
+    function handleCancel() {
+        showModal = false;
+    }
 </script>
 		
 <svelte:head>
@@ -70,7 +86,7 @@
 								<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 								<ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-38 text-black">
 									<!-- svelte-ignore a11y-click-events-have-key-events -->
-									<li><button on:click={deleteInquiry(applicant.id)}>Delete</button></li>
+									<li><button on:click={() => {idToDelete = applicant.id, confirmDelete(); }}>Delete</button></li>
 								</ul>
 							</div>
 						</div>  
@@ -83,3 +99,7 @@
 			{/each}	
 		</table>	
 	</div>	
+
+	<ConfirmDeleteModal showModal={showModal}
+	onConfirm={handleConfirm}
+	onCancel={handleCancel}/>

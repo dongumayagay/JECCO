@@ -5,7 +5,8 @@
     import ConfirmDeleteModal from "$lib/components/ConfirmDeleteModal.svelte";
     import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
     import {db} from '$lib/firebase/client.js';
-    const q = query(collection(db, 'clientinfo'), orderBy("clientNumber","desc"))
+
+    
 	let clientsInfo
     let clientInfo
     let clienInfo
@@ -15,6 +16,7 @@
     let deleteSuccess = false;
     let idToDelete;
 
+    const q = query(collection(db, 'clientinfo'), orderBy("clientNumber","desc"))
     async function getListOfClients(){
 		const unsubscribe = onSnapshot(q, (querySnapshot) => {
             clients = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));

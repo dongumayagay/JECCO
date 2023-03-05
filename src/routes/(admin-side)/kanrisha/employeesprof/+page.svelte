@@ -3,9 +3,13 @@
     import UpdateModal from "./UpdateModal.svelte";
     import { collection, onSnapshot } from 'firebase/firestore';
     import {db} from '$lib/firebase/client.js';
+    import ConfirmDeleteModal from "$lib/components/ConfirmDeleteModal.svelte";
 
     let userInfo
     let employees = []
+    let showModal = false;
+    let deleteSuccess = false;
+    let idToDelete;
 
     async function getListOfEmployees(){
         const unsubscribe = onSnapshot(collection(db, 'employees'), (querySnapshot) => {
@@ -27,6 +31,18 @@
 		}
     }
 
+    function confirmDelete() {
+        showModal = true;
+    }
+
+    function handleConfirm() {
+        deleteEmployee(idToDelete);
+        showModal = false;
+    }
+
+    function handleCancel() {
+        showModal = false;
+    }
 </script>
 
 <svelte:head>
@@ -82,7 +98,7 @@
                             <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-38">
                                 <!-- svelte-ignore a11y-click-events-have-key-events -->
                                 <li><label for="update" on:click={userInfo(employee)}>Edit</label></li>
-                                <li><button on:click={deleteEmployee(employee.id)}>Delete</button></li>
+                                <li><button on:click={() => {idToDelete = employee.id, confirmDelete(); }}>Delete</button></li>
                             </ul>
                         </div>
                     </div>  
@@ -107,4 +123,6 @@
 </div>
 <AddModal/>
 <UpdateModal bind:userInfo={userInfo}/>
-
+<ConfirmDeleteModal showModal={showModal}
+onConfirm={handleConfirm}
+onCancel={handleCancel}/>
