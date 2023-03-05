@@ -89,8 +89,25 @@
          return downloadApp;
         
     }
-
     
+    function limitInputLength(event) {
+        const maxLength = 11;
+        const value = event.target.value;
+        const pattern = /^09\d*$/;
+
+        if (value.length > maxLength) {
+            event.target.value = applicant.number;
+        }
+            else if(value.length < maxLength){
+                event.target.setCustomValidity('Your number is too short. (Ex. 09XX XXX XXX)');
+        }
+             else if (!pattern.test(value) ) {
+            event.target.setCustomValidity('Input must start with "09" and only contain numbers (Ex. 09XX XXX XXX)');
+        } else {
+            event.target.setCustomValidity('');
+            applicant.number = value;
+        }
+  }
 </script>
 
 <svelte:head>
@@ -104,11 +121,10 @@
             <h1 class="font-bold text-2xl">Apply Now </h1>
             
                 <div class=" grid grid-cols-2 gap-10 max-sm:grid-cols-1">
-                    <input class=" rounded-lg" type="text" maxlength="30" minlength="2" bind:value={applicant.firstname} placeholder="Firstname" required />
-                    <input class=" rounded-lg" type="text" maxlength="30" minlength="2" bind:value={applicant.lastname} placeholder="Lastname"  required />
-                    <input class=" rounded-lg" type="email" bind:value={applicant.email} placeholder="Email" title="(ex. jecco@jecco.com)"  required />
-                    <input class=" rounded-lg" type="text" minlength="11" maxlength="11" bind:value={applicant.number} placeholder="Number" pattern="[0-9]+" title="(ex. 09XXXXXXXXX)"  required />
-                
+                    <input class=" rounded-lg capitalize" type="text" maxlength="30" minlength="2" bind:value={applicant.firstname} placeholder="Firstname" required />
+                    <input class=" rounded-lg capitalize" type="text" maxlength="30" minlength="2" bind:value={applicant.lastname} placeholder="Lastname"  required />
+                    <input class=" rounded-lg" type="email" bind:value={applicant.email} placeholder="Email" title="(ex. jecco@jemapp.com)"  required />
+                    <input class=" rounded-lg" type="text" on:input={limitInputLength} bind:value={applicant.number} placeholder="Number" required />                
                     <div class="flex gap-2">
                     {#await getDownloadLink()}
                         <p>Loading...</p>
