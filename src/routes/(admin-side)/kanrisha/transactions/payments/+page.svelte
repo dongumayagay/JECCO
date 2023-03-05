@@ -47,7 +47,7 @@
     <div class=" absolute right-10">
         <label for="edit_payment" class={selectedRowIndex !== null ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={selectedRowIndex === null}>EDIT</label>
         <!-- svelte-ignore a11y-click-events-have-key-events -->
-        <label for="payment" on:click={() => clienInfo(client)} class={searchSelected ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={!searchSelected}>ADD</label>
+        <label for="payment" on:click={clienInfo(client)} class="btn-info rounded-lg py-1 px-2 font-semibold">ADD</label>
     </div>
 </div>
 

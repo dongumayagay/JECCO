@@ -23,32 +23,53 @@
   }
 
   export async function clienInfo(infoClient){
-    const docSnap = await getDoc(doc(db, "id_counters", "payments_counter")); 
-    paymentCounter = docSnap.data()
-    paymentCounter.count ++
-    ctrlNumber = ctrlNumber + paymentCounter.count.toString()
-    transactionId = ctrlNumber.slice(-6)
-    cliInfo = infoClient
+    ctrlNumber = "000000"
+    if (infoClient.length != 0) {
+      const docSnap = await getDoc(doc(db, "id_counters", "payments_counter")); 
+      paymentCounter = docSnap.data()
+      paymentCounter.count ++
+      ctrlNumber = ctrlNumber + paymentCounter.count.toString()
+      transactionId = ctrlNumber.slice(-6)
+      cliInfo = infoClient
       addUserInput = {
         owner: cliInfo.id, 
         name: cliInfo.firstname + ' ' + cliInfo.lastname,
         clientNumber: cliInfo.clientNumber,
         transactionId: transactionId
+      }
+      await userLoans()
+    } else{
+      loans = [1]
     }
-    await userLoans()
   }
 
-  function resetAddUserInput(){
+  async function resetAddUserInput(stay){
     ctrlNumber = "000000"
-    addUserInput = {
-      transactionDate: '',
-      prNumber: '',
-      loanPayment: '',
-      arrearsPayment: '',
-      pastDuePayment: '',
-	  }
-    transactModal = false;
+    if(stay == true){
+      const docSnap = await getDoc(doc(db, "id_counters", "payments_counter")); 
+      paymentCounter = docSnap.data()
+      paymentCounter.count ++
+      ctrlNumber = ctrlNumber + paymentCounter.count.toString()
+      transactionId = ctrlNumber.slice(-6)
+      addUserInput.transactionId = transactionId
+      addUserInput.prNumber = ''
+      addUserInput.loanPayment = ''
+      addUserInput.arrearsPayment = ''
+      addUserInput.pastDuePayment = ''
+      await userLoans()
+    }
+    if (stay == undefined) {
+      addUserInput = {
+        transactionDate: '',
+        prNumber: '',
+        loanPayment: '',
+        arrearsPayment: '',
+        pastDuePayment: '',
+      }
+      transactModal = false;
+    }
   } 
+
   async function addPayment(){
     if (addUserInput.loanPayment == undefined) {
       addUserInput.loanPayment = 0
@@ -61,10 +82,11 @@
     }
     const arrearsMultiplier = addUserInput.arrearsPayment /  loans[0].dailyPayment
     const arrearMultiplierInt = parseInt(arrearsMultiplier)
-    if (addUserInput.pastDue == 0) {
-      const totalPaid = addUserInput.loanPayment + (loans[0].dailyPayment * arrearMultiplierInt)
+    let totalPaid
+    if (addUserInput.pastDuePayment == 0) {
+      totalPaid = addUserInput.loanPayment + (loans[0].dailyPayment * arrearMultiplierInt)
     } else {
-      const totalPaid = addUserInput.loanPayment + (loans[0].dailyPayment * arrearMultiplierInt) + loans[0].balance
+      totalPaid = addUserInput.loanPayment + (loans[0].dailyPayment * arrearMultiplierInt) + addUserInput.pastDuePayment
     }
 		try {
 			const docRef = await addDoc(collection(db, "payments"), {
@@ -88,8 +110,24 @@
 		} catch (error) {
 			console.log(error)
 		}
-    resetAddUserInput()
-    transactModal = false ;
+    alert('Payment Transanction Saved');
+    const stay = true;
+    resetAddUserInput(stay);
+  }
+  async function searchClient() {
+    let whereclient
+    if (addUserInput.clientNumber != "") {
+      if (addUserInput.clientNumber.length == 6 ) {
+        whereclient = "SPL2023"+ addUserInput.clientNumber;
+      }else {
+        whereclient = addUserInput.clientNumber;
+      }
+      const q = query(collection(db, "clientinfo"), where("clientNumber", "==", whereclient));
+      const querySnapshot = await getDocs(q);
+      const client = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+
+      clienInfo(client[0])
+    }
   }
 </script>
 
@@ -110,8 +148,10 @@
           <p class="my-4">Loan Number:</p>
       </div>
       <div>
-          <input type="text" disabled bind:value={addUserInput.clientNumber} class="rounded-lg h-7 my-2">
-          <input type="text" diabled bind:value={addUserInput.transactionId} class="rounded-lg h-7 my-2">
+          <!-- svelte-ignore a11y-click-events-have-key-events -->
+          <label for="searching" on:click={searchClient} class=" btn btn-sm">Search</label>
+          <input type="text" bind:value={addUserInput.clientNumber} class="rounded-lg h-7 my-2">
+          <input type="text" disabled bind:value={addUserInput.transactionId} class="rounded-lg h-7 my-2">
           <input type="date" bind:value={addUserInput.transactionDate} class="rounded-lg h-7 my-2">
           <input type="text" disabled bind:value={addUserInput.name} class="rounded-lg h-7 my-2">
           <input type="text" disabled bind:value={loans[0].loanNumber} class="rounded-lg h-7 my-2">
