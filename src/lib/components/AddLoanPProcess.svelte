@@ -135,7 +135,6 @@
     $: if(chosenMatrix.days > 0 && releaseDate != null) {
         setDueDate()
     }
-    $: console.log(loans)
     function setDueDate() {
         // Create a new Date object from the release date
         let date = new Date(releaseDate);
