@@ -83,13 +83,18 @@
     function handleCancel() {
         showModal = false;
     }
+
+    function resetSelected(){
+        selectedRowIndex = null
+    }
 </script>
 
 
 <div class="flex items-center p-4 shadow-md sm:rounded-lg bg-white gap-4">
     <h1 class=" font-bold">LOAN PROCESSING</h1>
     <div class=" absolute right-10">
-        <label for="editborrow" class={selectedRowIndex !== null ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={selectedRowIndex === null}>EDIT</label>
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <label for="editborrow" on:click={resetSelected} class={selectedRowIndex !== null ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={selectedRowIndex === null}>EDIT</label>
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <label for="add2" on:click={() => clienInfo(client)} class={searchSelected ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={!searchSelected}>Add Loan</label>
     </div>
