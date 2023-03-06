@@ -74,17 +74,17 @@
 
     async function addUser(){
 
-        const regex = /^[A-Za-z\s]*[-.,]?[A-Za-z\s]*[-.,]?[A-Za-z\s]*$/;
+        // const regex = /^[A-Za-z\s]*[-.,]?[A-Za-z\s]*[-.,]?[A-Za-z\s]*$/;
         
-        if (!regex.test(addUserInput.firstname)) {
-        alert("Invalid characters entered. Please only use letters, spaces, dashes, dots, and commas.");
-        return;
+        // if (!regex.test(addUserInput.firstname && addUserInput.lastname && addUserInput.coMaker)) {
+        //     alert("Invalid characters entered. Please only use letters, spaces, dash, dot, and comma.");
+        //     return;
+        // } 
+        
+        if(addUserInput.password != addUserInput.confirmPassword){
+			alert('Password does not match')
         }
 
-		if(addUserInput.password != addUserInput.confirmPassword){
-			alert('Password does not match')
-			return;
-		}
 		try {
 
 			const response = await fetch('/api/clients',{method:'POST',
@@ -118,6 +118,7 @@
 
 		resetAddUserInput()
 		addModal = false;
+     
 	}
 
     function validatePassword(){
@@ -147,16 +148,71 @@
 		}
 	}
 
-    const handleInput = (event) => {
-    const regex = /^[A-Za-z\s\-.,]{1}$/;
-    const input = event.target.value;
-    
-    if (regex.test(input)) {
-      addUserInput.firstname = input;
-    } else {
-      event.target.value = addUserInput.firstname;
+    function handleInputF(event){
+            const regex = /^[A-Za-z\s\-.,]{1}$/;
+            const input = event.target.value;
+        
+            if(!regex.test(input)){
+                event.target.value = addUserInput.firstname;
+            }
+            else if (!regex.test(input)){
+
+                event.target.setCustomValidity('Invalid characters entered. Please only use letters, spaces, dash, dot, and comma.');
+            }else {
+
+                event.target.setCustomValidity('');
+                addUserInput.firstname = input;
+            }
     }
-  };
+
+    // function handleInputL (event){
+    //     const regex = /^[A-Za-z\s\-.,]{1}$/;
+    //     const inputs = event.target.value;
+
+    //     if (!regex.test(inputs)){
+
+    //          event.target.setCustomValidity('Invalid characters entered. Please only use letters, spaces, dash, dot, and comma.');
+    //     }else {
+
+    //          event.target.setCustomValidity('');
+    //          addUserInput.lastname = inputs;
+    //     }
+    // }
+
+    // function handleInputCo(event){
+    //     const inputss = event.target.value;
+    //     const regex = /^[A-Za-z\s\-.,]{1}$/;
+
+    //     if (!regex.test(inputss)){
+
+    //         event.target.setCustomValidity('Invalid characters entered. Please only use letters, spaces, dash, dot, and comma.');
+
+    //     }else {
+
+    //         event.target.setCustomValidity('');
+    //         addUserInput.coMaker = inputss;
+    //     }
+    // }
+
+
+  function limitInputLength(event) {
+        const maxLength = 11;
+        const value = event.target.value;
+        const pattern = /^09\d*$/;
+
+        if (value.length > maxLength) {
+            event.target.value = addUserInput.number;
+        }
+            else if(value.length < maxLength){
+                event.target.setCustomValidity('Your number is too short. (Ex. 09XX XXX XXX)');
+        }
+             else if (!pattern.test(value) ) {
+            event.target.setCustomValidity('Input must start with "09" and only contain numbers (Ex. 09XX XXX XXX)');
+        } else {
+            event.target.setCustomValidity('');
+            addUserInput.number = value;
+        }
+  }
 
 </script>
 
@@ -183,7 +239,7 @@
                     </div>
                     <div class="mt-9">
                         <label for="first-name" class="mb-2 text-sm font-medium">First Name</label>
-                        <input type="text" id="first-name" bind:value={addUserInput.firstname} on:input={handleInput} class="border text-sm capitalize rounded-lg w-56 p-2.5"  placeholder="First Name" maxlength="30" minlength="2" required>
+                        <input type="text" id="first-name" bind:value={addUserInput.firstname} on:input={handleInputF} class="border text-sm capitalize rounded-lg w-56 p-2.5"  placeholder="First Name" maxlength="30" minlength="2" required>
                     </div>
                     <div>
                         <label for="last-name" class="mb-2 text-sm font-medium">Last Name</label>
@@ -225,11 +281,11 @@
                     </div>
                     <div>
                         <label for="contact-number" class="mb-2 text-sm font-medium">Contact Number</label>
-                        <input type="text" id="contact-number" bind:value={addUserInput.number} class=" border text-sm rounded-lg w-56 p-2.5" placeholder="Contact Number" minlength="11" maxlength="11" required>
+                        <input class="border text-sm rounded-lg w-56 p-2.5" type="text" on:input={limitInputLength} bind:value={addUserInput.number} placeholder="Contact Number" required />
                     </div>
                     <div>
                         <label for="house" class="mb-2 text-sm font-medium">House No.</label>
-                        <input type="text" id="house" bind:value={addUserInput.houseNo} class=" border overflow-y-auto text-sm rounded-lg w-56 p-2.5" placeholder="House No." maxlength="30" required>
+                        <input type="text" id="house" bind:value={addUserInput.houseNo} class=" border overflow-y-auto text-sm capitalize rounded-lg w-56 p-2.5" placeholder="House No." maxlength="30" required>
                     </div>
                     <div>
                         <label for="brgy" class="mb-2 text-sm font-medium">Barangay</label>
