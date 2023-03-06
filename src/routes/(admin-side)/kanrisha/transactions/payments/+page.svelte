@@ -5,6 +5,7 @@
     import SearchClientModal from '$lib/components/SearchClientModal.svelte';
 	import PaymentModal from '$lib/components/paymentModal.svelte';
     import Editpayment from "./Editpayment.svelte";
+    import ConfirmDeleteModal from "$lib/components/ConfirmDeleteModal.svelte";
 
     let selectedRowIndex = null;
     let searchSelected = false;
@@ -13,6 +14,11 @@
     let clienInfo
     let client = []
     let getAllClients;
+
+    let showModal = false;
+    let deleteSuccess = false;
+    let idToDelete;
+
 
     async function userPayments() {
         payments = []
@@ -38,6 +44,19 @@
         userPayments() 
     } else{
         searchSelected = false;
+    }
+
+    function confirmDelete() {
+        showModal = true;
+    }
+
+    function handleConfirm() {
+        deletePayment(idToDelete);
+        showModal = false;
+    }
+
+    function handleCancel() {
+        showModal = false;
     }
 </script>
 
@@ -112,7 +131,7 @@
                             </label>
                             <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
                             <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-38 text-black">
-                                <li><button on:click={deletePayment(payment.id)}>Delete</button></li>
+                                <li><button on:click={() => {idToDelete = payment.id, confirmDelete(); }}>Delete</button></li>
                                 
                             </ul>
                         </div>
@@ -142,3 +161,6 @@
 <SearchClientModal bind:selected={client} bind:getAllClients={getAllClients}/>
 <PaymentModal bind:clienInfo={clienInfo}/>
 <Editpayment bind:clientInfo={clientInfo}/>
+<ConfirmDeleteModal showModal={showModal}
+onConfirm={handleConfirm}
+onCancel={handleCancel}/>

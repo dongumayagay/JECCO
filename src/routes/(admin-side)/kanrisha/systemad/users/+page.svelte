@@ -1,6 +1,12 @@
 <script>
 	import AddModal from "./AddModal.svelte";
+	import ConfirmDeleteModal from "$lib/components/ConfirmDeleteModal.svelte";
+
 	let users = []
+
+	let showModal = false;
+    let deleteSuccess = false;
+    let idToDelete;
 
 	async function getListOfUsers(){
 		const response = await fetch('/api/users/admins')
@@ -12,6 +18,7 @@
 			const response = await fetch(`/api/users/${uid}`, { method: 'DELETE',
 			body: JSON.stringify({
 					uid:uid,
+
 			})});
 		} catch (error) {
 			console.log(error);
@@ -20,6 +27,18 @@
 
 	getListOfUsers()
 
+	function confirmDelete() {
+        showModal = true;
+    }
+
+    function handleConfirm() {
+        deleteUser(idToDelete);
+        showModal = false;
+    }
+
+    function handleCancel() {
+        showModal = false;
+    }
 </script>
 
 <svelte:head>
@@ -67,7 +86,7 @@
 								<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 								<ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-38">
 									<!-- <li><label for="update">Edit</label></li> -->
-									<li><button on:click={deleteUser(user.uid)}>Delete</button></li>
+									<li><button on:click={() => {idToDelete = user.uid, confirmDelete(); }}>Delete</button></li>
 								</ul>
 							</div>
 						</div>  
@@ -90,4 +109,7 @@
 	
 	</div>
 	<AddModal/>
+	<ConfirmDeleteModal showModal={showModal}
+onConfirm={handleConfirm}
+onCancel={handleCancel}/>
 	

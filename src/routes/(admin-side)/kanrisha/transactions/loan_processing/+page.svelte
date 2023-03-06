@@ -1,11 +1,12 @@
 <script>
-    import { onMount } from 'svelte';
     import { collection, onSnapshot, doc, deleteDoc, query, where, orderBy, updateDoc } from 'firebase/firestore';
     import {db} from '$lib/firebase/client.js';
 	import UpdateLoanModal from './UpdateLoanModal.svelte';
     import SearchClientModal from '$lib/components/SearchClientModal.svelte';
     import AddLoanPProcess from '$lib/components/AddLoanPProcess.svelte';
     import {peso} from '$lib/utils.js'
+    import ConfirmDeleteModal from "$lib/components/ConfirmDeleteModal.svelte";
+
 
     let selectedRowIndex = null;
     let searchSelected = false;
@@ -14,6 +15,10 @@
     let clienInfo
     let client = []
     let getAllClients;
+
+    let showModal = false;
+    let deleteSuccess = false;
+    let idToDelete;
 
     async function userLoans() {
         loans = []
@@ -64,6 +69,19 @@
         userLoans();
     } else{
         searchSelected = false;
+    }
+
+    function confirmDelete() {
+        showModal = true;
+    }
+
+    function handleConfirm() {
+        deleteLoan(idToDelete);
+        showModal = false;
+    }
+
+    function handleCancel() {
+        showModal = false;
     }
 </script>
 
@@ -150,7 +168,7 @@
                                 {:else if loan.status == "PastDue"}
                                 <li><button on:click={addDue(loan.id)}>Add Past Due</button></li> 
                                 {/if}
-                                <li><button on:click={deleteLoan(loan.id)}>Delete</button></li>  
+                                <li><button on:click={() => {idToDelete = loan.id, confirmDelete(); }}>Delete</button></li>  
                             </ul>
                         </div>
                     </div>
@@ -197,3 +215,6 @@
 <SearchClientModal bind:selected={client} bind:getAllClients={getAllClients}/>
 <AddLoanPProcess bind:clienInfo={clienInfo} />
 <UpdateLoanModal bind:clientInfo={clientInfo} />
+<ConfirmDeleteModal showModal={showModal}
+onConfirm={handleConfirm}
+onCancel={handleCancel}/>
