@@ -10,6 +10,8 @@
     let countRevenue = 0
     let countDues = {}
     let countDue = 0
+    const today = new Date();
+    const startOfDay = `${today.getFullYear()}-${("0" + (today.getMonth() + 1)).slice(-2)}-${("0" + today.getDate()).slice(-2)}`
     async function dashboardDate(){
         //Total Client
         const docSnap = await getCountFromServer(collection(db, "clientinfo")); 
@@ -31,8 +33,6 @@
             countUnread = countUnreads.length
         }
         // Total revenue of the day
-        const today = new Date();
-        const startOfDay = `${today.getFullYear()}-${("0" + (today.getMonth() + 1)).slice(-2)}-${("0" + today.getDate()).slice(-2)}`
         const qthree = query(collection(db, "payments"),where("transactionDate", "==", startOfDay));
         const docSnapThree = await getDocs(qthree); 
         docSnapThree.forEach((doc) => {
@@ -62,6 +62,53 @@
         }
     }
     dashboardDate()
+
+
+    async function generateDailyCollection(){
+        let clients
+        let loans
+        let payments
+        const q = query(collection(db, "clientinfo"));
+        const docSnap = await getDocs(q); 
+        docSnap.forEach((doc) => {
+            clients = docSnap.docs.map((doc) => {
+                return {
+                    id:doc.id,
+                    ...doc.data()
+                }
+            }); 
+        });
+        const qOne = query(collection(db, "loanprocess"),where("status", "==", "Ongoing"));
+        const docSnapOne = await getDocs(qOne); 
+        docSnapOne.forEach((doc) => {
+            loans = docSnapOne.docs.map((doc) => {
+                return {
+                    id:doc.id,
+                    ...doc.data()
+                }
+            }); 
+        });
+        const qTwo = query(collection(db, "payments"),where("transactionDate", "==", startOfDay));
+        const docSnapTwo = await getDocs(qTwo); 
+        docSnapTwo.forEach((doc) => {
+            payments = docSnapTwo.docs.map((doc) => {
+                return {
+                    id:doc.id,
+                    ...doc.data()
+                }
+            }); 
+        });
+        let collectibles = loans.reduce((acc, obj) => acc + obj.dailyPayment, 0)
+        let collections = payments.reduce((acc, obj) => acc + obj.loanPayment, 0)
+        let arrears = loans.reduce((acc, obj) => acc + obj.arrearsPenalty, 0)
+        let arrearsCollections = payments.reduce((acc, obj) => acc + obj.arrearsPayment, 0)
+        let arrearsPenaltyCollections = payments.reduce((acc, obj) => acc + obj.arrearsPayment, 0) * 0.05
+        let pastDue = loans.reduce((acc, obj) => acc + obj.pastDue, 0)
+        let pastDueCollections = payments.reduce((acc, obj) => acc + obj.pastDuePayment, 0)
+        let pastDuePenaltyCollections = payments.reduce((acc, obj) => acc + obj.arrearsPayment, 0) * 0.05
+        let totalCollections = collections + arrearsCollections + pastDueCollections
+        
+    }
 </script>
 
 <svelte:head>
@@ -137,5 +184,5 @@
             </div>
         </section>
         <hr/>
-    
+        <button on:click={generateDailyCollection} class="btn-link py-1 px-2 font-semibold">Generate Daily Collection Report</button>
     </div>
