@@ -35,10 +35,14 @@
             ...doc.data()
         }
         }); 
-        if (loans[0].status == "Completed") {
+        if (loans.length != 0) {
+            if (loans[0].status == "Completed") {
+                canApply = true
+            } else {
+                canApply = false
+            }
+        }else{
             canApply = true
-        } else {
-            canApply = false
         }
         
     }
