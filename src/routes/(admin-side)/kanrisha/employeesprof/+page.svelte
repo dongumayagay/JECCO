@@ -58,12 +58,12 @@
 </div>    
 
 <div class="overflow-x-auto relative shadow-md sm:rounded-lg h-full bg-white mt-4">
-    <div class="flex justify-between items-center p-4 bg-white dark:bg-gray-800">
+    <div class="flex justify-between items-center p-4 bg-white ">
         <div class="relative ">
         </div>
     </div>
-    <table class=" table w-full text-sm text-left text-gray-500 dark:text-black">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700">
+    <table class=" table w-full text-sm text-left text-gray-500">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
             <tr>
                 <th scope="col" class="px-6">              
                 </th>
@@ -84,7 +84,7 @@
         </thead>
         <tbody>
             {#each employees as employee}
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+            <tr class="bg-white border-b hover:bg-gray-50">
                 <td class="px-4">
                     <div  class="flex items-center space-x-2 text-sm">
                         <div class="dropdown">
