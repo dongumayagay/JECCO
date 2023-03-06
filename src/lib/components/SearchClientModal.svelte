@@ -1,6 +1,6 @@
 <script>
     import {db} from '$lib/firebase/client.js';
-    import { collection, where, query, getDocs  } from 'firebase/firestore';
+    import { collection, where, query, getDocs, orderBy  } from 'firebase/firestore';
 
     let searchModal = false; 
     let searchInput = "";
@@ -12,7 +12,8 @@
     export let selected = [];
 
     export async function getAllClients(){
-        const querySnapshot = await getDocs(collection(db, "clientinfo"));
+        const qOne = query(collection(db, "clientinfo"), orderBy("clientNumber", "desc"));
+        const querySnapshot = await getDocs(qOne);
         querySnapshot.forEach((doc) => {
             searchResults = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         });

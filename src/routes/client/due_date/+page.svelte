@@ -28,7 +28,7 @@
 	userDueDates();
 
 	async function payOnline(){
-		console.log(dueDates);
+
 		if (dueDates.length === 0 ) {
 			return
 		}
