@@ -8,6 +8,7 @@
     let addUserInput = {};
     let chosenMatrix = {}; 
     let infoOfClient = [];
+    let canApply
 
     $: if (chosenMatrix.loanAmount > 0){
         addUserInput = {
@@ -67,6 +68,11 @@
             collectorAssigned: cliInfo.collectorAssigned,
             area: cliInfo.area
 	    }
+        if (cliInfo.status == "Completed") {
+            canApply = true
+        } else {
+            canApply = false
+        }
     }
 
     function resetAddUserInput(){
@@ -183,7 +189,11 @@
                     <div class="flex flex-col gap-4">
                         <div class="flex">
                             <div class=" pl-4">
-                                <label for="matrixUpdate" class="btn btn-sm">Loan Matrix</label>
+                                {#if canApply}
+                                    <label for="matrixUpdate" class=" btn btn-sm">Loan Matrix</label>
+                                {:else}
+                                <label for="matrix" disabled class=" btn btn-sm">Loan Matrix</label>
+                                {/if}
                                 <input type="text" disabled bind:value={addUserInput.days} class="border text-sm rounded-lg w-24 opacity-50">
                             </div>
                             <div  class=" absolute right-16">

@@ -54,7 +54,7 @@
                     <!-- Modal header -->
                     <div class="flex items-center p-4 rounded-t border-b">   
                         <h3 class="text-xl font-semibold text-gray-900">
-                            Number of Days  hahaaha
+                            Number of Days
                         </h3>
                         <select on:change={handleSelection}>
                             {#each days as day}

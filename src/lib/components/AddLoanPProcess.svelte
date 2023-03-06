@@ -1,5 +1,5 @@
 <script>
-    import {addDoc, onSnapshot, collection, where, query, getCountFromServer, getDoc, updateDoc, doc } from 'firebase/firestore';
+    import {addDoc, onSnapshot, collection, where, query, getCountFromServer, getDoc, updateDoc, doc, orderBy, limit, getDocs } from 'firebase/firestore';
 	import {db} from '$lib/firebase/client.js';
     import LoanMatrixModal from './LoanMatrixModal.svelte';
 
@@ -13,21 +13,34 @@
     let dueDate;
     let formattedDueDate;
     //loan ref id generator
-    let loans = []
+    let loans
+    let canApply
     let totalLoans = 0 
     let ctrlNumber = "000000"
     let thisLoanNumber = ""
     let loanNumber;
 
-    const totalLoanCounter = onSnapshot(collection(db, 'loanprocess'), (querySnapshot) => {
-            loans = querySnapshot.docs.map((doc) => ({ id: doc.numberOfLoan, ...doc.data() }));
-    });
     //user loan counter
     async function userLoanCounter(clientId) {
         const q = query(collection(db, 'loanprocess'), where("owner", "==", clientId));
         const snapshot = await getCountFromServer(q);
         numberOfLoans = snapshot.data().count;
         loanNumber = numberOfLoans+1;
+
+        const qTwo = query(collection(db, 'loanprocess'), where("owner", "==", clientId), orderBy("numberOfLoan", "desc"), limit(1) );
+        const docSnap = await getDocs(qTwo);
+        loans = docSnap.docs.map((doc) => {
+        return {
+            id:doc.id,
+            ...doc.data()
+        }
+        }); 
+        if (loans[0].status == "Completed") {
+            canApply = true
+        } else {
+            canApply = false
+        }
+        
     }
 
     export async function clienInfo(infoClient){
@@ -47,6 +60,7 @@
             id:cliInfo.id,
             username: cliInfo.username,
         }
+        
     }
 
     function resetAddUserInput(){
@@ -117,7 +131,7 @@
     $: if(chosenMatrix.days > 0 && releaseDate != null) {
         setDueDate()
     }
-
+    $: console.log(loans)
     function setDueDate() {
         // Create a new Date object from the release date
         let date = new Date(releaseDate);
@@ -173,7 +187,11 @@
                     <div class="flex flex-col gap-4">
                     <div class="flex">
                         <div class=" pl-4">
-                            <label for="matrix" class=" btn btn-sm">Loan Matrix</label>
+                            {#if canApply}
+                                <label for="matrix" class=" btn btn-sm">Loan Matrix</label>
+                            {:else}
+                            <label for="matrix" disabled class=" btn btn-sm">Loan Matrix</label>
+                            {/if}
                             {#await chosenMatrix}
                                 <p>...waiting</p>
                             {:then matrix}   
@@ -294,7 +312,7 @@
             </div>
         </div>
             <div class="modal-action pt-8">    
-                <button type="submit" class="btn border-transparent bg-green-600">Process</button>
+                <button type="submit" disabled={!canApply} class="btn border-transparent bg-green-600">Process</button>
                 <!-- svelte-ignore a11y-click-events-have-key-events -->
                 <label for="add2" on:click={resetAddUserInput} on:click={resetChosenMatrix} class="btn border-transparent bg-red-600">Cancel</label>
             </div>
