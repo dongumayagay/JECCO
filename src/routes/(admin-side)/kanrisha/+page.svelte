@@ -116,7 +116,6 @@
             const item3 = payments.find(item3 => item3.owner === item1.id);
             return { ...item1, ...item2, ...item3 };
         });
-        console.log(mergedArr)
     }
     generateDailyCollection()
     
