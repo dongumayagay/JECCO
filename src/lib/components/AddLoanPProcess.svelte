@@ -121,6 +121,9 @@
             await updateDoc(doc(db, "id_counters", "loan_counter"), {
                 count: totalLoans.count
             });
+            await updateDoc(doc(db, "clientinfo", addUserInput.owner), {
+                status: "Ongoing"
+            });
 		} catch (error) {
 			console.log(error)
 		}

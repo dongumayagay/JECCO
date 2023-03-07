@@ -103,6 +103,7 @@
                 municipality:addUserInput.municipality,
                 province:addUserInput.province,
                 dateCreated:addUserInput.dateCreated,
+                status:"Ongoing"
                 
 			})})
 			if(response.status != 500 && response.status != 400){

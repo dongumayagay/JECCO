@@ -94,6 +94,7 @@
                 <th class="flex justify-center">Address</th> 
                 <th class="" >Email</th> 
                 <th class="">Contact Number</th> 
+                <th class="">Status</th> 
             </tr>
         </thead> 
         {#each clients as client }
@@ -139,6 +140,9 @@
                 </td>
                 <td class="">
                     {client.number}
+                </td>
+                <td class="">
+                    {client.status}
                 </td>
             </tr>      
         {/each}

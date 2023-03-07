@@ -68,7 +68,7 @@
         let clients
         let loans
         let payments
-        const q = query(collection(db, "clientinfo"));
+        const q = query(collection(db, "clientinfo"),where("status", "==", "Ongoing"));
         const docSnap = await getDocs(q); 
         docSnap.forEach((doc) => {
             clients = docSnap.docs.map((doc) => {
