@@ -1,7 +1,8 @@
 <script>
-    import Chart from "$lib/components/Chart.svelte";
     import { collection, query, where, getDocs, getCountFromServer } from "firebase/firestore";
     import {db} from '$lib/firebase/client.js';
+    import { jsPDF } from "jspdf";
+    import autoTable from 'jspdf-autotable'
 
     let countClient = '';
     let countUnread = 0
@@ -63,52 +64,84 @@
     }
     dashboardDate()
 
+    // const dailyReport = new jsPDF();
 
-    async function generateDailyCollection(){
-        let clients
-        let loans
-        let payments
-        const q = query(collection(db, "clientinfo"),where("status", "==", "Ongoing"));
-        const docSnap = await getDocs(q); 
-        docSnap.forEach((doc) => {
-            clients = docSnap.docs.map((doc) => {
-                return {
-                    id:doc.id,
-                    ...doc.data()
-                }
-            }); 
+    // async function generateDailyCollection(){
+
+    //     let clients
+    //     let loans
+    //     let payments
+    //     const q = query(collection(db, "clientinfo"),where("status", "==", "Ongoing"));
+    //     const docSnap = await getDocs(q); 
+    //     docSnap.forEach((doc) => {
+    //         clients = docSnap.docs.map((doc) => {
+    //             return {
+    //                 id:doc.id,
+    //                 ...doc.data()
+    //             }
+    //         }); 
+    //     });
+    //     const qOne = query(collection(db, "loanprocess"),where("status", "==", "Ongoing"));
+    //     const docSnapOne = await getDocs(qOne); 
+    //     docSnapOne.forEach((doc) => {
+    //         loans = docSnapOne.docs.map((doc) => {
+    //             return {
+    //                 id:doc.id,
+    //                 ...doc.data()
+    //             }
+    //         }); 
+    //     });
+    //     const qTwo = query(collection(db, "payments"),where("transactionDate", "==", startOfDay));
+    //     const docSnapTwo = await getDocs(qTwo); 
+    //     docSnapTwo.forEach((doc) => {
+    //         payments = docSnapTwo.docs.map((doc) => {
+    //             return {
+    //                 id:doc.id,
+    //                 ...doc.data()
+    //             }
+    //         }); 
+    //     });
+
+    //     let collectibles = loans.reduce((acc, obj) => acc + obj.dailyPayment, 0)
+    //     let collections = payments.reduce((acc, obj) => acc + obj.loanPayment, 0)
+    //     let arrears = loans.reduce((acc, obj) => acc + obj.arrearsPenalty, 0)
+    //     let arrearsCollections = payments.reduce((acc, obj) => acc + obj.arrearsPayment, 0)
+    //     let arrearsPenaltyCollections = payments.reduce((acc, obj) => acc + obj.arrearsPayment, 0) * 0.05
+    //     let pastDue = loans.reduce((acc, obj) => acc + obj.pastDue, 0)
+    //     let pastDueCollections = payments.reduce((acc, obj) => acc + obj.pastDuePayment, 0)
+    //     let pastDuePenaltyCollections = payments.reduce((acc, obj) => acc + obj.arrearsPayment, 0) * 0.05
+    //     let totalCollections = collections + arrearsCollections + pastDueCollections
+
+    //     dailyReport.text('JEMPOWERS CREDIT COPORATION', 56, 22);
+    //     dailyReport.text('DAILY COLLECTIONS REPORT', 62, 37);
+    //     dailyReport.setFontSize(11);
+    //     dailyReport.text('San Pedro City, Laguna', 83, 27);
+    //     window.open(dailyReport.output('bloburl'));
+    // }
+
+    const doc = new jsPDF();
+
+        async function generatePDF() {
+            doc.text('JEMPOWERS CREDIT COPORATION', 56, 22);
+            doc.text('DAILY COLLECTIONS REPORT', 62, 37);
+            doc.setFontSize(11);
+            doc.text('San Pedro City, Laguna', 83, 27);
+        // Add a table to the PDF document using autotable
+        doc.autoTable({
+        theme: 'grid',
+        margin: {top: 50, left:3}, 
+        tableWidth: 205,
+        headStyles: {fontSize: 6, item:'center'},
+        style:{fontSize: 5, item:'center'},
+        head: [['Name', 'REF', 'DUE DATE','BALANCE', 'D.I.','PR#', 'LP', 'ARR PNL', 'ARR PY', 'PASTDUE PNL', 'PASTDUE PY']],
+        body: [ ['Sanchez,Francis', '000006', '2023-07-03','10000.00','100.00','000001', '100.00','20.00','0.00','0.00','0.00']],
         });
-        const qOne = query(collection(db, "loanprocess"),where("status", "==", "Ongoing"));
-        const docSnapOne = await getDocs(qOne); 
-        docSnapOne.forEach((doc) => {
-            loans = docSnapOne.docs.map((doc) => {
-                return {
-                    id:doc.id,
-                    ...doc.data()
-                }
-            }); 
-        });
-        const qTwo = query(collection(db, "payments"),where("transactionDate", "==", startOfDay));
-        const docSnapTwo = await getDocs(qTwo); 
-        docSnapTwo.forEach((doc) => {
-            payments = docSnapTwo.docs.map((doc) => {
-                return {
-                    id:doc.id,
-                    ...doc.data()
-                }
-            }); 
-        });
-        let collectibles = loans.reduce((acc, obj) => acc + obj.dailyPayment, 0)
-        let collections = payments.reduce((acc, obj) => acc + obj.loanPayment, 0)
-        let arrears = loans.reduce((acc, obj) => acc + obj.arrearsPenalty, 0)
-        let arrearsCollections = payments.reduce((acc, obj) => acc + obj.arrearsPayment, 0)
-        let arrearsPenaltyCollections = payments.reduce((acc, obj) => acc + obj.arrearsPayment, 0) * 0.05
-        let pastDue = loans.reduce((acc, obj) => acc + obj.pastDue, 0)
-        let pastDueCollections = payments.reduce((acc, obj) => acc + obj.pastDuePayment, 0)
-        let pastDuePenaltyCollections = payments.reduce((acc, obj) => acc + obj.arrearsPayment, 0) * 0.05
-        let totalCollections = collections + arrearsCollections + pastDueCollections
-        
+
+        // Save the PDF document
+        window.open(doc.output('bloburl'));
+        // doc.save('table.pdf');
     }
+
 </script>
 
 <svelte:head>
@@ -184,13 +217,13 @@
             </div>
         </section>
         <hr/>
-        <button on:click={generateDailyCollection} class="btn-link py-1 px-2 font-semibold">Generate Daily Collection Report</button>
-        <div class=" flex h-96 justify-center">
+        <button on:click={generatePDF} class="btn-link py-1 px-2 font-semibold">Generate Daily Collection Report</button>
+        <!-- <div class=" flex h-96 justify-center">
             <div class=" flex flex-1 justify-center">
                 <img src="/computer.gif" alt="">
             </div>
             <div class=" flex flex-1 justify-center">
                 <img src="/report.gif" alt="">
             </div>
-        </div>
+        </div> -->
     </div>

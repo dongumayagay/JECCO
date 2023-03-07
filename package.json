@@ -30,6 +30,7 @@
 		"firebase": "^9.17.2",
 		"firebase-admin": "^11.5.0",
 		"jspdf": "^2.5.1",
+		"jspdf-autotable": "^3.5.28",
 		"nodemailer": "^6.9.1"
 	}
 }
