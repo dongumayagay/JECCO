@@ -244,41 +244,43 @@
                 </tr>
             </thead>
             {#each mergedArr as data}
-            <tr>
-                <td class="px-6">
-                    {data.lastname},{data.firstname}
-                </td>
-                <td class="px-6">
-                    {data.loanNumber}
-                </td>
-                <td class="px-6">
-                    {data.formattedDueDate}
-                </td>
-                <td class="px-6">
-                    {data.balance}
-                </td>
-                <td class="px-6">
-                    {data.dailyPayment}
-                </td>
-                <td class="px-6">
-                    {data.prNumber}
-                </td>
-                <td class="px-6">
-                    {data.loanPayment}
-                </td>
-                <td class="px-6">
-                    {data.arrearsPenalty}
-                </td>
-                <td class="px-6">
-                    {data.arrearsPayment}
-                </td>
-                <td class="px-6">
-                    {data.pastDue}
-                </td>
-                <td class="px-6">
-                    {data.pastDuePayment}
-                </td>
-            </tr>
+                {#if data.loanPayment}
+                    <tr>
+                        <td class="px-6">
+                            {data.lastname},{data.firstname}
+                        </td>
+                        <td class="px-6">
+                            {data.loanNumber}
+                        </td>
+                        <td class="px-6">
+                            {data.formattedDueDate}
+                        </td>
+                        <td class="px-6">
+                            {data.balance}
+                        </td>
+                        <td class="px-6">
+                            {data.dailyPayment}
+                        </td>
+                        <td class="px-6">
+                            {data.prNumber}
+                        </td>
+                        <td class="px-6">
+                            {data.loanPayment}
+                        </td>
+                        <td class="px-6">
+                            {data.arrearsPenalty}
+                        </td>
+                        <td class="px-6">
+                            {data.arrearsPayment}
+                        </td>
+                        <td class="px-6">
+                            {data.pastDue}
+                        </td>
+                        <td class="px-6">
+                            {data.pastDuePayment}
+                        </td>
+                    </tr>
+                {/if}
             {/each}
         </table>
         {/if}
