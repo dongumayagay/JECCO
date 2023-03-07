@@ -1,11 +1,13 @@
 <script>
-    import { onMount } from 'svelte';
-    import { collection, onSnapshot, doc, deleteDoc, query, where, orderBy, updateDoc } from 'firebase/firestore';
+    import { collection, onSnapshot, doc, deleteDoc, query, where, orderBy, updateDoc, getDoc } from 'firebase/firestore';
     import {db} from '$lib/firebase/client.js';
 	import UpdateLoanModal from './UpdateLoanModal.svelte';
     import SearchClientModal from '$lib/components/SearchClientModal.svelte';
     import AddLoanPProcess from '$lib/components/AddLoanPProcess.svelte';
     import {peso} from '$lib/utils.js'
+    import ConfirmDeleteModal from "$lib/components/ConfirmDeleteModal.svelte";
+    import { jsPDF } from "jspdf";
+
 
     let selectedRowIndex = null;
     let searchSelected = false;
@@ -14,6 +16,10 @@
     let clienInfo
     let client = []
     let getAllClients;
+
+    let showModal = false;
+    let deleteSuccess = false;
+    let idToDelete;
 
     async function userLoans() {
         loans = []
@@ -35,18 +41,23 @@
                 status: "Completed"
             });
     }
+    async function statusPastDue(id){
+        await updateDoc(doc(db, "loanprocess", id), {
+                status: "Past Due"
+            });
+    }
 
     async function addArrears(id){
-        const arrearsComputation = loan.dailyPayment * 0.05 
+        const arrearsComputation = loans.dailyPayment * 0.05 
         await updateDoc(doc(db, "loanprocess", id), {
-                arrearsPenalty: loan.dailyPayment + arrearsComputation
+                arrearsPenalty: loans.dailyPayment + arrearsComputation
             });
     }
     async function addDue(id){
-        const pastDueComputation = loan.balance * 0.07 
+        const pastDueComputation = loans.balance * 0.07 
         await updateDoc(doc(db, "loanprocess", id), {
                 arrearsPenalty: 0,
-                pastDue: loan.balance + pastDueComputation
+                pastDue: loans.balance + pastDueComputation
             });
     }
 
@@ -60,15 +71,62 @@
     } else{
         searchSelected = false;
     }
+
+    function confirmDelete() {
+        showModal = true;
+    }
+
+    function handleConfirm() {
+        deleteLoan(idToDelete);
+        showModal = false;
+    }
+
+    function handleCancel() {
+        showModal = false;
+    }
+
+    const disclosure = new jsPDF();
+     
+    async function generateDisclosure(){
+        const today = new Date();
+        const startOfDay = `${today.getFullYear()}-${("0" + (today.getMonth() + 1)).slice(-2)}-${("0" + today.getDate()).slice(-2)}`
+        disclosure.addImage("/disclosure.jpg", "JPEG", 5, 0, 200, 275);
+        disclosure.setFontSize(11);
+        disclosure.text('San Pedro City, Laguna', 83, 32);
+        disclosure.text(startOfDay, 93, 38);
+        disclosure.text(client.clientNumber, 60, 52);
+        disclosure.text(loans[0].loanNumber, 60, 58);
+        disclosure.text(client.firstname + ' ' + client.lastname, 145, 52);
+        disclosure.text('Php ' + loans[0].loanAmount + '.00', 55, 73);
+        disclosure.text('Php ' + loans[0].totalAmountDue + '.00', 55, 105);
+        disclosure.text('Php ' + loans[0].dailyPayment + '.00', 55, 115);
+        disclosure.text('Php ' + loans[0].loanAmount + '.00', 135, 73);
+        disclosure.text('Php ' + loans[0].notarialFee + '.00', 135, 93);
+        disclosure.text(loans[0].releaseDate, 135, 102);
+        disclosure.text(loans[0].formattedDueDate, 135, 110);
+        disclosure.text(loans[0].releasedBy, 142, 172);
+        
+
+        window.open(disclosure.output('bloburl'));
+
+        // console.log(loans[0].formattedDueDate);
+    }
+
+    function resetSelected(){
+        selectedRowIndex = null
+    }
+
 </script>
 
 
 <div class="flex items-center p-4 shadow-md sm:rounded-lg bg-white gap-4">
     <h1 class=" font-bold">LOAN PROCESSING</h1>
     <div class=" absolute right-10">
-        <label for="editborrow" class={selectedRowIndex !== null ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={selectedRowIndex === null}>EDIT</label>
+        <button class={searchSelected ? ' btn-info rounded-lg py-1 px-2 font-semibold mx-2 ' : 'btn btn-sm'} disabled={!searchSelected} on:click={generateDisclosure}>Disclosure</button>
         <!-- svelte-ignore a11y-click-events-have-key-events -->
-        <label for="add2" on:click={() => clienInfo(client)} class={searchSelected ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={!searchSelected}>Add Loan</label>
+        <label for="editborrow" on:click={resetSelected} class={selectedRowIndex !== null ? ' btn-info rounded-lg py-1 px-2 font-semibold mx-2 ' : 'btn btn-sm'} disabled={selectedRowIndex === null}>EDIT</label>
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <label for="add2" on:click={() => clienInfo(client)} class={searchSelected ? ' btn-info rounded-lg py-1 px-2 font-semibold mx-2 ' : 'btn btn-sm'} disabled={!searchSelected}>Add Loan</label>
     </div>
 </div>
 
@@ -140,11 +198,12 @@
                             <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-38 text-black">
                                 {#if loan.status == "Ongoing"}
                                 <li><button on:click={statusComplete(loan.id)}>Set Status as Complete</button></li> 
+                                <li><button on:click={statusPastDue(loan.id)}>Set Status as Past Due</button></li> 
                                 <li><button on:click={addArrears(loan.id)}>Add Arrears Penalty</button></li> 
-                                {:else if loan.status == "Complete"}
+                                {:else if loan.status == "PastDue"}
                                 <li><button on:click={addDue(loan.id)}>Add Past Due</button></li> 
                                 {/if}
-                                <li><button on:click={deleteLoan(loan.id)}>Delete</button></li>  
+                                <li><button on:click={() => {idToDelete = loan.id, confirmDelete(); }}>Delete</button></li>  
                             </ul>
                         </div>
                     </div>
@@ -191,3 +250,6 @@
 <SearchClientModal bind:selected={client} bind:getAllClients={getAllClients}/>
 <AddLoanPProcess bind:clienInfo={clienInfo} />
 <UpdateLoanModal bind:clientInfo={clientInfo} />
+<ConfirmDeleteModal showModal={showModal}
+onConfirm={handleConfirm}
+onCancel={handleCancel}/>

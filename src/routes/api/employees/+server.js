@@ -20,7 +20,8 @@ export async function POST({request}) {
     const docRef = await addDoc(collection(db, "employees"), {
         name:addUserInput.name,
         address:addUserInput.address,
-        contactInfo:addUserInput.contactInfo
+        contactInfo:addUserInput.contactInfo,
+        role:addUserInput.role
     });
     return json(docRef);
 

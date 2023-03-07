@@ -45,7 +45,7 @@
       arrearsPayment: paymentInfo.arrearsPayment,
       pastDuePayment: paymentInfo.pastDuePayment,
 	  }
-    transactModal=false
+    transactModal = false;
   } 
   async function updatePayment(){
     const previousTotalPaid = paymentInfo.loanPayment + paymentInfo.arrearsPayment + paymentInfo.pastDuePayment
@@ -68,9 +68,9 @@
         totalPayment: loans[0].totalPayment,
       });
 		} catch (error) {
-			console.log(error)
+			alert(error);
 		}
-    transactModal=false
+    transactModal = false;
   }
 </script>
 

@@ -2,10 +2,9 @@
     import { collection, onSnapshot, doc, deleteDoc, query, where, orderBy } from 'firebase/firestore';
     import {db} from '$lib/firebase/client.js';
     import AddClientArrangement from '$lib/components/AddClientArrangement.svelte';
-	import UpdateAreaModal from './UpdateAreaModal.svelte';
-    // import {peso} from '$lib/utils.js'
-    
+	import UpdateAreaModal from './UpdateAreaModal.svelte';    
     import SearchEmployeeModal from '$lib/components/SearchEmployeeModal.svelte';
+    import ConfirmDeleteModal from '$lib/components/ConfirmDeleteModal.svelte';
 
     let selectedRowIndex = null;
     let searchSelected = false;
@@ -14,6 +13,9 @@
     let clienInfo
     let employee = []
     let getAllEmployees;
+    let showModal = false;
+    let deleteSuccess = false;
+    let idToDelete;
 
     async function employeeArea() {
         areas = []
@@ -41,6 +43,18 @@
         searchSelected = false;
     }
 
+    function confirmDelete() {
+        showModal = true;
+    }
+
+    function handleConfirm() {
+        deleteArea(idToDelete);
+        showModal = false;
+    }
+
+    function handleCancel() {
+        showModal = false;
+    }
 </script>
 
 
@@ -105,7 +119,7 @@
                             </label>
                             <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
                             <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-38 text-black">
-                                <li><button on:click={deleteArea(area.id)}>Delete</button></li>  
+                                <li><button on:click={() => {idToDelete = area.id, confirmDelete(); }}>Delete</button></li>  
                             </ul>
                         </div>
                     </div>
@@ -128,3 +142,6 @@
 <SearchEmployeeModal bind:selected={employee} bind:getAllEmployees={getAllEmployees}/>
 <AddClientArrangement bind:clienInfo={clienInfo} />
 <UpdateAreaModal bind:clientInfo={clientInfo} />
+<ConfirmDeleteModal showModal={showModal}
+onConfirm={handleConfirm}
+onCancel={handleCancel}/>
