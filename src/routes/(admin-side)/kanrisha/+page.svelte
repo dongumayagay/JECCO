@@ -1,6 +1,6 @@
 <script>
     import Chart from "$lib/components/Chart.svelte";
-    import { collection, updateDoc, query, where, orderBy, limit, doc, getDocs, addDoc, getDoc, getCountFromServer } from "firebase/firestore";
+    import { collection, query, where, getDocs, getCountFromServer } from "firebase/firestore";
     import {db} from '$lib/firebase/client.js';
 
     let countClient = '';
@@ -185,4 +185,12 @@
         </section>
         <hr/>
         <button on:click={generateDailyCollection} class="btn-link py-1 px-2 font-semibold">Generate Daily Collection Report</button>
+        <div class=" flex h-96 justify-center">
+            <div class=" flex flex-1 justify-center">
+                <img src="/computer.gif" alt="">
+            </div>
+            <div class=" flex flex-1 justify-center">
+                <img src="/report.gif" alt="">
+            </div>
+        </div>
     </div>
