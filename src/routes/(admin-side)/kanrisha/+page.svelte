@@ -119,9 +119,9 @@
     //     window.open(dailyReport.output('bloburl'));
     // }
 
-    const doc = new jsPDF();
-
+    
         async function generatePDF() {
+            const doc = new jsPDF();
             doc.text('JEMPOWERS CREDIT COPORATION', 56, 22);
             doc.text('DAILY COLLECTIONS REPORT', 62, 37);
             doc.setFontSize(11);
@@ -218,12 +218,12 @@
         </section>
         <hr/>
         <button on:click={generatePDF} class="btn-link py-1 px-2 font-semibold">Generate Daily Collection Report</button>
-        <!-- <div class=" flex h-96 justify-center">
+        <div class=" flex h-96 justify-center">
             <div class=" flex flex-1 justify-center">
                 <img src="/computer.gif" alt="">
             </div>
             <div class=" flex flex-1 justify-center">
                 <img src="/report.gif" alt="">
             </div>
-        </div> -->
+        </div>
     </div>
