@@ -4,6 +4,7 @@
     import { jsPDF } from "jspdf";
     import autoTable from 'jspdf-autotable'
 
+    let mergedArr = []
     let countClient = '';
     let countUnread = 0
     let countUnreads = '';
@@ -64,68 +65,67 @@
     }
     dashboardDate()
 
-    // const dailyReport = new jsPDF();
+    async function generateDailyCollection(){
 
-    // async function generateDailyCollection(){
+        let clients
+        let loans
+        let payments
+        const q = query(collection(db, "clientinfo"),where("status", "==", "Ongoing"));
+        const docSnap = await getDocs(q); 
+        docSnap.forEach((doc) => {
+            clients = docSnap.docs.map((doc) => {
+                return {
+                    id:doc.id,
+                    ...doc.data()
+                }
+            }); 
+        });
+        const qOne = query(collection(db, "loanprocess"),where("status", "==", "Ongoing"));
+        const docSnapOne = await getDocs(qOne); 
+        docSnapOne.forEach((doc) => {
+            loans = docSnapOne.docs.map((doc) => {
+                return {
+                    id:doc.id,
+                    ...doc.data()
+                }
+            }); 
+        });
+        const qTwo = query(collection(db, "payments"),where("transactionDate", "==", startOfDay));
+        const docSnapTwo = await getDocs(qTwo); 
+        docSnapTwo.forEach((doc) => {
+            payments = docSnapTwo.docs.map((doc) => {
+                return {
+                    id:doc.id,
+                    ...doc.data()
+                }
+            }); 
+        });
 
-    //     let clients
-    //     let loans
-    //     let payments
-    //     const q = query(collection(db, "clientinfo"),where("status", "==", "Ongoing"));
-    //     const docSnap = await getDocs(q); 
-    //     docSnap.forEach((doc) => {
-    //         clients = docSnap.docs.map((doc) => {
-    //             return {
-    //                 id:doc.id,
-    //                 ...doc.data()
-    //             }
-    //         }); 
-    //     });
-    //     const qOne = query(collection(db, "loanprocess"),where("status", "==", "Ongoing"));
-    //     const docSnapOne = await getDocs(qOne); 
-    //     docSnapOne.forEach((doc) => {
-    //         loans = docSnapOne.docs.map((doc) => {
-    //             return {
-    //                 id:doc.id,
-    //                 ...doc.data()
-    //             }
-    //         }); 
-    //     });
-    //     const qTwo = query(collection(db, "payments"),where("transactionDate", "==", startOfDay));
-    //     const docSnapTwo = await getDocs(qTwo); 
-    //     docSnapTwo.forEach((doc) => {
-    //         payments = docSnapTwo.docs.map((doc) => {
-    //             return {
-    //                 id:doc.id,
-    //                 ...doc.data()
-    //             }
-    //         }); 
-    //     });
+        let collectibles = loans.reduce((acc, obj) => acc + obj.dailyPayment, 0)
+        let collections = payments.reduce((acc, obj) => acc + obj.loanPayment, 0)
+        let arrears = loans.reduce((acc, obj) => acc + obj.arrearsPenalty, 0)
+        let arrearsCollections = payments.reduce((acc, obj) => acc + obj.arrearsPayment, 0)
+        let arrearsPenaltyCollections = payments.reduce((acc, obj) => acc + obj.arrearsPayment, 0) * 0.05
+        let pastDue = loans.reduce((acc, obj) => acc + obj.pastDue, 0)
+        let pastDueCollections = payments.reduce((acc, obj) => acc + obj.pastDuePayment, 0)
+        let pastDuePenaltyCollections = payments.reduce((acc, obj) => acc + obj.arrearsPayment, 0) * 0.05
+        let totalCollections = collections + arrearsCollections + pastDueCollections
 
-    //     let collectibles = loans.reduce((acc, obj) => acc + obj.dailyPayment, 0)
-    //     let collections = payments.reduce((acc, obj) => acc + obj.loanPayment, 0)
-    //     let arrears = loans.reduce((acc, obj) => acc + obj.arrearsPenalty, 0)
-    //     let arrearsCollections = payments.reduce((acc, obj) => acc + obj.arrearsPayment, 0)
-    //     let arrearsPenaltyCollections = payments.reduce((acc, obj) => acc + obj.arrearsPayment, 0) * 0.05
-    //     let pastDue = loans.reduce((acc, obj) => acc + obj.pastDue, 0)
-    //     let pastDueCollections = payments.reduce((acc, obj) => acc + obj.pastDuePayment, 0)
-    //     let pastDuePenaltyCollections = payments.reduce((acc, obj) => acc + obj.arrearsPayment, 0) * 0.05
-    //     let totalCollections = collections + arrearsCollections + pastDueCollections
-
-    //     dailyReport.text('JEMPOWERS CREDIT COPORATION', 56, 22);
-    //     dailyReport.text('DAILY COLLECTIONS REPORT', 62, 37);
-    //     dailyReport.setFontSize(11);
-    //     dailyReport.text('San Pedro City, Laguna', 83, 27);
-    //     window.open(dailyReport.output('bloburl'));
-    // }
-
+        mergedArr = clients.map(item1 => {
+            const item2 = loans.find(item2 => item2.owner === item1.id);
+            const item3 = payments.find(item3 => item3.owner === item1.id);
+            return { ...item1, ...item2, ...item3 };
+        });
+        console.log(mergedArr)
+    }
+    generateDailyCollection()
     
-        async function generatePDF() {
-            const doc = new jsPDF();
-            doc.text('JEMPOWERS CREDIT COPORATION', 56, 22);
-            doc.text('DAILY COLLECTIONS REPORT', 62, 37);
-            doc.setFontSize(11);
-            doc.text('San Pedro City, Laguna', 83, 27);
+    async function generatePDF() {
+        const doc = new jsPDF();
+        doc.text('JEMPOWERS CREDIT COPORATION', 56, 22);
+        doc.text('DAILY COLLECTIONS REPORT', 62, 37);
+        doc.setFontSize(11);
+        doc.text('San Pedro City, Laguna', 83, 27);
         // Add a table to the PDF document using autotable
         doc.autoTable({
         theme: 'grid',
@@ -226,4 +226,61 @@
                 <img src="/report.gif" alt="">
             </div>
         </div>
+
+        {#if mergedArr.length != 0}
+        <table class="table table-normal w-full">
+            <thead>
+                <tr class="hover">
+                    <th scope="col" class="px-6">NAME</th>
+                    <th scope="col" class="px-6">REF</th>
+                    <th scope="col" class="px-6">DUE DATE</th> 
+                    <th scope="col" class="px-6">BALANCE</th> 
+                    <th scope="col" class="px-6">D.I.</th> 
+                    <th scope="col" class="px-6">PR#</th> 
+                    <th scope="col" class="px-6">LP</th>
+                    <th scope="col" class="px-6">ARR PNL</th>
+                    <th scope="col" class="px-6">ARR PY</th>
+                    <th scope="col" class="px-6">PASTDUE PNL</th> 
+                    <th scope="col" class="px-6">PASTDUE PY</th> 
+                </tr>
+            </thead>
+            {#each mergedArr as data}
+            <tr>
+                <td class="px-6">
+                    {data.lastname},{data.firstname}
+                </td>
+                <td class="px-6">
+                    {data.loanNumber}
+                </td>
+                <td class="px-6">
+                    {data.formattedDueDate}
+                </td>
+                <td class="px-6">
+                    {data.balance}
+                </td>
+                <td class="px-6">
+                    {data.dailyPayment}
+                </td>
+                <td class="px-6">
+                    {data.prNumber}
+                </td>
+                <td class="px-6">
+                    {data.loanPayment}
+                </td>
+                <td class="px-6">
+                    {data.arrearsPenalty}
+                </td>
+                <td class="px-6">
+                    {data.arrearsPayment}
+                </td>
+                <td class="px-6">
+                    {data.pastDue}
+                </td>
+                <td class="px-6">
+                    {data.pastDuePayment}
+                </td>
+            </tr>
+            {/each}
+        </table>
+        {/if}
     </div>
