@@ -249,8 +249,12 @@
                 </div> 
             </div>
         </section>
+
         <hr/>
-        <button on:click={generatePDF} class="btn-link py-1 px-2 font-semibold"> Download Daily Collection Report</button>
+
+            <div class="flex w-full justify-center">
+                <button on:click={generatePDF} class="btn-link py-1 px-2 font-semibold">Download Daily Collection Report</button>
+            </div>
 
         {#if mergedArr.length != 0}
         <table class="table table-compact w-full overflow-y-auto text-sm" id='daily_collection_report'>
