@@ -111,8 +111,6 @@
         
 
         window.open(disclosure.output('bloburl'));
-
-        // console.log(loans[0].formattedDueDate);
     }
 
     function resetSelected(){

@@ -12,6 +12,17 @@
     let countRevenue = 0
     let countDues = {}
     let countDue = 0
+    let collectibles = 0;
+    let collections = 0;
+    let arrears = 0;
+    let arrearsCollections = 0;
+    let arrearsPenaltyCollections = 0;
+    let pastDue = 0;
+    let pastDueCollections = 0;
+    let pastDuePenaltyCollections = 0;
+    let totalCollections = 0;
+
+
     const today = new Date();
     const startOfDay = `${today.getFullYear()}-${("0" + (today.getMonth() + 1)).slice(-2)}-${("0" + today.getDate()).slice(-2)}`
     async function dashboardDate(){
@@ -63,9 +74,10 @@
             countDue = countDues.length
         }
     }
-    dashboardDate()
 
-    async function generateDailyCollection(){
+    dashboardDate();
+
+    async function dailyCollectionReport(){
 
         let clients
         let loans
@@ -101,15 +113,15 @@
             }); 
         });
 
-        let collectibles = loans.reduce((acc, obj) => acc + obj.dailyPayment, 0)
-        let collections = payments.reduce((acc, obj) => acc + obj.loanPayment, 0)
-        let arrears = loans.reduce((acc, obj) => acc + obj.arrearsPenalty, 0)
-        let arrearsCollections = payments.reduce((acc, obj) => acc + obj.arrearsPayment, 0)
-        let arrearsPenaltyCollections = payments.reduce((acc, obj) => acc + obj.arrearsPayment, 0) * 0.05
-        let pastDue = loans.reduce((acc, obj) => acc + obj.pastDue, 0)
-        let pastDueCollections = payments.reduce((acc, obj) => acc + obj.pastDuePayment, 0)
-        let pastDuePenaltyCollections = payments.reduce((acc, obj) => acc + obj.arrearsPayment, 0) * 0.05
-        let totalCollections = collections + arrearsCollections + pastDueCollections
+        collectibles =  loans.reduce((acc, obj) => acc + obj.dailyPayment, 0)
+        collections = payments.reduce((acc, obj) => acc + obj.loanPayment, 0)
+        arrears = loans.reduce((acc, obj) => acc + obj.arrearsPenalty, 0)
+        arrearsCollections = payments.reduce((acc, obj) => acc + obj.arrearsPayment, 0)
+        arrearsPenaltyCollections = payments.reduce((acc, obj) => acc + obj.arrearsPayment, 0) * 0.05
+        pastDue = loans.reduce((acc, obj) => acc + obj.pastDue, 0)
+        pastDueCollections = payments.reduce((acc, obj) => acc + obj.pastDuePayment, 0)
+        pastDuePenaltyCollections = payments.reduce((acc, obj) => acc + obj.arrearsPayment, 0) * 0.05
+        totalCollections = collections + arrearsCollections + pastDueCollections
 
         mergedArr = clients.map(item1 => {
             const item2 = loans.find(item2 => item2.owner === item1.id);
@@ -117,28 +129,50 @@
             return { ...item1, ...item2, ...item3 };
         });
     }
-    generateDailyCollection()
-    
-    async function generatePDF() {
-        const doc = new jsPDF();
-        doc.text('JEMPOWERS CREDIT COPORATION', 56, 22);
-        doc.text('DAILY COLLECTIONS REPORT', 62, 37);
-        doc.setFontSize(11);
-        doc.text('San Pedro City, Laguna', 83, 27);
-        // Add a table to the PDF document using autotable
-        doc.autoTable({
-        theme: 'grid',
-        margin: {top: 50, left:3}, 
-        tableWidth: 205,
-        headStyles: {fontSize: 6, item:'center'},
-        style:{fontSize: 5, item:'center'},
-        head: [['Name', 'REF', 'DUE DATE','BALANCE', 'D.I.','PR#', 'LP', 'ARR PNL', 'ARR PY', 'PASTDUE PNL', 'PASTDUE PY']],
-        body: [ ['Sanchez,Francis', '000006', '2023-07-03','10000.00','100.00','000001', '100.00','20.00','0.00','0.00','0.00']],
-        });
 
-        // Save the PDF document
-        window.open(doc.output('bloburl'));
-        // doc.save('table.pdf');
+    dailyCollectionReport();
+
+    async function generatePDF() {
+        const dailyReport = new jsPDF();
+        
+        if(collectibles != 0 ){
+            const collectiblesString = collectibles.toString();
+            const collectionsString = collections.toString();
+            const arrearsString = arrears.toString();
+            const arrCollectionsString = arrearsCollections.toString();
+            const arrPnlCollectionsString = arrearsPenaltyCollections.toString();
+            const pastDueString = pastDue.toString();
+            const pastDueCollectionsString = pastDueCollections.toString();
+            const pastDuePnlCollectionsString = pastDuePenaltyCollections.toString();
+            const totalCollectionsString = totalCollections.toString();
+
+            dailyReport.text('JEMPOWERS CREDIT COPORATION', 56, 22);
+            dailyReport.text('DAILY COLLECTIONS REPORT', 62, 37);
+            dailyReport.text(startOfDay, 89, 45);
+            dailyReport.setFontSize(11);
+            dailyReport.text('San Pedro City, Laguna', 83, 27);
+            dailyReport.addImage("/summary.png", "PNG", 0, 50, 212, 65);
+            dailyReport.text(collectiblesString, 22, 70 );
+            dailyReport.text(collectionsString, 45, 70 );
+            dailyReport.text(arrearsString, 79, 70 );
+            dailyReport.text(arrCollectionsString, 110, 70 );
+            dailyReport.text(arrPnlCollectionsString, 95, 85 );
+            dailyReport.text(pastDueString, 145, 70 );
+            dailyReport.text(pastDueCollectionsString, 175, 70 );
+            dailyReport.text(pastDuePnlCollectionsString, 165, 85 );
+            dailyReport.text(totalCollectionsString, 158, 99 );
+            dailyReport.autoTable({
+                theme: 'grid',
+                margin: {top: 125, left:3}, 
+                tableWidth: 205,
+                headStyles: {fontSize: 6},
+                style:{fontSize: 5, item:'center'},
+                html: '#daily_collection_report',
+            });
+            window.open(dailyReport.output('bloburl'));
+        }
+        
+        // dailyReport.save(`DailyReport ${startOfDay}.pdf`);
     }
 
 </script>
@@ -216,20 +250,12 @@
             </div>
         </section>
         <hr/>
-        <button on:click={generatePDF} class="btn-link py-1 px-2 font-semibold">Generate Daily Collection Report</button>
-        <div class=" flex h-96 justify-center">
-            <div class=" flex flex-1 justify-center">
-                <img src="/computer.gif" alt="">
-            </div>
-            <div class=" flex flex-1 justify-center">
-                <img src="/report.gif" alt="">
-            </div>
-        </div>
+        <button on:click={generatePDF} class="btn-link py-1 px-2 font-semibold"> Download Daily Collection Report</button>
 
         {#if mergedArr.length != 0}
-        <table class="table table-normal w-full">
+        <table class="table table-compact w-full overflow-y-auto text-sm" id='daily_collection_report'>
             <thead>
-                <tr class="hover">
+                <tr>
                     <th scope="col" class="px-6">NAME</th>
                     <th scope="col" class="px-6">REF</th>
                     <th scope="col" class="px-6">DUE DATE</th> 
