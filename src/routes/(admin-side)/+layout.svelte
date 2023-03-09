@@ -35,12 +35,12 @@
     {#if show}
     <main class="md:flex hidden " >
 
-        <section class="w-64 h-screen px-4 py-8 overflow-y-auto pr-20">
+        <section class="w-64 h-screen px-4 py-8 overflow-y-scroll pr-20">
         <SideNavAdmin/>
         </section>
     
     
-    <section class="flex flex-col w-full h-screen p-6 ml-8 overflow-y-auto bg-gray-100 ">
+    <section class="flex flex-col w-full h-screen p-6 ml-8 max-lg:ml-12 overflow-y-scroll bg-gray-100 ">
 
         <slot />           
 
