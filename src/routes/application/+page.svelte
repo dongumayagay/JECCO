@@ -18,6 +18,10 @@
     let filesToUpload = []
     let errorMessage = '';
 
+    function capitalize(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
     async function submitHandler() {
 
         try {
@@ -27,8 +31,8 @@
 
 			const inquiryRef = await addDoc(collection(db, 'inquiries'), {
                     inquiryNum: numberOfInquiries.count,
-					firstname: applicant.firstname,
-					lastname: applicant.lastname,
+					firstname: applicant.firstname.toLowerCase().split(" ").map(capitalize).join(" "),
+					lastname: applicant.lastname.toLowerCase().split(" ").map(capitalize).join(" "),
 					email: applicant.email,
 					number: applicant.number,
                     isRead: false
