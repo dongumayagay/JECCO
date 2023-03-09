@@ -93,6 +93,23 @@
          return downloadApp;
         
     }
+
+        function validateInput(value) {
+            const pattern = /^[a-zA-Z]+([-]?[a-zA-Z]+)?(\.[a-zA-Z]+([-]?[a-zA-Z]+)?)?$/;
+            return pattern.test(value);
+        }
+
+        function handleInput(event, binding) {
+            
+            if (!validateInput(event.target.value)) {
+                event.target.setCustomValidity('Please enter only text, 1 dot, and 1 dash');
+                binding.value = '';
+            } else {
+                event.target.setCustomValidity('');
+                binding.value = event.target.value;
+            }
+        }
+
     
     function limitInputLength(event) {
         const maxLength = 11;
@@ -125,8 +142,8 @@
             <h1 class="font-bold text-2xl">Apply Now </h1>
             
                 <div class=" grid grid-cols-2 gap-10 max-sm:grid-cols-1">
-                    <input class=" rounded-lg capitalize" type="text" maxlength="30" minlength="2" bind:value={applicant.firstname} placeholder="Firstname" required />
-                    <input class=" rounded-lg capitalize" type="text" maxlength="30" minlength="2" bind:value={applicant.lastname} placeholder="Lastname"  required />
+                    <input class=" rounded-lg capitalize" type="text" maxlength="30" minlength="2" bind:value={applicant.firstname} on:input={(event) => handleInput(event, { value: applicant.firstname })} placeholder="Firstname" required />
+                    <input class=" rounded-lg capitalize" type="text" maxlength="30" minlength="2" bind:value={applicant.lastname} on:input={(event) => handleInput(event, { value: applicant.lastname })} placeholder="Lastname"  required />
                     <input class=" rounded-lg" type="email" bind:value={applicant.email} placeholder="Email" title="(ex. jecco@jemapp.com)"  required />
                     <input class=" rounded-lg" type="text" on:input={limitInputLength} bind:value={applicant.number} placeholder="Number" required />                
                     <div class="flex gap-2">
