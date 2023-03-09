@@ -341,7 +341,7 @@
                 </div>
 
                 <div class=" flex flex-col w-96 max-lg:w-48 max-xl:w-64 bg-gray-200 h-32 max-lg:h-20 rounded-lg hover:bg-white transition duration-200 ease-in-out drop-shadow-lg p-5 max-lg:p-2 hover:text-green-700">
-                    <span class=" font-semibold text-xl max-lg:text-sm ">Unread Applications</span>
+                    <span class=" font-semibold text-xl max-lg:text-sm ">Unread Inquiries</span>
                     <div class=" flex h-fit w-full justify-center max-lg:gap-4 items-center">
                         <div class=" flex flex-1 justify-center text-5xl max-lg:text-4xl font-semibold"> 
                             <p>{countUnread}</p> 

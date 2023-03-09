@@ -95,7 +95,7 @@
     }
 
         function validateInput(value) {
-            const pattern = /^[a-zA-Z]+([-]?[a-zA-Z]+)?(\.[a-zA-Z]+([-]?[a-zA-Z]+)?)?$/;
+            const pattern = /^[a-zA-Z ]+([-]?[a-zA-Z ]+)?(\.[a-zA-Z ]+([-]?[a-zA-Z ]+)?)?$/;
             return pattern.test(value);
         }
 
