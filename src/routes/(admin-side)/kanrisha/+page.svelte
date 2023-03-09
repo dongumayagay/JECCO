@@ -26,6 +26,9 @@
     let formattedDateFrom 
     let formattedDateTo
     let dateRangeMergedArr = []
+    let totalLoanP = 0;
+    let totalArrearsP = 0;
+    let totalPastDueP = 0;
 
     const today = new Date();
     const startOfDay = `${today.getFullYear()}-${("0" + (today.getMonth() + 1)).slice(-2)}-${("0" + today.getDate()).slice(-2)}`
@@ -178,9 +181,10 @@
                 html: '#daily_collection_report',
             });
             window.open(dailyReport.output('bloburl'));
+            
         }
-        
-        // dailyReport.save(`DailyReport ${startOfDay}.pdf`);
+
+        dailyReport.save(`DailyReport ${startOfDay}.pdf`);
     }
 
 
@@ -206,16 +210,7 @@
                 }
             }); 
         });
-        // const qOne = query(collection(db, "loanprocess"));
-        // const docSnapOne = await getDocs(qOne); 
-        // docSnapOne.forEach((doc) => {
-        //     loans = docSnapOne.docs.map((doc) => {
-        //         return {
-        //             id:doc.id,
-        //             ...doc.data()
-        //         }
-        //     }); 
-        // });
+
         const qTwo = query(collection(db, "payments"), where("transactionDate", ">=", formattedDateFrom), where("transactionDate", "<=", formattedDateTo));
         const docSnapTwo = await getDocs(qTwo); 
         docSnapTwo.forEach((doc) => {
@@ -270,8 +265,35 @@
                 const item4 = pastDuePResultArr.find(item4 => item4.owner === item1.id);
                 return { ...item1, ...item2, ...item3, ...item4 };
             });
-            console.log(dateRangeMergedArr)
+
+            totalLoanP = dateRangeMergedArr.reduce((acc, obj) => acc + obj.loanPayment, 0)
+
+            totalArrearsP = dateRangeMergedArr.reduce((acc, obj) => acc + obj.arrearsPayment, 0)
+            
+            totalPastDueP = dateRangeMergedArr.reduce((acc, obj) => acc + obj.pastDuePayment, 0)
+            
         }
+    }
+
+    async function generateIncomeReport(){
+        const incomeReport = new jsPDF();
+        await searchReports();
+        incomeReport.text('JEMPOWERS CREDIT COPORATION', 56, 22);
+        incomeReport.text('INCOME REPORT', 82, 37);
+        incomeReport.text(dateFrom+ ' - ' + dateTo, 72, 45);
+        incomeReport.setFontSize(11);
+        incomeReport.text('San Pedro City, Laguna', 83, 27);
+        incomeReport.autoTable({
+            theme: 'grid',
+            margin: {top: 50, left:3}, 
+            tableWidth: 205,
+            headStyles: {fontSize: 6},
+            style:{fontSize: 5, item:'center'},
+            html: '#date_range_income_report',
+        });
+            window.open(incomeReport.output('bloburl'));
+            
+
     }
 </script>
 
@@ -281,162 +303,164 @@
 
 
     
-    <div class="flex flex-1 flex-col bg-white gap-6 h-screen p-4 shadow-lg rounded-md overflow-auto ">
+    <section class="flex flex-col gap-6 h-screen max-xl:h-full p-4 shadow-lg rounded-md">
         
         <div class="p-2">
             <h1 class="font-bold text-xl" >Admin Dashboard</h1>
         </div>
         <hr/>
         <h2 class="font-bold text-xl pl-2">General Report</h2>
-        <section class="flex gap-7 p-3 overflow-auto mb-4 ">
-            
-            <div class=" flex flex-col w-96 bg-gray-200 h-30 rounded-lg hover:bg-white transition duration-200 ease-in-out drop-shadow-lg pt-2 pl-6 hover:text-green-700">
-                <div class=" flex flex-1">
-                    <p class=" font-semibold text-xl max-lg:text-lg ">Total client</p>
+
+        <section class="flex w-full justify-center items-center">
+            <div class="flex w-full max-xl:w-fit items-center justify-center gap-7 max-lg:gap-3 p-3 max-xl:grid max-xl:grid-cols-2 max-lg:grid max-lg:grid-cols-2">
+
+                <div class=" flex flex-col w-96 max-lg:w-48 max-xl:w-64 bg-gray-200 h-32 max-lg:h-20 rounded-lg hover:bg-white transition duration-200 ease-in-out drop-shadow-lg p-5 max-lg:p-2 hover:text-green-700">
+                    <span class=" font-semibold text-xl max-lg:text-sm ">Total client</span>
+                        <div class=" flex h-fit w-full justify-center max-lg:gap-4 items-center">
+                            {#if countClient.length != 0}
+                                <div class=" flex flex-1 justify-center text-5xl max-lg:text-4xl font-semibold"> <p>{countClient}</p> </div>
+                            {/if}
+                            <div class="flex flex-1 justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-20 h-20 max-lg:w-10 max-lg:h-10">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
+                                </svg>
+                            </div>
+                        </div>  
                 </div>
-                <div class=" flex flex-1 justify-center items-center">
-                    {#if countClient.length != 0}
-                    <div class=" flex-1 text-5xl max-lg:text-2xl font-semibold"> <p>{countClient}</p> </div>
-                    {/if}
-                    <div class=" flex flex-1 justify-end pr-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-24 h-24 max-lg:w-12 max-lg:h-12">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
-                    </svg>
-                    </div>
-                </div>  
-            </div>
-            <div class=" flex flex-col w-96 bg-gray-200 h-30 rounded-lg hover:bg-white transition duration-200 ease-in-out drop-shadow-lg pt-2 pl-6 hover:text-green-700">
-                <div class=" flex flex-1">
-                    <p class=" font-semibold text-xl max-lg:text-lg ">Total Revenue of Today</p>
+
+                <div class=" flex flex-col w-96 max-lg:w-48 max-xl:w-64 bg-gray-200 h-32 max-lg:h-20 rounded-lg hover:bg-white transition duration-200 ease-in-out drop-shadow-lg p-5 max-lg:p-2 hover:text-green-700">
+                    <span class=" font-semibold text-xl max-lg:text-sm ">Total Revenue of Today</span>
+                    <div class=" flex h-fit w-full justify-center max-lg:gap-4 items-center">
+                        <div class=" flex flex-1 justify-center text-5xl max-lg:text-3xl font-semibold"> <p>{countRevenue.toFixed(2)}</p> </div>
+                            <div class="flex flex-1 justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-20 h-20 max-lg:w-10 max-lg:h-10">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z" />
+                                </svg>    
+                            </div>
+                    </div>  
                 </div>
-                <div class=" flex flex-1 justify-center items-center">
-                    <div class=" flex-1 text-5xl max-lg:text-2xl font-semibold"> <p>{countRevenue.toFixed(2)}</p> </div>
-                    <div class=" flex flex-1 justify-end pr-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-24 h-24 max-lg:w-12 max-lg:h-12">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z" />
+
+                <div class=" flex flex-col w-96 max-lg:w-48 max-xl:w-64 bg-gray-200 h-32 max-lg:h-20 rounded-lg hover:bg-white transition duration-200 ease-in-out drop-shadow-lg p-5 max-lg:p-2 hover:text-green-700">
+                    <span class=" font-semibold text-xl max-lg:text-sm ">Unread Applications</span>
+                    <div class=" flex h-fit w-full justify-center max-lg:gap-4 items-center">
+                        <div class=" flex flex-1 justify-center text-5xl max-lg:text-4xl font-semibold"> 
+                            <p>{countUnread}</p> 
+                        </div>
+                        <div class="flex flex-1 justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-20 h-20 max-lg:w-10 max-lg:h-10">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z" />
                             </svg>
-                            
-                    </div>
-                </div>  
-            </div>
-            <div class=" flex flex-col w-96 bg-gray-200 h-30 rounded-lg hover:bg-white transition duration-200 ease-in-out drop-shadow-lg pt-2 pl-6 hover:text-green-700">
-                <div class=" flex flex-1">
-                    <p class=" font-semibold text-xl max-lg:text-lg ">Unread Applications</p>
+                        </div>
+                    </div>  
                 </div>
-                <div class=" flex flex-1 justify-center items-center">
-                    <div class=" flex-1 text-5xl max-lg:text-2xl font-semibold"> <p>{countUnread}</p> </div>
-                    <div class=" flex flex-1 justify-end pr-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-24 h-24 max-lg:w-12 max-lg:h-12">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z" />
-                            </svg>
-                            
-                    </div>
-                </div>  
-            </div>
-            <div class=" flex flex-col w-96 bg-gray-200 h-30 rounded-lg hover:bg-white transition duration-200 ease-in-out drop-shadow-lg pt-2 pl-6 hover:text-green-700">
-                <div class=" flex flex-1">
-                    <p class=" font-semibold text-xl max-lg:text-lg ">Past Dues</p>
+                <div class=" flex flex-col w-96 max-lg:w-48 max-xl:w-64 bg-gray-200 h-32 max-lg:h-20 rounded-lg hover:bg-white transition duration-200 ease-in-out drop-shadow-lg p-5 max-lg:p-2 hover:text-green-700">
+                    <span class=" font-semibold text-xl max-lg:text-sm ">Past Dues</span>
+                    <div class=" flex h-fit w-full justify-center max-lg:gap-4 items-center">
+                        <div class=" flex flex-1 justify-center text-5xl max-lg:text-4xl font-semibold">
+                            <p>{countDue}</p> 
+                        </div>
+                        <div class="flex flex-1 justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-20 h-20 max-lg:w-10 max-lg:h-10">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>                          
+                        </div>
+                    </div> 
                 </div>
-                <div class=" flex flex-1 justify-center items-center">
-                    <div class=" flex-1 text-5xl max-lg:text-2xl font-semibold"> <p>{countDue}</p> </div>
-                    <div class=" flex flex-1 justify-end pr-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-24 h-24 max-lg:w-12 max-lg:h-12">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>                          
-                    </div>
-                </div> 
             </div>
         </section>
 
         <hr/>
-        <div class="collapse collapse-arrow rounded-md justify-center">
-            <input class="w-full " type="checkbox" /> 
-            <div class=" flex items-center collapse-title ">
-              <span class="ml-2 text-sm tracking-wide truncate justify-center">Generate Income Report by Date Range</span>
-            </div>
-            <div class="flex flex-col px-2 py-0 collapse-content" style=" padding-bottom: 0px"> 
-                    <div class="flex flex-row">
-                        <div class=" pl-4">
-                            <label for="rDate" class="font-medium">Date From:</label>
-                            <input type="date" bind:value={dateFrom} class=" relative text-sm rounded-lg w-36">
-                        </div> 
-                        <div class=" pl-4">
-                            <label for="rDate" class="font-medium">Date To:</label>
-                            <input type="date" bind:value={dateTo} class=" relative text-sm rounded-lg w-36">
-                        </div> 
+        <section class="w-full ">
+            <div class="flex justify-center w-full">
+                <div class=" w-fit collapse collapse-arrow rounded-md justify-center">
+                    <input class="w-full " type="checkbox" /> 
+                    <div class="flex items-center collapse-title ">
+                        <span class=" text-lg font-semibold justify-center">Generate Income Report by Date Range</span>
                     </div>
-                    <div class="flex w-full justify-center py-2">
-                        <button on:click={searchReports} disabled={!dateFrom || !dateTo} class="btn border-transparent bg-green-600 py-1 px-2 font-semibold">Generate Report</button>
+                    <div class="flex flex-col px-2 py-0 collapse-content" style="padding-bottom: 0px"> 
+                            <div class="flex gap-10">
+                                <div>
+                                    <label for="" class="font-medium">Date From:</label>
+                                    <input type="date" bind:value={dateFrom} class="text-sm rounded-lg w-36">
+                                </div> 
+                                <div>
+                                    <label for="" class="font-medium">Date To:</label>
+                                    <input type="date" bind:value={dateTo} class="text-sm rounded-lg w-36">
+                                </div> 
+                            </div>
+                            <button on:click={searchReports,generateIncomeReport} disabled={!dateFrom || !dateTo} class="btn border-transparent bg-green-600 mt-4 font-semibold">Generate PDF Report</button>
                     </div>
+                    
+                </div>
             </div>
-            
-          </div>
+        </section>
         <hr/>
 
             <div class="flex w-full justify-center">
                 <button on:click={generatePDF} class="btn-link py-1 px-2 font-semibold">Download Daily Collection Report</button>
             </div>
-
-        {#if mergedArr.length != 0}
-        <table class="table table-compact w-full overflow-y-auto text-sm222222222222" id='date_range_income_report'>
-            <thead>
-                <tr>
-                    <th scope="col" class="px-6">NAME</th>
-                    <th scope="col" class="px-6">REF</th>
-                    <th scope="col" class="px-6">DUE DATE</th> 
-                    <th scope="col" class="px-6">BALANCE</th> 
-                    <th scope="col" class="px-6">D.I.</th> 
-                    <th scope="col" class="px-6">PR#</th> 
-                    <th scope="col" class="px-6">LP</th>
-                    <th scope="col" class="px-6">ARR PNL</th>
-                    <th scope="col" class="px-6">ARR PY</th>
-                    <th scope="col" class="px-6">PASTDUE PNL</th> 
-                    <th scope="col" class="px-6">PASTDUE PY</th> 
-                </tr>
-            </thead>
-            {#each mergedArr as data}
-                {#if data.loanPayment}
+        <section class="w-full h-full overflow-x-scroll overflow-y-scroll">
+            {#if mergedArr.length != 0}
+            <table class="table table-compact w-full text-sm" id='daily_collection_report'>
+                <thead>
                     <tr>
-                        <td class="px-6">
-                            {data.lastname},{data.firstname}
-                        </td>
-                        <td class="px-6">
-                            {data.loanNumber}
-                        </td>
-                        <td class="px-6">
-                            {data.formattedDueDate}
-                        </td>
-                        <td class="px-6">
-                            {data.balance}
-                        </td>
-                        <td class="px-6">
-                            {data.dailyPayment}
-                        </td>
-                        <td class="px-6">
-                            {data.prNumber}
-                        </td>
-                        <td class="px-6">
-                            {data.loanPayment}
-                        </td>
-                        <td class="px-6">
-                            {data.arrearsPenalty}
-                        </td>
-                        <td class="px-6">
-                            {data.arrearsPayment}
-                        </td>
-                        <td class="px-6">
-                            {data.pastDue}
-                        </td>
-                        <td class="px-6">
-                            {data.pastDuePayment}
-                        </td>
+                        <td class="px-6">NAME</td>
+                        <th scope="col" class="px-6">REF</th>
+                        <th scope="col" class="px-6">DUE DATE</th> 
+                        <th scope="col" class="px-6">BALANCE</th> 
+                        <th scope="col" class="px-6">D.I.</th> 
+                        <th scope="col" class="px-6">PR#</th> 
+                        <th scope="col" class="px-6">LP</th>
+                        <th scope="col" class="px-6">ARR PNL</th>
+                        <th scope="col" class="px-6">ARR PY</th>
+                        <th scope="col" class="px-6">PASTDUE PNL</th> 
+                        <th scope="col" class="px-6">PASTDUE PY</th> 
                     </tr>
-                {/if}
-            {/each}
-        </table>
-        {/if}
+                </thead>
+                {#each mergedArr as data}
+                    {#if data.loanPayment}
+                        <tr>
+                            <td class="px-6">
+                                {data.lastname},{data.firstname}
+                            </td>
+                            <td class="px-6">
+                                {data.loanNumber}
+                            </td>
+                            <td class="px-6">
+                                {data.formattedDueDate}
+                            </td>
+                            <td class="px-6">
+                                {data.balance}
+                            </td>
+                            <td class="px-6">
+                                {data.dailyPayment}
+                            </td>
+                            <td class="px-6">
+                                {data.prNumber}
+                            </td>
+                            <td class="px-6">
+                                {data.loanPayment}
+                            </td>
+                            <td class="px-6">
+                                {data.arrearsPenalty}
+                            </td>
+                            <td class="px-6">
+                                {data.arrearsPayment}
+                            </td>
+                            <td class="px-6">
+                                {data.pastDue}
+                            </td>
+                            <td class="px-6">
+                                {data.pastDuePayment}
+                            </td>
+                        </tr>
+                    {/if}
+                {/each}
+            </table>
+            {/if}
+        </section>
         {#if dateRangeMergedArr.length != 0}
-        <table class="table table-compact w-full overflow-y-auto text-sm" id='daily_collection_report'>
+        <table class="table table-compact w-full text-sm hidden" id='date_range_income_report'>
             <thead>
                 <tr>
                     <th scope="col" class="px-6">NAME</th>
@@ -461,8 +485,23 @@
                             {data.pastDuePayment}
                         </td>
                     </tr>
+                    
                 {/if}
             {/each}
+            <tr>
+                <td class="px-6">
+                    <p>Total</p>
+                </td>
+                <td class="px-6">
+                    {totalLoanP}
+                </td>
+                <td class="px-6">
+                    {totalArrearsP}
+                </td>
+                <td class="px-6">
+                    {totalPastDueP}
+                </td>
+            </tr>
         </table>
         {/if}
-    </div>
+    </section>
