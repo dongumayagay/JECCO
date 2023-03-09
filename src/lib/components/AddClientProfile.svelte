@@ -72,6 +72,10 @@
 	    }
 	}
 
+    function capitalize(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
     async function addUser(){
 
         // const regex = /^[A-Za-z\s]*[-.,]?[A-Za-z\s]*[-.,]?[A-Za-z\s]*$/;
@@ -93,15 +97,15 @@
                 name:addUserInput.firstname + ' ' + addUserInput.lastname,
                 username:addUserInput.username,
                 password:addUserInput.password,
-                firstname:addUserInput.firstname,
-                lastname:addUserInput.lastname,
+                firstname:addUserInput.firstname.toLowerCase().split(" ").map(capitalize).join(" "),
+                lastname:addUserInput.lastname.toLowerCase().split(" ").map(capitalize).join(" "),
                 email:addUserInput.email,
-                coMaker:addUserInput.coMaker,
+                coMaker:addUserInput.coMaker.toLowerCase().split(" ").map(capitalize).join(" "),
                 number:addUserInput.number,
-                barangay:addUserInput.barangay,
-                houseNo:addUserInput.houseNo,
-                municipality:addUserInput.municipality,
-                province:addUserInput.province,
+                barangay:addUserInput.barangay.toLowerCase().split(" ").map(capitalize).join(" "),
+                houseNo:addUserInput.houseNo.toLowerCase().split(" ").map(capitalize).join(" "),
+                municipality:addUserInput.municipality.toLowerCase().split(" ").map(capitalize).join(" "),
+                province:addUserInput.province.toLowerCase().split(" ").map(capitalize).join(" "),
                 dateCreated:addUserInput.dateCreated,
                 status:"No Loan"
                 
