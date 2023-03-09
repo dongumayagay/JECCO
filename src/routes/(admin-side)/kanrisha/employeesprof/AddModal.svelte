@@ -55,6 +55,22 @@
             addUserInput.contactInfo = value;
         }
   }
+
+  function validateInput(value) {
+        const pattern = /^[a-zA-Z ]+([-]?[a-zA-Z ]+)?(\.[a-zA-Z ]+([-]?[a-zA-Z ]+)?)?$/;
+        return pattern.test(value);
+    }
+
+    function handleRegexInput(event, inputBinding) {
+        const value = event.target.value;
+        if (!validateInput(value)) {
+            event.target.setCustomValidity('Please enter only text, 1 dot, and 1 dash');
+            addUserInput[inputBinding] = '';
+        } else {
+            event.target.setCustomValidity('');
+            addUserInput[inputBinding] = value;
+        }
+    }
 </script>
 
 <input type="checkbox" bind:checked={addModal} id="add" class="modal-toggle" />
@@ -74,7 +90,7 @@
                 <div class="grid grid-cols-6 gap-6">
                     <div class="col-span-6 sm:col-span-3">
                         <label for="first-name" class="block mb-2 text-sm font-medium">Fullname</label>
-                        <input type="text" bind:value={addUserInput.name} class="bg-gray-50 border border-gray-400 text-sm capitalize rounded-lg w-full p-3" placeholder="Fullname" minlength="4" maxlength="60" required/>
+                        <input type="text" bind:value={addUserInput.name} on:input={(event) => handleRegexInput(event, 'addUserInput.name')} class="bg-gray-50 border border-gray-400 text-sm capitalize rounded-lg w-full p-3" placeholder="Fullname" minlength="4" maxlength="60" required/>
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <label for="address" class="block mb-2 text-sm font-medium">Complete Adress</label>
