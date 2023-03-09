@@ -21,7 +21,7 @@
         const q = query(collection(db, 'loanprocess'), where("owner", "==", $userStore.uid));
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
             loans = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-            // console.log(loans[1]);
+            
             if(loans[1].status !== "Ongoing"){
                  renewal = true;
             }
