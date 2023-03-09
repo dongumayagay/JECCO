@@ -21,7 +21,11 @@
     let pastDueCollections = 0;
     let pastDuePenaltyCollections = 0;
     let totalCollections = 0;
-
+    let dateFrom 
+    let dateTo
+    let formattedDateFrom 
+    let formattedDateTo
+    let dateRangeMergedArr = []
 
     const today = new Date();
     const startOfDay = `${today.getFullYear()}-${("0" + (today.getMonth() + 1)).slice(-2)}-${("0" + today.getDate()).slice(-2)}`
@@ -56,7 +60,9 @@
                 }
             }); 
         });
-        countRevenue = countRevenues.reduce((acc, obj) => acc + (obj.loanPayment + obj.arrearsPayment + obj.pastDuePayment), 0);
+        if (countRevenues.length != 0) {
+            countRevenue = countRevenues.reduce((acc, obj) => acc + (obj.loanPayment + obj.arrearsPayment + obj.pastDuePayment), 0)
+        };
         //Total Unreads
         const qfour = query(collection(db, "loanprocess"),where("status", "==", "Past Due"));
         const docSnapFour = await getDocs(qfour); 
@@ -113,21 +119,23 @@
             }); 
         });
 
-        collectibles =  loans.reduce((acc, obj) => acc + obj.dailyPayment, 0)
-        collections = payments.reduce((acc, obj) => acc + obj.loanPayment, 0)
-        arrears = loans.reduce((acc, obj) => acc + obj.arrearsPenalty, 0)
-        arrearsCollections = payments.reduce((acc, obj) => acc + obj.arrearsPayment, 0)
-        arrearsPenaltyCollections = payments.reduce((acc, obj) => acc + obj.arrearsPayment, 0) * 0.05
-        pastDue = loans.reduce((acc, obj) => acc + obj.pastDue, 0)
-        pastDueCollections = payments.reduce((acc, obj) => acc + obj.pastDuePayment, 0)
-        pastDuePenaltyCollections = payments.reduce((acc, obj) => acc + obj.arrearsPayment, 0) * 0.05
-        totalCollections = collections + arrearsCollections + pastDueCollections
-
-        mergedArr = clients.map(item1 => {
-            const item2 = loans.find(item2 => item2.owner === item1.id);
-            const item3 = payments.find(item3 => item3.owner === item1.id);
-            return { ...item1, ...item2, ...item3 };
-        });
+        if (payments != undefined) {
+            collectibles =  loans.reduce((acc, obj) => acc + obj.dailyPayment, 0)
+            collections = payments.reduce((acc, obj) => acc + obj.loanPayment, 0)
+            arrears = loans.reduce((acc, obj) => acc + obj.arrearsPenalty, 0)
+            arrearsCollections = payments.reduce((acc, obj) => acc + obj.arrearsPayment, 0)
+            arrearsPenaltyCollections = payments.reduce((acc, obj) => acc + obj.arrearsPayment, 0) * 0.05
+            pastDue = loans.reduce((acc, obj) => acc + obj.pastDue, 0)
+            pastDueCollections = payments.reduce((acc, obj) => acc + obj.pastDuePayment, 0)
+            pastDuePenaltyCollections = payments.reduce((acc, obj) => acc + obj.arrearsPayment, 0) * 0.05
+            totalCollections = collections + arrearsCollections + pastDueCollections
+    
+            mergedArr = clients.map(item1 => {
+                const item2 = loans.find(item2 => item2.owner === item1.id);
+                const item3 = payments.find(item3 => item3.owner === item1.id);
+                return { ...item1, ...item2, ...item3 };
+            });
+        }
     }
 
     dailyCollectionReport();
@@ -175,6 +183,96 @@
         // dailyReport.save(`DailyReport ${startOfDay}.pdf`);
     }
 
+
+    async function searchReports (){
+        let dateFromInput = new Date(dateFrom);
+        dateFromInput.setHours(0, 0, 0, 0);
+        formattedDateFrom = `${dateFromInput.getFullYear()}-${("0" + (dateFromInput.getMonth() + 1)).slice(-2)}-${("0" + dateFromInput.getDate()).slice(-2)}`;
+
+        let dateToInput = new Date(dateTo);
+        dateToInput.setHours(0, 0, 0, 0);
+        formattedDateTo = `${dateToInput.getFullYear()}-${("0" + (dateToInput.getMonth() + 1)).slice(-2)}-${("0" + dateToInput.getDate()).slice(-2)}`;
+
+        let clients
+        // let loans
+        let payments
+        const q = query(collection(db, "clientinfo"),where("status", "!=", "No Loan"));
+        const docSnap = await getDocs(q); 
+        docSnap.forEach((doc) => {
+            clients = docSnap.docs.map((doc) => {
+                return {
+                    id:doc.id,
+                    ...doc.data()
+                }
+            }); 
+        });
+        // const qOne = query(collection(db, "loanprocess"));
+        // const docSnapOne = await getDocs(qOne); 
+        // docSnapOne.forEach((doc) => {
+        //     loans = docSnapOne.docs.map((doc) => {
+        //         return {
+        //             id:doc.id,
+        //             ...doc.data()
+        //         }
+        //     }); 
+        // });
+        const qTwo = query(collection(db, "payments"), where("transactionDate", ">=", formattedDateFrom), where("transactionDate", "<=", formattedDateTo));
+        const docSnapTwo = await getDocs(qTwo); 
+        docSnapTwo.forEach((doc) => {
+            payments = docSnapTwo.docs.map((doc) => {
+                return {
+                    id:doc.id,
+                    ...doc.data()
+                }
+            }); 
+        });
+
+        if (payments != undefined) {
+            const loanPResultArr = [];
+            const sumsLoanP = payments.reduce((acc, curr) => {
+                if (!acc[curr.owner]) {
+                    acc[curr.owner] = { owner: curr.owner, loanPayment: 0 };
+                }
+                acc[curr.owner].loanPayment += curr.loanPayment;
+                return acc;
+            }, {});
+            for (let key in sumsLoanP) {
+                loanPResultArr.push(sumsLoanP[key]);
+            }
+
+            const arrearsPResultArr = [];
+            const sumsArrearsP = payments.reduce((acc, curr) => {
+                if (!acc[curr.owner]) {
+                    acc[curr.owner] = { owner: curr.owner, arrearsPayment: 0 };
+                }
+                acc[curr.owner].arrearsPayment += curr.arrearsPayment;
+                return acc;
+            }, {});
+            for (let key in sumsArrearsP) {
+                arrearsPResultArr.push(sumsArrearsP[key]);
+            }
+
+            const pastDuePResultArr = [];
+            const sumspastDueP = payments.reduce((acc, curr) => {
+                if (!acc[curr.owner]) {
+                    acc[curr.owner] = { owner: curr.owner, pastDuePayment: 0 };
+                }
+                acc[curr.owner].pastDuePayment += curr.pastDuePayment;
+                return acc;
+            }, {});
+            for (let key in sumspastDueP) {
+                pastDuePResultArr.push(sumspastDueP[key]);
+            }
+            
+            dateRangeMergedArr = clients.map(item1 => {
+                const item2 = loanPResultArr.find(item2 => item2.owner === item1.id);
+                const item3 = arrearsPResultArr.find(item3 => item3.owner === item1.id);
+                const item4 = pastDuePResultArr.find(item4 => item4.owner === item1.id);
+                return { ...item1, ...item2, ...item3, ...item4 };
+            });
+            console.log(dateRangeMergedArr)
+        }
+    }
 </script>
 
 <svelte:head>
@@ -251,13 +349,36 @@
         </section>
 
         <hr/>
+        <div class="collapse collapse-arrow rounded-md justify-center">
+            <input class="w-full " type="checkbox" /> 
+            <div class=" flex items-center collapse-title ">
+              <span class="ml-2 text-sm tracking-wide truncate justify-center">Generate Income Report by Date Range</span>
+            </div>
+            <div class="flex flex-col px-2 py-0 collapse-content" style=" padding-bottom: 0px"> 
+                    <div class="flex flex-row">
+                        <div class=" pl-4">
+                            <label for="rDate" class="font-medium">Date From:</label>
+                            <input type="date" bind:value={dateFrom} class=" relative text-sm rounded-lg w-36">
+                        </div> 
+                        <div class=" pl-4">
+                            <label for="rDate" class="font-medium">Date To:</label>
+                            <input type="date" bind:value={dateTo} class=" relative text-sm rounded-lg w-36">
+                        </div> 
+                    </div>
+                    <div class="flex w-full justify-center py-2">
+                        <button on:click={searchReports} disabled={!dateFrom || !dateTo} class="btn border-transparent bg-green-600 py-1 px-2 font-semibold">Generate Report</button>
+                    </div>
+            </div>
+            
+          </div>
+        <hr/>
 
             <div class="flex w-full justify-center">
                 <button on:click={generatePDF} class="btn-link py-1 px-2 font-semibold">Download Daily Collection Report</button>
             </div>
 
         {#if mergedArr.length != 0}
-        <table class="table table-compact w-full overflow-y-auto text-sm" id='daily_collection_report'>
+        <table class="table table-compact w-full overflow-y-auto text-sm222222222222" id='date_range_income_report'>
             <thead>
                 <tr>
                     <th scope="col" class="px-6">NAME</th>
@@ -305,6 +426,36 @@
                         </td>
                         <td class="px-6">
                             {data.pastDue}
+                        </td>
+                        <td class="px-6">
+                            {data.pastDuePayment}
+                        </td>
+                    </tr>
+                {/if}
+            {/each}
+        </table>
+        {/if}
+        {#if dateRangeMergedArr.length != 0}
+        <table class="table table-compact w-full overflow-y-auto text-sm" id='daily_collection_report'>
+            <thead>
+                <tr>
+                    <th scope="col" class="px-6">NAME</th>
+                    <th scope="col" class="px-6">TOTAL LP</th>
+                    <th scope="col" class="px-6">TOTALARR PY</th>
+                    <th scope="col" class="px-6">TOTALPASTDUE PY</th> 
+                </tr>
+            </thead>
+            {#each dateRangeMergedArr as data}
+                {#if data.loanPayment}
+                    <tr>
+                        <td class="px-6">
+                            {data.lastname},{data.firstname}
+                        </td>
+                        <td class="px-6">
+                            {data.loanPayment}
+                        </td>
+                        <td class="px-6">
+                            {data.arrearsPayment}
                         </td>
                         <td class="px-6">
                             {data.pastDuePayment}
