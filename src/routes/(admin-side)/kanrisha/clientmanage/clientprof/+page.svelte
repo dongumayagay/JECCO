@@ -83,7 +83,7 @@
 </div>    
 
 <div class="overflow-x-auto relative shadow-md rounded-lg h-full bg-white mt-4">
-    <table class="table table-compact w-full ">
+    <table class="table table-compact w-full overflow-y-scroll ">
         <thead>
             <tr>
                 <th class=""></th>
