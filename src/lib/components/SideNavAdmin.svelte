@@ -11,18 +11,21 @@
   
 </script>
 
-  <div class="fixed flex flex-col top-0 left-0 w-64 h-screen bg-white">
-    <div class="flex pt-4 h-14 border-b">
-      <div>
+<aside class="flex flex-col bg-white shadow-md">
+
+  <div class="flex w-full items-center h-14 m-1">
+    <div>
         {#if $userStore}
-          <a href="/kanrisha" class="flex items-center pl-2.5 mb-5">
-            <span class="self-center text-xl font-semibold whitespace-nowrap">Admin {$userStore.displayName} </span>
+          <a href="/kanrisha" class="flex items-center pl-3">
+            <span class="self-center text-xl font-semibold whitespace-nowrap truncate">Admin {$userStore.displayName} </span>
           </a>
         {/if}
     </div>
-    </div>
-    <div class="overflow-y-auto overflow-x-hidden flex-grow">
-      <div class="flex flex-col py-4 space-y-1">
+  </div>
+
+  <hr/>
+    <div class="flex flex-col w-full h-full items-center">
+      <div class="overflow-y-auto overflow-x-hidden">
           <a href="/kanrisha" class=" flex items-center h-11 focus:outline-none hover:bg-gray-50 text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500">
             <span class="inline-flex justify-center items-center ml-4">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -31,7 +34,7 @@
             </span>
             <span class="ml-2 text-sm tracking-wide truncate">Dashboard</span>
           </a>
-          
+            
           <div class="collapse collapse-arrow rounded-md hover:bg-gray-50 ">
             <input class="w-full" type="checkbox" /> 
             <div class=" flex items-center collapse-title">
@@ -93,4 +96,4 @@
       </div>
 
     </div>
-  </div>
+</aside>

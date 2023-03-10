@@ -67,7 +67,7 @@
         </div>
     {/if}
 </div>
-<div class="flex items-center p-4 shadow-md sm:rounded-lg h-10 bg-white gap-4">
+<div class="flex flex-1 items-center p-4 shadow-md sm:rounded-lg h-10 bg-white gap-4">
         
     <h1 class=" left-0 pr-10">Client Profile</h1>
     {#await getListOfClients()}
@@ -82,8 +82,8 @@
     
 </div>    
 
-<div class="overflow-x-auto relative shadow-md sm:rounded-lg h-full bg-white mt-4">
-    <table class="table table-normal w-full ">
+<div class="overflow-x-auto relative shadow-md rounded-lg h-full bg-white mt-4">
+    <table class="table table-compact w-full ">
         <thead>
             <tr>
                 <th class=""></th>

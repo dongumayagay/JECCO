@@ -33,20 +33,13 @@
     
 </script>
     {#if show}
-    <main class="md:flex hidden " >
-
-        <section class="w-64 h-screen px-4 py-8 overflow-y-scroll pr-20">
+    <main class="md:flex hidden " >    
         <SideNavAdmin/>
-        </section>
-    
-    
-    <section class="flex flex-col w-full h-screen p-6 ml-8 max-lg:ml-12 overflow-y-scroll bg-gray-100 ">
-
+    <section class="flex flex-col w-full h-screen p-6 overflow-y-auto bg-gray-100 ">
         <slot />           
-
-
     </section>
     </main>
+    
     <main class=" flex justify-center items-center w-screen h-screen md:hidden " >
         <div class=" flex flex-col items-center gap-6">
              <img class=" w-48 " src="/accessdenied.svg" alt="">

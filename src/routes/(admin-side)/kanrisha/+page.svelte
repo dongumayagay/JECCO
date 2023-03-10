@@ -303,7 +303,7 @@
 
 
     
-    <section class="flex flex-col gap-6 h-screen max-xl:h-full p-4 shadow-lg rounded-md">
+    <section class="flex flex-col gap-6 h-screen max-xl:h-full p-4 shadow-lg rounded-md bg-red-200 overflow-y-scroll">
         
         <div class="p-2">
             <h1 class="font-bold text-xl" >Admin Dashboard</h1>
