@@ -1,5 +1,4 @@
 <script>
-	import {getAuth} from 'firebase/auth'
 	import {db} from '$lib/firebase/client.js';
 	import {userStore} from '$lib/store.js'
 	import { collection, onSnapshot, query, where, orderBy } from 'firebase/firestore';

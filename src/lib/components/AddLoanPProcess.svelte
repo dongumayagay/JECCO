@@ -62,7 +62,6 @@
             clientNumber: cliInfo.clientNumber,
             numberOfLoan: numberOfLoans,
             id:cliInfo.id,
-            username: cliInfo.username,
         }
         
     }
@@ -93,7 +92,6 @@
 		try {
 			const docRef = await addDoc(collection(db, "loanprocess"), {
                 loanNumber:addUserInput.loanNumber,
-                username:cliInfo.username,
                 owner:addUserInput.owner ,
                 loanAmount:addUserInput.loanAmount,
                 numberOfLoan: loanNumber,
@@ -120,6 +118,9 @@
         	});
             await updateDoc(doc(db, "id_counters", "loan_counter"), {
                 count: totalLoans.count
+            });
+            await updateDoc(doc(db, "clientinfo", addUserInput.owner), {
+                status: "Ongoing"
             });
 		} catch (error) {
 			console.log(error)

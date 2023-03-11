@@ -34,7 +34,7 @@ export async function POST({request}) {
         municipality:addUserInput.municipality,
         province:addUserInput.province,
         dateCreated:addUserInput.dateCreated,
-        
+        status:addUserInput.status
     });
 
     return json(docRef);

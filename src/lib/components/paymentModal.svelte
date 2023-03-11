@@ -9,7 +9,7 @@
   let paymentCounter
   let ctrlNumber = "000000"
   let transactionId = ''
-
+  let canPay = false
   async function userLoans() {
     //loans = []
     const q = query(collection(db, 'loanprocess'), where("owner", "==", addUserInput.owner), orderBy("numberOfLoan", "desc"), limit(1) );
@@ -20,6 +20,26 @@
         ...doc.data()
       }
     }); 
+
+    let payments = []
+    const today = new Date();
+    const startOfDay = `${today.getFullYear()}-${("0" + (today.getMonth() + 1)).slice(-2)}-${("0" + today.getDate()).slice(-2)}`
+    const qTwo = query(collection(db, "payments"), where("owner", "==", addUserInput.owner), where("transactionDate", "==", startOfDay));
+    const docSnapTwo = await getDocs(qTwo); 
+    docSnapTwo.forEach((doc) => {
+      payments = docSnapTwo.docs.map((doc) => {
+          return {
+              id:doc.id,
+              ...doc.data()
+          }
+      }); 
+    });
+    if (payments.length != 0) { 
+      canPay = false
+    }else{
+      canPay = true
+    }
+
   }
 
   export async function clienInfo(infoClient){
@@ -114,6 +134,7 @@
     const stay = true;
     resetAddUserInput(stay);
   }
+
   async function searchClient() {
     let whereclient
     if (addUserInput.clientNumber != "") {
@@ -129,6 +150,7 @@
       clienInfo(client[0])
     }
   }
+
 </script>
 
 
@@ -199,7 +221,7 @@
   
 
     <div class="modal-action">
-      <button type="submit" class="btn btn-ghost bg-green-400 text-white rounded-lg hover:bg-green-300 px-8">Add</button>
+      <button type="submit" disabled={!canPay} class="btn btn-ghost bg-green-400 text-white rounded-lg hover:bg-green-300 px-8">Add</button>
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <label for="payment" on:click={resetAddUserInput} class="btn border-transparent bg-red-600">Cancel</label>
     </div>

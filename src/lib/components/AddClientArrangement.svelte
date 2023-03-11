@@ -77,7 +77,7 @@
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <label for="first-name" class="block mb-2 text-sm font-medium  ">Area Name</label>
-                        <input type="text" bind:value={addUserInput.areaName} class="text-sm capitalize rounded-lg w-full p-2.5" placeholder="Cuyab" required="">
+                        <input type="text" bind:value={addUserInput.areaName} class="text-sm capitalize rounded-lg w-full p-2.5" required="">
                     </div>
                 </div>
             </div>

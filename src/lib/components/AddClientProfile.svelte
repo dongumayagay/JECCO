@@ -72,14 +72,11 @@
 	    }
 	}
 
-    async function addUser(){
+    function capitalize(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
 
-        // const regex = /^[A-Za-z\s]*[-.,]?[A-Za-z\s]*[-.,]?[A-Za-z\s]*$/;
-        
-        // if (!regex.test(addUserInput.firstname && addUserInput.lastname && addUserInput.coMaker)) {
-        //     alert("Invalid characters entered. Please only use letters, spaces, dash, dot, and comma.");
-        //     return;
-        // } 
+    async function addUser(){
         
         if(addUserInput.password != addUserInput.confirmPassword){
 			alert('Password does not match')
@@ -93,16 +90,17 @@
                 name:addUserInput.firstname + ' ' + addUserInput.lastname,
                 username:addUserInput.username,
                 password:addUserInput.password,
-                firstname:addUserInput.firstname,
-                lastname:addUserInput.lastname,
+                firstname:addUserInput.firstname.toLowerCase().split(" ").map(capitalize).join(" "),
+                lastname:addUserInput.lastname.toLowerCase().split(" ").map(capitalize).join(" "),
                 email:addUserInput.email,
-                coMaker:addUserInput.coMaker,
+                coMaker:addUserInput.coMaker.toLowerCase().split(" ").map(capitalize).join(" "),
                 number:addUserInput.number,
-                barangay:addUserInput.barangay,
-                houseNo:addUserInput.houseNo,
-                municipality:addUserInput.municipality,
-                province:addUserInput.province,
+                barangay:addUserInput.barangay.toLowerCase().split(" ").map(capitalize).join(" "),
+                houseNo:addUserInput.houseNo.toLowerCase().split(" ").map(capitalize).join(" "),
+                municipality:addUserInput.municipality.toLowerCase().split(" ").map(capitalize).join(" "),
+                province:addUserInput.province.toLowerCase().split(" ").map(capitalize).join(" "),
                 dateCreated:addUserInput.dateCreated,
+                status:"No Loan"
                 
 			})})
 			if(response.status != 500 && response.status != 400){
@@ -148,52 +146,21 @@
 		}
 	}
 
-    function handleInputF(event){
-            const regex = /^[A-Za-z\s\-.,]{1}$/;
-            const input = event.target.value;
-        
-            if(!regex.test(input)){
-                event.target.value = addUserInput.firstname;
-            }
-            else if (!regex.test(input)){
-
-                event.target.setCustomValidity('Invalid characters entered. Please only use letters, spaces, dash, dot, and comma.');
-            }else {
-
-                event.target.setCustomValidity('');
-                addUserInput.firstname = input;
-            }
+    function validateInput(value) {
+        const pattern = /^[a-zA-Z ]+([-]?[a-zA-Z ]+)?(\.[a-zA-Z ]+([-]?[a-zA-Z ]+)?)?$/;
+        return pattern.test(value);
     }
 
-    // function handleInputL (event){
-    //     const regex = /^[A-Za-z\s\-.,]{1}$/;
-    //     const inputs = event.target.value;
-
-    //     if (!regex.test(inputs)){
-
-    //          event.target.setCustomValidity('Invalid characters entered. Please only use letters, spaces, dash, dot, and comma.');
-    //     }else {
-
-    //          event.target.setCustomValidity('');
-    //          addUserInput.lastname = inputs;
-    //     }
-    // }
-
-    // function handleInputCo(event){
-    //     const inputss = event.target.value;
-    //     const regex = /^[A-Za-z\s\-.,]{1}$/;
-
-    //     if (!regex.test(inputss)){
-
-    //         event.target.setCustomValidity('Invalid characters entered. Please only use letters, spaces, dash, dot, and comma.');
-
-    //     }else {
-
-    //         event.target.setCustomValidity('');
-    //         addUserInput.coMaker = inputss;
-    //     }
-    // }
-
+    function handleRegexInput(event, inputBinding) {
+        const value = event.target.value;
+        if (!validateInput(value)) {
+            event.target.setCustomValidity('Please enter only text, 1 dot, and 1 dash');
+            addUserInput[inputBinding] = '';
+        } else {
+            event.target.setCustomValidity('');
+            addUserInput[inputBinding] = value;
+        }
+    }
 
   function limitInputLength(event) {
         const maxLength = 11;
@@ -239,11 +206,11 @@
                     </div>
                     <div class="mt-9">
                         <label for="first-name" class="mb-2 text-sm font-medium">First Name</label>
-                        <input type="text" id="first-name" bind:value={addUserInput.firstname} on:input={handleInputF} class="border text-sm capitalize rounded-lg w-56 p-2.5"  placeholder="First Name" maxlength="30" minlength="2" required>
+                        <input type="text" id="first-name" bind:value={addUserInput.firstname} on:input={(event) => handleRegexInput(event, 'addUserInput.firstname')} class="border text-sm capitalize rounded-lg w-56 p-2.5"  placeholder="First Name" maxlength="30" minlength="2" required>
                     </div>
                     <div>
                         <label for="last-name" class="mb-2 text-sm font-medium">Last Name</label>
-                        <input type="text" id="last-name" bind:value={addUserInput.lastname} class="border text-sm capitalize rounded-lg w-56 p-2.5" placeholder="Last Name" maxlength="30" minlength="2" required>
+                        <input type="text" id="last-name" bind:value={addUserInput.lastname} on:input={(event) => handleRegexInput(event, 'addUserInput.lastname')} class="border text-sm capitalize rounded-lg w-56 p-2.5" placeholder="Last Name" maxlength="30" minlength="2" required>
                     </div>
                     <div>
                         <label for="username" class="mb-2 text-sm font-medium">Username</label>
@@ -277,7 +244,7 @@
                     </div>
                     <div class="mt-16">
                         <label for="co-maker" class="mb-2 text-sm font-medium">Co-Maker Complete Name</label>
-                        <input type="text" id="co-maker" bind:value={addUserInput.coMaker} class="border text-sm capitalize rounded-lg w-56 p-2.5" placeholder="Co Maker" maxlength="60" required>
+                        <input type="text" id="co-maker" bind:value={addUserInput.coMaker} on:input={(event) => handleRegexInput(event, 'addUserInput.coMaker')} class="border text-sm capitalize rounded-lg w-56 p-2.5" placeholder="Co Maker" maxlength="60" required>
                     </div>
                     <div>
                         <label for="contact-number" class="mb-2 text-sm font-medium">Contact Number</label>
@@ -293,11 +260,11 @@
                     </div>
                     <div>
                         <label for="muni" class="mb-2 text-sm font-medium">Municipality</label>
-                        <input type="text" id="muni" bind:value={addUserInput.municipality} class=" border overflow-y-auto text-sm capitalize rounded-lg w-56 p-2.5" placeholder="Municipality" minlength="3" maxlength="30" required>
+                        <input type="text" id="muni" bind:value={addUserInput.municipality} on:input={(event) => handleRegexInput(event, 'addUserInput.municipality')} class=" border overflow-y-auto text-sm capitalize rounded-lg w-56 p-2.5" placeholder="Municipality" minlength="3" maxlength="30" required>
                     </div>
                     <div>
                         <label for="prov" class="mb-2 text-sm font-medium">Province</label>
-                        <input type="text" id="prov" bind:value={addUserInput.province} class=" border overflow-y-auto text-sm capitalize rounded-lg w-56 p-2.5 " placeholder="Province" minlength="3" maxlength="30" required>
+                        <input type="text" id="prov" bind:value={addUserInput.province} on:input={(event) => handleRegexInput(event, 'addUserInput.province')} class=" border overflow-y-auto text-sm capitalize rounded-lg w-56 p-2.5 " placeholder="Province" minlength="3" maxlength="30" required>
                     </div>
                     <div>
                         <label for="date-created" class="mb-2 text-sm font-medium">Date Created</label>

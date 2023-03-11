@@ -38,31 +38,34 @@
 
     async function statusComplete(id){
         await updateDoc(doc(db, "loanprocess", id), {
-                status: "Completed"
-            });
+            status: "Completed"
+        });
+        await updateDoc(doc(db, "clientinfo", addUserInput.owner), {
+            status: "Paid Off"
+        });    
     }
     async function statusPastDue(id){
         await updateDoc(doc(db, "loanprocess", id), {
-                status: "Past Due"
-            });
+            status: "Past Due"
+        });
     }
 
     async function addArrears(id){
         const arrearsComputation = loans.dailyPayment * 0.05 
         await updateDoc(doc(db, "loanprocess", id), {
-                arrearsPenalty: loans.dailyPayment + arrearsComputation
-            });
+            arrearsPenalty: loans.dailyPayment + arrearsComputation
+        });
     }
     async function addDue(id){
         const pastDueComputation = loans.balance * 0.07 
         await updateDoc(doc(db, "loanprocess", id), {
-                arrearsPenalty: 0,
-                pastDue: loans.balance + pastDueComputation
-            });
+            arrearsPenalty: 0,
+            pastDue: loans.balance + pastDueComputation
+        });
     }
 
     const handleRowClick = (index) => {
-          selectedRowIndex = selectedRowIndex === index ? null : index;
+        selectedRowIndex = selectedRowIndex === index ? null : index;
     };
 
     $: if(client.length !== 0){
@@ -108,8 +111,6 @@
         
 
         window.open(disclosure.output('bloburl'));
-
-        // console.log(loans[0].formattedDueDate);
     }
 
     function resetSelected(){

@@ -16,20 +16,60 @@
             role:''
 	} 
 	}
+
+    function capitalize(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
     async function addEmployee(){
         try {
         const docRef = await fetch('/api/employees',{method:'POST',
 			body: JSON.stringify({
-            name:addUserInput.name,
-		    address:addUserInput.address,
+            name:addUserInput.name.toLowerCase().split(" ").map(capitalize).join(" "),
+		    address:addUserInput.address.toLowerCase().split(" ").map(capitalize).join(" "),
             contactInfo:addUserInput.contactInfo,
-            role:addUserInput.role,
+            role:addUserInput.role.toLowerCase().split(" ").map(capitalize).join(" "),
         })});
         } catch (e) {
         console.error("Error adding document: ", e);
         }
         resetAddUserInput()
 		addModal = false
+    }
+
+    function limitInputLength(event) {
+        const maxLength = 11;
+        const value = event.target.value;
+        const pattern = /^09\d*$/;
+
+        if (value.length > maxLength) {
+            event.target.value = addUserInput.contactInfo;
+        }
+            else if(value.length < maxLength){
+                event.target.setCustomValidity('Your number is too short. (Ex. 09XX XXX XXX)');
+        }
+             else if (!pattern.test(value) ) {
+            event.target.setCustomValidity('Input must start with "09" and only contain numbers (Ex. 09XX XXX XXX)');
+        } else {
+            event.target.setCustomValidity('');
+            addUserInput.contactInfo = value;
+        }
+  }
+
+  function validateInput(value) {
+        const pattern = /^[a-zA-Z ]+([-]?[a-zA-Z ]+)?(\.[a-zA-Z ]+([-]?[a-zA-Z ]+)?)?$/;
+        return pattern.test(value);
+    }
+
+    function handleRegexInput(event, inputBinding) {
+        const value = event.target.value;
+        if (!validateInput(value)) {
+            event.target.setCustomValidity('Please enter only text, 1 dot, and 1 dash');
+            addUserInput[inputBinding] = '';
+        } else {
+            event.target.setCustomValidity('');
+            addUserInput[inputBinding] = value;
+        }
     }
 </script>
 
@@ -50,15 +90,15 @@
                 <div class="grid grid-cols-6 gap-6">
                     <div class="col-span-6 sm:col-span-3">
                         <label for="first-name" class="block mb-2 text-sm font-medium">Fullname</label>
-                        <input type="text" bind:value={addUserInput.name} class="bg-gray-50 border border-gray-400 text-sm capitalize rounded-lg w-full p-3" placeholder="Fullname" minlength="4" maxlength="60" required>
+                        <input type="text" bind:value={addUserInput.name} on:input={(event) => handleRegexInput(event, 'addUserInput.name')} class="bg-gray-50 border border-gray-400 text-sm capitalize rounded-lg w-full p-3" placeholder="Fullname" minlength="4" maxlength="60" required/>
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <label for="address" class="block mb-2 text-sm font-medium">Complete Adress</label>
-                        <input type="text" bind:value={addUserInput.address} class="bg-gray-50 border border-gray-400 text-sm rounded-lg w-full capitalize p-3" placeholder="complete address" maxlength="100" required>
+                        <input type="text" bind:value={addUserInput.address} class="bg-gray-50 border border-gray-400 text-sm rounded-lg w-full capitalize p-3" placeholder="complete address" maxlength="100" required/>
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <label for="phone-number" class="block mb-2 text-sm font-medium">Contact Number</label>
-                        <input type="number" bind:value={addUserInput.contactInfo} class="bg-gray-50 border border-gray-400 text-sm rounded-lg w-full p-3" placeholder="Contact Number" pattern="[0-9]+" title="(ex. 09XX XXX XXXX)" maxlength="11" required>
+                        <input class="bg-gray-50 border border-gray-400 text-sm rounded-lg w-full p-3" type="text" on:input={limitInputLength} bind:value={addUserInput.contactInfo} placeholder="Contact Number" required />
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <label for="role" class="block mb-2 text-sm font-medium">Role</label>

@@ -67,6 +67,7 @@
 			<input type="checkbox" class="checkbox checkbox-xs" on:click={toggleShowPassword}>
                 {showPassword ? "Show" : "Show"} password
         </div>
+		<a class=" text-xs btn-link " href="/forgot_password">Forgot password?</a>
 		<button class="bg-blue-500 py-2 mt-4 rounded-lg text-white transition duration-200 ease-in-out hover:bg-blue-900" type="submit">Login</button>
 		</form>
 	</div>
