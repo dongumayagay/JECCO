@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
     import {db} from '$lib/firebase/client.js';
     import { collection, where, query, getDocs, orderBy  } from 'firebase/firestore';
 
@@ -62,14 +62,14 @@
         <div class="modal-box  w-1/2">
 
             <form class=" bg-white rounded-lg w-full" on:submit={searchClient}>
-                <!-- Modal header -->
+                
                 <div class="flex items-center p-4 rounded-t border-b">
                     <h3 class="text-2xl font-semibold text-gray-900">
                         Clients  
                     </h3>
                 </div>
 
-                <!-- table -->
+                
                     <table class="table table-compact w-full">
                         <thead>
                             <td>Client Number</td>
@@ -85,9 +85,79 @@
 
                 <div class="modal-action">    
                     <button type="submit" class="btn border-transparent bg-blue-600">Generate PDF</button>
-                    <!-- svelte-ignore a11y-click-events-have-key-events -->
+                    
                     <label for="viewClient" on:click={resetAddUserInput} class="btn border-transparent bg-red-600">Close</label>
                 </div>
             </form>
+        </div>
+    </div> -->
+
+<script>
+    let searchModal = false; 
+</script>
+
+
+    <input type="checkbox" bind:checked={searchModal} id="viewClient" class="modal-toggle" />
+    <div class="modal">
+
+        <div class=" w-10/12 rounded-lg p-5 bg-white">
+
+                
+                <div class="flex items-center p-4 rounded-t border-b">
+                    <h3 class="text-2xl font-semibold text-gray-900">
+                        Clients  
+                    </h3>
+                </div>
+
+                
+                    <table class="table table-compact w-full border border-black">
+                        <thead class="">
+                            <td>Name</td>
+                            <th>Ref</th>
+                            <th>Due Date</th>
+                            <th>Balance</th>
+                            <th>D.I.</th>
+                            <th>PR#</th>
+                            <th>LP</th>
+                            <th>ARR PNL</th>
+                            <th>ARR PY</th>
+                            <th>PAST DUE PNL</th>
+                            <th>PAS DUE PY</th>
+                        </thead>
+                        
+                        <tr>
+                            <td class="border border-black ">Dela Cruz,Juan</td>
+                            <td class="border border-black w-28">000013</td>
+                            <td class="border border-black w-28">12023-06-02</td>
+                            <td class="border border-black w-36">9360</td>
+                            <td class="border border-black w-32"> </td>
+                            <td class="border border-black w-32"> </td>
+                            <td class="border border-black w-32"> </td>
+                            <td class="border border-black w-32"> </td>
+                            <td class="border border-black w-32"> </td>
+                            <td class="border border-black w-32"> </td>
+                            <td class="border border-black w-32"> </td>
+                        </tr>
+                        <tr>
+                            <td class="border border-black ">Dela Cruz,Juan</td>
+                            <td class="border border-black w-28">000013</td>
+                            <td class="border border-black w-28">12023-06-02</td>
+                            <td class="border border-black w-36">9360</td>
+                            <td class="border border-black w-32"> </td>
+                            <td class="border border-black w-32"> </td>
+                            <td class="border border-black w-32"> </td>
+                            <td class="border border-black w-32"> </td>
+                            <td class="border border-black w-32"> </td>
+                            <td class="border border-black w-32"> </td>
+                            <td class="border border-black w-32"> </td>
+                        </tr>
+                        
+                    </table>   
+
+                <div class="modal-action">    
+                    <button type="submit" class="btn border-transparent bg-blue-600">Generate PDF</button>
+                    
+                    <label for="viewClient" class="btn border-transparent bg-red-600">Close</label>
+                </div>
         </div>
     </div>
