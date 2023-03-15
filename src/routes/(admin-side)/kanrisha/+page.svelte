@@ -101,7 +101,7 @@
                 }
             }); 
         });
-        const qOne = query(collection(db, "loanprocess"),where("status", "==", "Ongoing"));
+        const qOne = query(collection(db, "loanprocess"),where("status", "!=", "No Loan"));
         const docSnapOne = await getDocs(qOne); 
         docSnapOne.forEach((doc) => {
             loans = docSnapOne.docs.map((doc) => {
