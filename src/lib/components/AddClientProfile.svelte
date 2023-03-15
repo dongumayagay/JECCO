@@ -181,6 +181,17 @@
         }
   }
 
+    function generatePassword() {
+        const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.split('');
+        const length = Math.floor(Math.random() * 4) + 11;
+        let newPassword = '';
+        for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * chars.length);
+        newPassword += chars[randomIndex];
+        }
+        addUserInput.password = newPassword;
+    }
+
 </script>
 
 
@@ -235,6 +246,7 @@
                             <input type="checkbox" class=" checkbox checkbox-xs" on:click={toggleShowPassword}>
                                 {showPassword ? "Show" : "Show"} password
                         </div>
+                        <button class="btn btn-xs text-xs mt-2 ml-1 bg-gray-500" type="button" on:click={generatePassword}>Generate Password</button>
 					</div> 
                     
                     <div class=" flex flex-col mt-7">
@@ -274,7 +286,7 @@
             </div>
 
             <div class="modal-action">    
-                <button type="submit" class="btn border-transparent bg-green-600">Add</button>
+                <button type="submit" class="btn border-transparent bg-green-600">Create</button>
                 <!-- svelte-ignore a11y-click-events-have-key-events -->
                 <label for="add" on:click={resetAddUserInput} class="btn border-transparent bg-red-600">Cancel</label>
             </div>
