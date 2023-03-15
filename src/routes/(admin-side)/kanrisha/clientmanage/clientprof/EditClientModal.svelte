@@ -104,12 +104,12 @@
                     <div class="col-span-6 sm:col-span-3">
                         <label for="first-name" class="block mb-2 text-sm font-medium  ">First Name</label>
                         <!-- <input type="text" bind:value={addUserInput.firstname} class=" border text-sm rounded-lg" placeholder="First Name" maxlength="30" minlength="2" required> -->
-                        <input type="text" id="first-name" bind:value={addUserInput.firstname} on:input={(event) => handleRegexInput(event, 'addUserInput.firstname')} class="border text-sm capitalize rounded-lg"  placeholder="First Name" maxlength="30" minlength="2" required>
+                        <input type="text" bind:value={addUserInput.firstname} on:input={(event) => handleRegexInput(event, 'addUserInput.firstname')} class="border text-sm capitalize rounded-lg"  placeholder="First Name" maxlength="30" minlength="2" required>
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <label for="last-name" class="block mb-2 text-sm font-medium  ">Last Name</label>
                         <!-- <input type="text" bind:value={addUserInput.lastname} class=" border text-sm rounded-lg" placeholder="Last Name" maxlength="30" minlength="2" required> -->
-                        <input type="text" id="last-name" bind:value={addUserInput.lastname} on:input={(event) => handleRegexInput(event, 'addUserInput.lastname')} class="border text-sm capitalize rounded-lg" placeholder="Last Name" maxlength="30" minlength="2" required>
+                        <input type="text" bind:value={addUserInput.lastname} on:input={(event) => handleRegexInput(event, 'addUserInput.lastname')} class="border text-sm capitalize rounded-lg" placeholder="Last Name" maxlength="30" minlength="2" required>
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <label for="email" class="block mb-2 text-sm font-medium  ">Email</label>
@@ -130,12 +130,12 @@
                     <div class="col-span-6 sm:col-span-3">
                         <label for="muni" class="block mb-2 text-sm font-medium  ">Municipality</label>
                         <!-- <input type="text"  bind:value={addUserInput.municipality} class=" border text-sm rounded-lg" placeholder="Municipality" minlength="3" maxlength="30" required> -->
-                        <input type="text" id="muni" bind:value={addUserInput.municipality} on:input={(event) => handleRegexInput(event, 'addUserInput.municipality')} class=" border text-sm capitalize rounded-lg" placeholder="Municipality" minlength="3" maxlength="30" required>
+                        <input type="text" bind:value={addUserInput.municipality} on:input={(event) => handleRegexInput(event, 'addUserInput.municipality')} class=" border text-sm capitalize rounded-lg" placeholder="Municipality" minlength="3" maxlength="30" required>
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <label for="prov" class="block mb-2 text-sm font-medium  ">Province</label>
                         <!-- <input type="text" bind:value={addUserInput.province} class=" border text-sm rounded-lg " placeholder="Province" minlength="3" maxlength="30" required> -->
-                        <input type="text" id="prov" bind:value={addUserInput.province} on:input={(event) => handleRegexInput(event, 'addUserInput.province')} class=" border text-sm capitalize rounded-lg" placeholder="Province" minlength="3" maxlength="30" required>
+                        <input type="text" bind:value={addUserInput.province} on:input={(event) => handleRegexInput(event, 'addUserInput.province')} class=" border text-sm capitalize rounded-lg" placeholder="Province" minlength="3" maxlength="30" required>
                     </div>
                 </div>
             </div>
