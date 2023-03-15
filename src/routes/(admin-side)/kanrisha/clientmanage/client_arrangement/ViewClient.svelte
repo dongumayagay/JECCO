@@ -84,7 +84,7 @@
                     </table>   
 
                 <div class="modal-action">    
-                    <!-- <button type="submit" class="btn border-transparent bg-blue-600">Search</button> -->
+                    <button type="submit" class="btn border-transparent bg-blue-600">Generate PDF</button>
                     <!-- svelte-ignore a11y-click-events-have-key-events -->
                     <label for="viewClient" on:click={resetAddUserInput} class="btn border-transparent bg-red-600">Close</label>
                 </div>
