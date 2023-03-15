@@ -2,7 +2,7 @@
 import { goto } from '$app/navigation';
 
     function submitHandler(){
-        alert('Forgot request submitted!');
+        alert('Password reset request sent!');
         goto('/');
 
     }

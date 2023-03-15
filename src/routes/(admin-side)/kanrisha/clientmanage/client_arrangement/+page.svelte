@@ -5,6 +5,7 @@
 	import UpdateAreaModal from './UpdateAreaModal.svelte';    
     import SearchEmployeeModal from '$lib/components/SearchEmployeeModal.svelte';
     import ConfirmDeleteModal from '$lib/components/ConfirmDeleteModal.svelte';
+    import ViewClient from './ViewClient.svelte';
 
     let selectedRowIndex = null;
     let searchSelected = false;
@@ -16,6 +17,7 @@
     let showModal = false;
     let deleteSuccess = false;
     let idToDelete;
+    let getAllClients;
 
     async function employeeArea() {
         areas = []
@@ -60,8 +62,10 @@
 
 <div class="flex items-center p-4 shadow-md sm:rounded-lg bg-white gap-4">
     <h1 class=" font-bold">Client Arrangement</h1>
-    <div class=" absolute right-10">
-        <label for="edit" class={selectedRowIndex !== null ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={selectedRowIndex === null}>Edit</label>
+    <div class=" flex absolute right-10 gap-4">
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <label for="viewClient" class={selectedRowIndex !== null ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={selectedRowIndex === null} on:click={getAllClients}>VIEW CLEINT</label>
+        <label for="edit" class={selectedRowIndex !== null ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={selectedRowIndex === null}>EDIT</label>
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <label for="add2" on:click={() => clienInfo(employee,areas.length)} class={searchSelected ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={!searchSelected}>Add Area</label>
     </div>
@@ -142,6 +146,7 @@
 <SearchEmployeeModal bind:selected={employee} bind:getAllEmployees={getAllEmployees}/>
 <AddClientArrangement bind:clienInfo={clienInfo} />
 <UpdateAreaModal bind:clientInfo={clientInfo} />
+<ViewClient bind:getAllClients={getAllClients}/>
 <ConfirmDeleteModal showModal={showModal}
 onConfirm={handleConfirm}
 onCancel={handleCancel}/>
