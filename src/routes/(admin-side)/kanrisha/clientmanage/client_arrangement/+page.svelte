@@ -67,7 +67,7 @@
     <h1 class=" font-bold">Client Arrangement</h1>
     <div class=" flex absolute right-10 gap-4">
         <!-- svelte-ignore a11y-click-events-have-key-events -->
-        <label for="viewClient" class={selectedRowIndex !== null ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={selectedRowIndex === null} on:click={getAllClients(clientsArea)}>VIEW CLEINT</label>
+        <label for="viewClient" class={selectedRowIndex !== null ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={selectedRowIndex === null} on:click={getAllClients(clientsArea)}>VIEW CLIENTS</label>
         <label for="edit" class={selectedRowIndex !== null ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={selectedRowIndex === null}>EDIT</label>
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <label for="add2" on:click={() => clienInfo(employee,areas.length)} class={searchSelected ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={!searchSelected}>Add Area</label>
