@@ -93,71 +93,88 @@
     </div> -->
 
 <script>
+    import {db} from '$lib/firebase/client.js';
+    import { collection, where, query, getDocs, orderBy  } from 'firebase/firestore';
+    let searchResults = [];
     let searchModal = false; 
+    let mergedArray = [];
+    let loans = [];
+    export async function getAllClients(area){
+        const qOne = query(collection(db, "clientinfo"), orderBy("status", "desc"),orderBy("clientNumber", "desc"),where("barangay", "==", area), where("status", "!=", "No Loan") );
+        const querySnapshot = await getDocs(qOne);
+        querySnapshot.forEach((doc) => {
+            searchResults = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        });
+
+        const qTwo = query(collection(db, "loanprocess"),where("status", "==", "Ongoing"));
+        const docSnapOne = await getDocs(qTwo); 
+        docSnapOne.forEach((doc) => {
+            loans = docSnapOne.docs.map((doc) => {
+                return {
+                    id:doc.id,
+                    ...doc.data()
+                }
+            }); 
+           
+        });
+        mergedArray = searchResults.map(item1 => {
+            const item2 = loans.find(item2 => item2.owner === item1.id);
+            return { ...item1, ...item2};
+        });
+    }
+    
 </script>
 
 
-    <input type="checkbox" bind:checked={searchModal} id="viewClient" class="modal-toggle" />
-    <div class="modal">
+<input type="checkbox" bind:checked={searchModal} id="viewClient" class="modal-toggle" />
+<div class="modal">
 
-        <div class=" w-10/12 rounded-lg p-5 bg-white">
+    <div class=" w-10/12 rounded-lg p-5 bg-white">
 
-                
-                <div class="flex items-center p-4 rounded-t border-b">
-                    <h3 class="text-2xl font-semibold text-gray-900">
-                        Clients  
-                    </h3>
-                </div>
+            
+        <div class="flex items-center p-4 rounded-t border-b">
+            <h3 class="text-2xl font-semibold text-gray-900">
+                Clients  
+            </h3>
+        </div>
 
-                
-                    <table class="table table-compact w-full border border-black">
-                        <thead class="">
-                            <td>Name</td>
-                            <th>Ref</th>
-                            <th>Due Date</th>
-                            <th>Balance</th>
-                            <th>D.I.</th>
-                            <th>PR#</th>
-                            <th>LP</th>
-                            <th>ARR PNL</th>
-                            <th>ARR PY</th>
-                            <th>PAST DUE PNL</th>
-                            <th>PAS DUE PY</th>
-                        </thead>
-                        
-                        <tr>
-                            <td class="border border-black ">Dela Cruz,Juan</td>
-                            <td class="border border-black w-28">000013</td>
-                            <td class="border border-black w-28">12023-06-02</td>
-                            <td class="border border-black w-36">9360</td>
-                            <td class="border border-black w-32"> </td>
-                            <td class="border border-black w-32"> </td>
-                            <td class="border border-black w-32"> </td>
-                            <td class="border border-black w-32"> </td>
-                            <td class="border border-black w-32"> </td>
-                            <td class="border border-black w-32"> </td>
-                            <td class="border border-black w-32"> </td>
-                        </tr>
-                        <tr>
-                            <td class="border border-black ">Dela Cruz,Juan</td>
-                            <td class="border border-black w-28">000013</td>
-                            <td class="border border-black w-28">12023-06-02</td>
-                            <td class="border border-black w-36">9360</td>
-                            <td class="border border-black w-32"> </td>
-                            <td class="border border-black w-32"> </td>
-                            <td class="border border-black w-32"> </td>
-                            <td class="border border-black w-32"> </td>
-                            <td class="border border-black w-32"> </td>
-                            <td class="border border-black w-32"> </td>
-                            <td class="border border-black w-32"> </td>
-                        </tr>
-                        
-                    </table>   
+        <table class="table table-compact w-full border border-black">
+            <thead class="">
+                <td>Name</td>
+                <th>Ref</th>
+                <th>Due Date</th>
+                <th>Balance</th>
+                <th>D.I.</th>
+                <th>PR#</th>
+                <th>LP</th>
+                <th>ARR PNL</th>
+                <th>ARR PY</th>
+                <th>PAST DUE PNL</th>
+                <th>PAS DUE PY</th>
+            </thead>
+            {#if mergedArray.length != 0}
+                {#each mergedArray as client}
+                    <tr>
+                        <td class="border border-black ">{client.firstname + " " + client.lastname}</td>
+                        <td class="border border-black w-28">{client.loanNumber}</td>
+                        <td class="border border-black w-28">{client.formattedDueDate}</td>
+                        <td class="border border-black w-36">{client.balance}</td>
+                        <td class="border border-black w-32">{client.dailyPayment}</td>
+                        <td class="border border-black w-32"> </td>
+                        <td class="border border-black w-32"> </td>
+                        <td class="border border-black w-32">{client.arrearsPenalty}</td>
+                        <td class="border border-black w-32"> </td>
+                        <td class="border border-black w-32">{client.pastDue}</td>
+                        <td class="border border-black w-32"> </td>
+                    </tr>
+                {/each}
+            {/if}
+        </table>   
 
-                <div class="modal-action">    
-                    <button type="submit" class="btn border-transparent bg-blue-600">Generate PDF</button>
-                    
-                    <label for="viewClient" class="btn border-transparent bg-red-600">Close</label>
-                </div>
+        <div class="modal-action">    
+            <button type="submit" class="btn border-transparent bg-blue-600">Generate PDF</button>
+            
+            <label for="viewClient" class="btn border-transparent bg-red-600">Close</label>
         </div>
     </div>
+</div>

@@ -18,6 +18,8 @@
     let deleteSuccess = false;
     let idToDelete;
     let getAllClients;
+    let clientsArea
+
 
     async function employeeArea() {
         areas = []
@@ -34,8 +36,9 @@
         await deleteDoc(doc(db, "areas", id));
     }
 
-    const handleRowClick = (index) => {
-          selectedRowIndex = selectedRowIndex === index ? null : index;
+    const handleRowClick = (index,barangay) => {
+        selectedRowIndex = selectedRowIndex === index ? null : index;
+        clientsArea = barangay;
     };
 
     $: if(employee.length !== 0){
@@ -64,7 +67,7 @@
     <h1 class=" font-bold">Client Arrangement</h1>
     <div class=" flex absolute right-10 gap-4">
         <!-- svelte-ignore a11y-click-events-have-key-events -->
-        <label for="viewClient" class={selectedRowIndex !== null ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={selectedRowIndex === null} on:click={getAllClients}>VIEW CLEINT</label>
+        <label for="viewClient" class={selectedRowIndex !== null ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={selectedRowIndex === null} on:click={getAllClients(clientsArea)}>VIEW CLEINT</label>
         <label for="edit" class={selectedRowIndex !== null ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={selectedRowIndex === null}>EDIT</label>
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <label for="add2" on:click={() => clienInfo(employee,areas.length)} class={searchSelected ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={!searchSelected}>Add Area</label>
@@ -111,7 +114,7 @@
 				</tr>
 			</thead>
             {#each areas as area}
-                <tr on:click={() => handleRowClick(area.id)} on:click={clientInfo(area)} class={selectedRowIndex === area.id ? ' hover cursor-pointer bg-blue-400 text-white ' : 'hover cursor-pointer'}>
+                <tr on:click={() => handleRowClick(area.id,area.areaName)} on:click={clientInfo(area)} class={selectedRowIndex === area.id ? ' hover cursor-pointer bg-blue-400 text-white ' : 'hover cursor-pointer'}>
                 <td class="pr-0 ">
                     <div  class="flex items-center space-x-1 text-sm">
                         <div class="dropdown">
