@@ -31,16 +31,22 @@
             return { ...item1, ...item2};
         });
     }
+
+    const today = new Date();
+    const options = { timeZone: 'Asia/Manila', month: 'long', day: 'numeric', year: 'numeric', };
+    const philippineTime = today.toLocaleString('en-US', options);
+
     
     async function generateLedger(){
         const collectionLedger = new jsPDF();
-        collectionLedger.text('JEMPOWERS CREDIT COPORATION', 56, 22);
-        collectionLedger.text('Collection', 82, 37);
+        collectionLedger.text('JEMPOWERS CREDIT COPORATION', 57, 15);
+        collectionLedger.text('COLLECTION FORM', 76, 29);
+        collectionLedger.text(philippineTime, 83, 37);
         collectionLedger.setFontSize(11);
-        collectionLedger.text('San Pedro City, Laguna', 83, 27);
+        collectionLedger.text('San Pedro City, Laguna', 83, 20);
         collectionLedger.autoTable({
             theme: 'grid',
-            margin: {top: 60, left:3}, 
+            margin: {top: 45, left:3}, 
             tableWidth: 205,
             headStyles: {fontSize: 8},
             style:{fontSize: 5, item:'center'},
