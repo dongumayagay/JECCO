@@ -28,11 +28,11 @@
 	userDueDates();
 
 	async function payOnline(){
-
+		const paymentAmount = duedates[0].dailyPayment * 100
 		if (dueDates.length === 0 ) {
 			return
 		}
-		const response = await fetch("/api/paymongo/links",{method:'POST',body:JSON.stringify({amount:15000, description: 'Payment', remarks:dueDates[0].id}) })
+		const response = await fetch("/api/paymongo/links",{method:'POST',body:JSON.stringify({amount: paymentAmount, description: 'Payment', remarks:dueDates[0].id}) })
 		const result = await response.json();
 		const checkOutUrl = result.data.attributes.checkout_url
 
