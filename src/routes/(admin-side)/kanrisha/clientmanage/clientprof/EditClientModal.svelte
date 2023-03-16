@@ -141,7 +141,7 @@
             </div>
 
             <div class="modal-action">    
-                <button type="submit" class="btn border-transparent bg-blue-600">Update</button>
+                <button type="submit" class="btn border-transparent bg-blue-600">Save</button>
                 <!-- svelte-ignore a11y-click-events-have-key-events -->
                 <label for="update" on:click={resetAddUserInput}  class="btn border-transparent bg-red-600">Cancel</label>
             </div>

@@ -9,6 +9,10 @@
 		confirmPassword:''
 	} 
 	
+	function capitalize(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+	
 	async function addUser(){
 		if(addUserInput.password != addUserInput.confirmPassword){
 			alert('Password does not match')
@@ -18,7 +22,7 @@
 
 			const response = await fetch('/api/users/admins',{method:'POST',
 			body: JSON.stringify({
-					name:addUserInput.name,
+					name:addUserInput.name.toLowerCase().split(" ").map(capitalize).join(" "),
 					email:addUserInput.email,
 					password:addUserInput.password,
 
@@ -30,29 +34,33 @@
 
 		resetAddUserInput()
 		addModal = false
+		location.reload();
 	}
 
 	function resetAddUserInput(){
-		addUserInput = {
-		name:'',
-		email:'',
-		password:'',
-		confirmPassword:''
-	} 
+			addUserInput = {
+			name:'',
+			email:'',
+			password:'',
+			confirmPassword:''
+		} 
 	}
 
-	
-    // function validatePassword(){
-	// 	const passwordRegex = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[A-Z]).{8,}$/;
+	function validateInput(value) {
+        const pattern = /^[a-zA-Z ]+([-]?[a-zA-Z ]+)?(\.[a-zA-Z ]+([-]?[a-zA-Z ]+)?)?$/;
+        return pattern.test(value);
+    }
 
-	// 	if (!passwordRegex.test(addUserInput.password)) {
-	// 		passwordError = "Password must contain at least one uppercase letter, one special character, one number, and be at least 8 characters long";
-			
-	// 	} else {
-	// 		passwordError = "";
-	// 	}
-
-    // }
+    function handleRegexInput(event, inputBinding) {
+        const value = event.target.value;
+        if (!validateInput(value)) {
+            event.target.setCustomValidity('Please enter only text, 1 dot, and 1 dash');
+            addUserInput[inputBinding] = '';
+        } else {
+            event.target.setCustomValidity('');
+            addUserInput[inputBinding] = value;
+        }
+    }
 
     function toggleShowPassword(){
         showPassword = !showPassword;
@@ -74,11 +82,11 @@
 					<div class=" flex flex-col gap-6 p-6 ">
 						<div class="col-span-6 sm:col-span-3">
 							<label for="Name" class="mb-2 text-sm font-medium text-gray-900">Fullname</label>
-							<input type="text" bind:value={addUserInput.name} class=" bg-gray-50 border border-gray-300 text-sm rounded-lg w-full p-2.5 capitalize" placeholder="Fullname" minlength="2" maxlength="50" required>
+							<input type="text" bind:value={addUserInput.name} on:input={(event) => handleRegexInput(event, 'addUserInput.name')} class="bg-gray-50 border border-gray-300 text-sm rounded-lg w-full p-2.5 capitalize" placeholder="Fullname" minlength="2" maxlength="60" required>
 						</div>
 						<div class="col-span-6 sm:col-span-3">
 							<label for="Email" class="mb-2 text-sm font-medium text-gray-900">Email</label>
-							<input type="email" bind:value={addUserInput.email} class=" bg-gray-50 border border-gray-300 text-sm rounded-lg w-full p-2.5" placeholder="Ex. admin@jecco.com" minlength="5" maxlength="50" required>
+							<input type="email" bind:value={addUserInput.email} class=" bg-gray-50 border border-gray-300 text-sm rounded-lg w-full p-2.5" placeholder="Ex. admin@gmail.com" minlength="5" maxlength="50" required>
 						</div>
 						<div class="col-span-6 sm:col-span-3">
 							<label for="password" class="mb-2 text-sm font-medium text-gray-900">Password</label>
