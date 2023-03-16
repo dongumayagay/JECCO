@@ -266,12 +266,36 @@
                 return { ...item1, ...item2, ...item3, ...item4 };
             });
 
-            totalLoanP = dateRangeMergedArr.reduce((acc, obj) => acc + obj.loanPayment, 0)
+        
+            const sumsTotalLoanP = dateRangeMergedArr.reduce((acc, curr) => {
+            if (curr.loanPayment) {
+                acc[curr.id] = (acc[curr.id] || 0) + curr.loanPayment;
+            }
+            return acc;
+            }, {});
+            for (let key in sumsTotalLoanP) {
+                totalLoanP += sumsTotalLoanP[key];
+            }
 
-            totalArrearsP = dateRangeMergedArr.reduce((acc, obj) => acc + obj.arrearsPayment, 0)
-            
-            totalPastDueP = dateRangeMergedArr.reduce((acc, obj) => acc + obj.pastDuePayment, 0)
-            
+            const sumsTotalArrearsP = dateRangeMergedArr.reduce((acc, curr) => {
+            if (curr.arrearsPayment) {
+                acc[curr.id] = (acc[curr.id] || 0) + curr.arrearsPayment;
+            }
+            return acc;
+            }, {});
+            for (let key in sumsTotalArrearsP) {
+                totalArrearsP += sumsTotalArrearsP[key];
+            }
+
+            const sumsTotalPastDueP = dateRangeMergedArr.reduce((acc, curr) => {
+            if (curr.pastDuePaymentt) {
+                acc[curr.id] = (acc[curr.id] || 0) + curr.pastDuePaymentt;
+            }
+            return acc;
+            }, {});
+            for (let key in sumsTotalPastDueP) {
+                totalPastDueP += sumsTotalPastDueP[key];
+            }
         }
     }
 

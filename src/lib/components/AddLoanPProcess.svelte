@@ -244,10 +244,7 @@
                 <p class="font-medium">Daily Payment:</p>
                 <p class="font-medium">Miscellanoeus Fee:</p>
                 <p class="font-medium">Notarial Fee:</p>
-                <!-- <p class="font-medium"><input type="checkbox" class=" checkbox-xs "> JBF-JEM'S Benefit Fund</p>
-                <p class="font-medium">Net Proceeds:</p>
-                <p class="font-medium">Arrears Percent Penalty:</p>
-                <p class="font-medium">Past Due Percent Interest:</p> -->
+                
             </div>
             
             <div class=" flex flex-col gap-2">
@@ -262,10 +259,7 @@
                         <p><input type="number" disabled class=" h-8 rounded-md w-60" ></p>
                         <p class="flex gap-2"><input type="number" disabled class=" h-8 rounded-md w-60" ><input type="number" disabled class=" h-8 rounded-md w-28 bg-yellow-100" >%</p>
                         <p><input type="number" disabled class=" h-8 rounded-md w-60" ></p>
-                        <!-- <p><input type="number" disabled class=" h-8 rounded-md w-60" ></p>
-                        <p class="flex gap-2"><input type="number" disabled class=" h-8 rounded-md w-60" ><input type="number" disabled class=" h-8 rounded-md w-48" ></p>
-                        <p><input type="number" disabled class=" h-8 rounded-md w-28" > %</p>
-                        <p><input type="number" disabled class=" h-8 rounded-md w-28" ></p> -->
+                        
                     {:else}
                         <input type="number" disabled bind:value={chosenMatrix.loanAmount} class=" h-8 rounded-md w-60 text-right" >
                         <p class="flex gap-2"><input type="number" disabled bind:value={chosenMatrix.interestRate} class=" h-8 rounded-md w-60 text-right" ><input type="number" disabled bind:value={chosenMatrix.interestPercent} class=" h-8 rounded-md w-28 text-right bg-yellow-100" >%</p>
@@ -274,10 +268,6 @@
                         <input type="number" disabled bind:value={chosenMatrix.dailyPayment} class=" h-8 rounded-md w-60 text-right" >
                         <p class="flex gap-2"><input type="number" bind:value={chosenMatrix.miscellanoeusFee} disabled class=" h-8 rounded-md w-60 text-right" ><input type="number" bind:value={chosenMatrix.miscellanoeusFeePercent} disabled class=" h-8 rounded-md w-28 text-right bg-yellow-100">%</p>
                         <input type="number" bind:value={chosenMatrix.notarialFee} disabled class=" h-8 rounded-md w-60 text-right" >
-                        <!-- <input type="number" disabled class=" h-8 rounded-md w-60 text-right" >
-                        <p class="flex gap-2"><input type="number" disabled class=" h-8 rounded-md w-60" ><input type="number" disabled class=" h-8 rounded-md w-48 text-right" >
-                        <input type="number" disabled class=" h-8 rounded-md w-28 text-right" > %
-                        <input type="number" disabled class=" h-8 rounded-md w-28 text-right" > -->
                     {/if}
                 {:catch error}
                     <p style="color: red">{error.message}</p>
@@ -293,7 +283,6 @@
                 <p class="font-medium">Approved By:</p>
                 <p class="font-medium">Released By:</p>
                 <p class="font-medium">Collector Assigned:</p>
-                <p class="font-medium">Area:</p>
             </div>
             
             <div class=" flex flex-col gap-2">
@@ -302,17 +291,6 @@
                 <input type="text" bind:value={addUserInput.approvedBy} class=" h-10 rounded-md w-60">
                 <input type="text" bind:value={addUserInput.releasedBy} class=" h-10 rounded-md w-60">
                 <input type="text" bind:value={addUserInput.collectorAssigned} class=" h-10 rounded-md w-60">
-                
-                    <select class="w-60" name="areas" bind:value={addUserInput.area}>
-                    <option value="estrella">Estrella</option>
-                    <option value="langgam">Langgam</option>
-                    <option value="laram">Laram</option>
-                    <option value="narra">Narra</option>
-                    <option value="narra">B. Silang</option>
-                    <option value="narra">Riverside</option>
-                    <option value="narra">Pacita</option>
-                    </select>
-                
             </div>
         </div>
             <div class="modal-action pt-8">    

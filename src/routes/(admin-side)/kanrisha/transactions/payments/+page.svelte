@@ -18,7 +18,7 @@
     let showModal = false;
     let deleteSuccess = false;
     let idToDelete;
-
+    let clientWithLoans = true;
 
     async function userPayments() {
         payments = []
@@ -79,7 +79,7 @@
     <div class="flex">
         <div class=" p-4">
             <!-- svelte-ignore a11y-click-events-have-key-events -->
-            <label for="search" on:click={getAllClients} class=" btn btn-sm">Search</label>
+            <label for="search" on:click={getAllClients(clientWithLoans)} class=" btn btn-sm">Search</label>
         </div>
     </div>
         <div class="flex pl-6 font-semibold">

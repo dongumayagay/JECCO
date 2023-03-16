@@ -11,8 +11,13 @@
     
     export let selected = [];
 
-    export async function getAllClients(){
-        const qOne = query(collection(db, "clientinfo"), orderBy("clientNumber", "desc"));
+    export async function getAllClients(clientWithLoans){
+        let qOne;
+        if (clientWithLoans == true) {
+            qOne = query(collection(db, "clientinfo"), orderBy("status", "desc"),orderBy("clientNumber", "desc"), where("status", "!=", "No Loan") );
+        } else {
+            qOne = query(collection(db, "clientinfo"), orderBy("clientNumber", "desc"));
+        }
         const querySnapshot = await getDocs(qOne);
         querySnapshot.forEach((doc) => {
             searchResults = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));

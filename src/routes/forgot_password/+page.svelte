@@ -2,7 +2,7 @@
 import { goto } from '$app/navigation';
 
     function submitHandler(){
-        alert('Forgot request submitted!');
+        alert('Password reset request sent!');
         goto('/');
 
     }
@@ -20,7 +20,7 @@ import { goto } from '$app/navigation';
 <main class="flex h-screen justify-center items-center bg-gray-100">
     <div class=" flex rounded-lg bg-white shadow p-10">
         <form class=" form-control" on:submit|preventDefault={submitHandler}>
-            <h1 class="font-bold text-2xl max-sm:text-lg mb-5">Forgot Password</h1>
+            <h1 class="font-bold text-2xl max-sm:text-lg mb-5">Request Reset Password</h1>
             <div class=" flex justify-center w-full" >
                 <div class="flex flex-col justify-center">
                     <label for="" class="font-semibold text-lg max-sm:text-sm">Recovery Email</label>
