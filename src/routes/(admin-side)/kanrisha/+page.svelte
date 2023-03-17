@@ -421,7 +421,7 @@
         <hr/>
 
             <div class="flex w-full justify-center">
-                <button on:click={generatePDF} class="btn-link py-1 px-2 font-semibold">Download Daily Collection Report</button>
+                <button on:click={generatePDF} class={mergedArr.length == 0 ? 'btn-link opacity-30 py-1 px-2 font-semibold' : 'btn-link py-1 px-2 font-semibold'} disabled={mergedArr.length == 0}>Download Daily Collection Report</button>
             </div>
         <section class="w-full h-full overflow-x-scroll overflow-y-scroll">
             {#if mergedArr.length != 0}

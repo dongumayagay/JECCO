@@ -28,7 +28,7 @@
 	userDueDates();
 
 	async function payOnline(){
-		const paymentAmount = duedates[0].dailyPayment * 100
+		const paymentAmount = dueDates[0].dailyPayment * 100
 		if (dueDates.length === 0 ) {
 			return
 		}
