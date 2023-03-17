@@ -213,74 +213,68 @@
                     <div class="flex flex-col">
                         <span class="flex mb-2 font-bold">System Information <p class="text-red-500">*</p></span>
                         <label for="client-num" class="mb-2 text-sm font-medium">Client Number</label>
-                        <input type="text" disabled bind:value={addUserInput.clientNumber} class=" border text-sm rounded-lg w-56 p-2.5" placeholder="Client Number" required>
+                        <input type="text" disabled bind:value={addUserInput.clientNumber} class=" border text-sm rounded-lg w-56 p-3" placeholder="Client Number" required>
                     </div>
                     <div class="mt-9">
                         <label for="first-name" class="mb-2 text-sm font-medium">First Name</label>
-                        <input type="text" bind:value={addUserInput.firstname} on:input={(event) => handleRegexInput(event, 'addUserInput.firstname')} class="border text-sm capitalize rounded-lg w-56 p-2.5"  placeholder="First Name" maxlength="30" minlength="2" required>
+                        <input type="text" bind:value={addUserInput.firstname} on:input={(event) => handleRegexInput(event, 'addUserInput.firstname')} class="border text-sm capitalize rounded-lg w-56 p-3"  placeholder="First Name" maxlength="30" minlength="2" required>
                     </div>
                     <div>
                         <label for="last-name" class="mb-2 text-sm font-medium">Last Name</label>
-                        <input type="text" bind:value={addUserInput.lastname} on:input={(event) => handleRegexInput(event, 'addUserInput.lastname')} class="border text-sm capitalize rounded-lg w-56 p-2.5" placeholder="Last Name" maxlength="30" minlength="2" required>
+                        <input type="text" bind:value={addUserInput.lastname} on:input={(event) => handleRegexInput(event, 'addUserInput.lastname')} class="border text-sm capitalize rounded-lg w-56 p-3" placeholder="Last Name" maxlength="30" minlength="2" required>
                     </div>
                     <div>
                         <label for="username" class="mb-2 text-sm font-medium">Username</label>
-                        <input type="email" disabled bind:value={addUserInput.username} class=" border text-sm rounded-lg w-56 p-2.5" placeholder="Email" maxlength="30" minlength="5" required>
+                        <input type="email" disabled bind:value={addUserInput.username} class=" border text-sm rounded-lg w-56 p-2.5 opacity-80" placeholder="Email" maxlength="30" minlength="5" required>
                     </div>
                     <div>
                         <label for="password" class="mb-2 text-sm font-medium">Password</label>
                         {#if showPassword}
-						<input type="text"  bind:value={addUserInput.password} on:input={validatePassword} class="border text-sm rounded-lg w-56 p-2.5" placeholder="Password" minlength="8" required>
+						<input type="text"  bind:value={addUserInput.password} on:input={validatePassword} class="border opacity-80 text-sm rounded-lg w-56 p-3 " placeholder="Password" minlength="8" disabled required>
                         {:else}
-                        <input  type="password" bind:value={addUserInput.password} on:input={validatePassword} class="border text-sm rounded-lg w-56 p-2.5" placeholder="Password" minlength="8" required>
-                        {/if}
-					</div>
-					<div>
-						<label for="confirm-pass" class="mb-2 text-sm font-medium dark:text-white">Confirm Password</label>
-                        {#if showPassword}
-						<input type="text" bind:value={addUserInput.confirmPassword} class="border text-sm rounded-lg w-56 p-2.5" placeholder="Confirm password" minlength="8" required>
-                        {:else}
-                        <input type="password" bind:value={addUserInput.confirmPassword} class="border text-sm rounded-lg w-56 p-2.5" placeholder="Confirm password" minlength="8" required>
+                        <input  type="password" bind:value={addUserInput.password} on:input={validatePassword} class="border opacity-80 text-sm rounded-lg w-56 p-3" placeholder="Password" minlength="8" disabled required>
                         {/if}
                         <div class=" absolute left-7 text-sm mt-2 font-mono ">
                             <input type="checkbox" class=" checkbox checkbox-xs" on:click={toggleShowPassword}>
                                 {showPassword ? "Show" : "Show"} password
                         </div>
-                        <button class="btn btn-xs text-xs mt-2 ml-1 bg-gray-500" type="button" on:click={generatePassword}>Generate Password</button>
+					</div>
+					<div class=" flex justify-center items-center">
+                        <button class="btn btn-sm text-xs mt-5 bg-gray-500" type="button" on:click={generatePassword}>Generate Password</button>
 					</div> 
                     
                     <div class=" flex flex-col mt-7">
                         <span class=" flex mb-2 font-bold">Other Information <p class="text-red-500">*</p> </span>
                         <label for="email" class="mb-2 text-sm font-medium">Email</label>
-                        <input type="email" bind:value={addUserInput.email} class=" border text-sm rounded-lg w-56 p-2.5" placeholder="Email" minlength="5" maxlength="50" required>
+                        <input type="email" bind:value={addUserInput.email} class=" border text-sm rounded-lg w-56 p-3" placeholder="Email" minlength="5" maxlength="50" required>
                     </div>
                     <div class="mt-16">
                         <label for="co-maker" class="mb-2 text-sm font-medium">Co-Maker Complete Name</label>
-                        <input type="text"  bind:value={addUserInput.coMaker} on:input={(event) => handleRegexInput(event, 'addUserInput.coMaker')} class="border text-sm capitalize rounded-lg w-56 p-2.5" placeholder="Co Maker" maxlength="60" required>
+                        <input type="text"  bind:value={addUserInput.coMaker} on:input={(event) => handleRegexInput(event, 'addUserInput.coMaker')} class="border text-sm capitalize rounded-lg w-56 p-3" placeholder="Co Maker" maxlength="60" required>
                     </div>
                     <div>
                         <label for="contact-number" class="mb-2 text-sm font-medium">Contact Number</label>
-                        <input class="border text-sm rounded-lg w-56 p-2.5" type="text" on:input={limitInputLength} bind:value={addUserInput.number} placeholder="Contact Number" required />
+                        <input class="border text-sm rounded-lg w-56 p-3" type="text" on:input={limitInputLength} bind:value={addUserInput.number} placeholder="Contact Number" required />
                     </div>
                     <div>
                         <label for="house" class="mb-2 text-sm font-medium">House No.</label>
-                        <input type="text" bind:value={addUserInput.houseNo} class=" border overflow-y-auto text-sm capitalize rounded-lg w-56 p-2.5" placeholder="House No." maxlength="30" required>
+                        <input type="text" bind:value={addUserInput.houseNo} class=" border overflow-y-auto text-sm capitalize rounded-lg w-56 p-3" placeholder="House No." maxlength="30" required>
                     </div>
                     <div>
                         <label for="brgy" class="mb-2 text-sm font-medium">Barangay</label>
-                        <input type="text" bind:value={addUserInput.barangay} class=" border overflow-y-auto text-sm capitalize rounded-lg w-56 p-2.5" placeholder="Barangay" minlength="3" maxlength="30" required>
+                        <input type="text" bind:value={addUserInput.barangay} class=" border overflow-y-auto text-sm capitalize rounded-lg w-56 p-3" placeholder="Barangay" minlength="3" maxlength="30" required>
                     </div>
                     <div>
                         <label for="muni" class="mb-2 text-sm font-medium">Municipality</label>
-                        <input type="text" bind:value={addUserInput.municipality} on:input={(event) => handleRegexInput(event, 'addUserInput.municipality')} class=" border overflow-y-auto text-sm capitalize rounded-lg w-56 p-2.5" placeholder="Municipality" minlength="3" maxlength="30" required>
+                        <input type="text" bind:value={addUserInput.municipality} on:input={(event) => handleRegexInput(event, 'addUserInput.municipality')} class=" border overflow-y-auto text-sm capitalize rounded-lg w-56 p-3" placeholder="Municipality" minlength="3" maxlength="30" required>
                     </div>
                     <div>
                         <label for="prov" class="mb-2 text-sm font-medium">Province</label>
-                        <input type="text" bind:value={addUserInput.province} on:input={(event) => handleRegexInput(event, 'addUserInput.province')} class=" border overflow-y-auto text-sm capitalize rounded-lg w-56 p-2.5 " placeholder="Province" minlength="3" maxlength="30" required>
+                        <input type="text" bind:value={addUserInput.province} on:input={(event) => handleRegexInput(event, 'addUserInput.province')} class=" border overflow-y-auto text-sm capitalize rounded-lg w-56 p-3 " placeholder="Province" minlength="3" maxlength="30" required>
                     </div>
                     <div>
                         <label for="date-created" class="mb-2 text-sm font-medium">Date Created</label>
-                        <input type="date" bind:value={addUserInput.dateCreated} class=" border overflow-y-auto text-sm rounded-lg w-56 p-2.5" placeholder="dd/mm/yyyy" required>
+                        <input type="date" bind:value={addUserInput.dateCreated} class=" border overflow-y-auto text-sm rounded-lg w-56 p-3" placeholder="dd/mm/yyyy" required>
                     </div>
                 </div>
             </div>

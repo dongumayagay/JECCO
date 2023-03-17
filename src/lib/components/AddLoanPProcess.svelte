@@ -76,7 +76,6 @@
             loanAmount:'',
             purpose:'',
             releaseDate:'',
-            area:'',
             accountOfficer:'',
             creditInvestigatedBy:'',
             approvedBy: '',
@@ -88,6 +87,9 @@
         document.getElementById("due-date").value = formattedDueDate;
 	}
 
+    function capitalize(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
     async function addLoan(){
 		try {
 			const docRef = await addDoc(collection(db, "loanprocess"), {
@@ -96,7 +98,6 @@
                 loanAmount:addUserInput.loanAmount,
                 numberOfLoan: loanNumber,
                 releaseDate: releaseDate.toString(),
-                area:addUserInput.area,
                 formattedDueDate: formattedDueDate.toString(),
                 days: chosenMatrix.days,
                 loanAmount:chosenMatrix.loanAmount,
@@ -110,11 +111,11 @@
                 arrearsPenalty:0,
                 pastDue:0,
                 status: "Ongoing",
-                accountOfficer: addUserInput.accountOfficer,
-                creditInvestigatedBy: addUserInput.creditInvestigatedBy,
-                approvedBy: addUserInput.approvedBy,
-                releasedBy: addUserInput.releasedBy,
-                collectorAssigned: addUserInput.collectorAssigned,
+                accountOfficer: addUserInput.accountOfficer.toLowerCase().split(" ").map(capitalize).join(" "),
+                creditInvestigatedBy: addUserInput.creditInvestigatedBy.toLowerCase().split(" ").map(capitalize).join(" "),
+                approvedBy: addUserInput.approvedBy.toLowerCase().split(" ").map(capitalize).join(" "),
+                releasedBy: addUserInput.releasedBy.toLowerCase().split(" ").map(capitalize).join(" "),
+                collectorAssigned: addUserInput.collectorAssigned.toLowerCase().split(" ").map(capitalize).join(" "),
         	});
             await updateDoc(doc(db, "id_counters", "loan_counter"), {
                 count: totalLoans.count
@@ -286,11 +287,11 @@
             </div>
             
             <div class=" flex flex-col gap-2">
-                <input type="text" bind:value={addUserInput.accountOfficer} class=" h-10 rounded-md w-60">
-                <input type="text" bind:value={addUserInput.creditInvestigatedBy} class=" h-10 rounded-md w-60">
-                <input type="text" bind:value={addUserInput.approvedBy} class=" h-10 rounded-md w-60">
-                <input type="text" bind:value={addUserInput.releasedBy} class=" h-10 rounded-md w-60">
-                <input type="text" bind:value={addUserInput.collectorAssigned} class=" h-10 rounded-md w-60">
+                <input type="text" bind:value={addUserInput.accountOfficer} class=" h-10 rounded-md w-60 capitalize">
+                <input type="text" bind:value={addUserInput.creditInvestigatedBy} class=" h-10 rounded-md w-60 capitalize">
+                <input type="text" bind:value={addUserInput.approvedBy} class=" h-10 rounded-md w-60 capitalize">
+                <input type="text" bind:value={addUserInput.releasedBy} class=" h-10 rounded-md w-60 capitalize">
+                <input type="text" bind:value={addUserInput.collectorAssigned} class=" h-10 rounded-md w-60 capitalize">
             </div>
         </div>
             <div class="modal-action pt-8">    
