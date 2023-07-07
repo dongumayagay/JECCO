@@ -77,10 +77,6 @@
     }
 
     async function addUser(){
-        
-        if(addUserInput.password != addUserInput.confirmPassword){
-			alert('Password does not match')
-        }
 
 		try {
 
