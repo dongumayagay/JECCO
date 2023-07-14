@@ -74,6 +74,7 @@
               <a class=" hover:bg-gray-400 active:bg-gray-500 p-3" href="/kanrisha/transactions/loan_processing">Loan Processing</a>
               <a class=" hover:bg-gray-400 active:bg-gray-500 p-3" href="/kanrisha/transactions/payments">Payments</a>
               <a class=" hover:bg-gray-400 active:bg-gray-500 p-3" href="https://dashboard.paymongo.com/links" target="_blank" rel="noreferrer">Online Payments</a>
+              <a class=" hover:bg-gray-400 active:bg-gray-500 p-3" href="/kanrisha/transactions/activity_logs">Activity Logs</a>
             </div>
           </div>
             <a href="/kanrisha/systemad/users" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6">
@@ -84,6 +85,7 @@
               </span>
               <span class="ml-2 text-sm tracking-wide truncate">Admin User</span>
             </a>
+            
             
         <!-- logout --> 
           <button class="absolute bottom-0 left-0 flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-gray-600 hover:text-gray-800 border-l-4 border-transparent" on:click={logout}>

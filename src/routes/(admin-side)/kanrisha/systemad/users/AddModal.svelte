@@ -72,9 +72,9 @@
 		<div class="modal-box">
 
 			<!-- Modal -->
-			<form class="relative bg-white rounded-lg shadow dark:bg-gray-700" on:submit={addUser}>
+			<form class="relative bg-white rounded-lg shadow" on:submit={addUser}>
 				<!-- Modal header -->
-				<div class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">					
+				<div class="flex justify-between items-start p-4 rounded-t border-b">
 					<h3 class="text-xl font-semibold text-gray-900">Add User</h3>
 				</div>
 				<!-- Modal body -->

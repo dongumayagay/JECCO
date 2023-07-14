@@ -1,5 +1,5 @@
 <script>
-    import { onMount } from 'svelte';
+    import { onMount, afterUpdate } from 'svelte';
     import { collection, onSnapshot, doc, deleteDoc, query, where, orderBy, limit } from 'firebase/firestore';
     import {db} from '$lib/firebase/client.js';
     import SearchClientModal from '$lib/components/SearchClientModal.svelte';
@@ -14,6 +14,12 @@
     let clienInfo
     let client = []
     let getAllClients;
+    let currentPage = 1;
+    let itemsPerPage = 9;
+
+    let totalItems = 0;
+    let totalPages = 0;
+    let displayedItems = [];
 
     let showModal = false;
     let deleteSuccess = false;
@@ -26,10 +32,32 @@
         const q = query(collection(db, 'payments'), where("owner", "==", client.id), orderBy("transactionDate", "desc") );
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
             payments = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+            totalItems = payments.length;
+            totalPages = Math.ceil(totalItems / itemsPerPage);
+            updateDisplayedItems();
         });
         return () => unsubscribe();
         
     }
+
+    function updateDisplayedItems() {
+        let startIndex = (currentPage - 1) * itemsPerPage;
+        let endIndex = startIndex + itemsPerPage;
+        displayedItems = payments.slice(startIndex, endIndex);
+    }
+
+    function goToPage(pageNumber) {
+        currentPage = pageNumber;
+        updateDisplayedItems();
+    }
+
+    onMount(() => {
+        userPayments();
+    });
+
+    afterUpdate(() => {
+        updateDisplayedItems();
+    });
 
     async function deletePayment(id){
         await deleteDoc(doc(db, "payments", id));
@@ -109,21 +137,20 @@
         </div>
 </div>
 
-<div class="overflow-x-auto shadow-md sm:rounded-lg h-full bg-white mt-4">
-	<div>
-		<table class="table table-normal w-full">
+<div class="shadow-md sm:rounded-lg h-full bg-white mt-4">
+		<table class="table table-normal table-fixed w-full">
 	<thead>
         <tr>
             <th></th>
-            <th>Transaction ID</th>
-            <th>Loan Payment</th> 
-            <th>Arrears Payment</th> 
-            <th>Past Due Payment</th> 
-            <th class="px-6">Transaction Date</th>
+            <th class="text-center">Transaction ID</th>
+            <th class="text-center">Loan Payment</th> 
+            <th class="text-center">Arrears Payment</th> 
+            <th class="text-center">Past Due Payment</th> 
+            <th class="text-center">Transaction Date</th>
                                                 
         </tr>
     </thead>
-        {#each payments as payment}                 
+        {#each displayedItems as payment}                 
             <tr on:click={() => handleRowClick(payment.id)} on:click={clientInfo(payment,client)} class={selectedRowIndex === payment.id ? ' hover cursor-pointer bg-blue-400 text-white ' : 'hover cursor-pointer'}>
                 <td class="p-4 w-4">
                     <div  class="flex items-center space-x-2 text-sm">
@@ -142,26 +169,58 @@
                         </div>
                     </div>
                 </td>
-                <td>
+                <td class="text-center">
                     {payment.transactionId}
                 </td>
-                <td class="px-6">
+                <td class="text-center">
                     {payment.loanPayment}
                 </td>
-                <td class="px-6">
+                <td class="text-center">
                     {payment.arrearsPayment}
                 </td>
-                <td class="px-6">
+                <td class="text-center">
                     {payment.pastDuePayment}
                 </td>
-                <td>
+                <td class="text-center">
                     {payment.transactionDate}
                 </td>
             </tr>
         {/each}	
 		</table>	
-	</div>		
 </div>
+
+<!-- Pagination -->
+<div class="mt-4 flex justify-center">
+    <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" disabled={currentPage === 1} on:click={() => goToPage(1)}>
+      First
+    </button>
+    <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" disabled={currentPage === 1} on:click={() => goToPage(currentPage - 1)}>
+      Previous
+    </button>
+
+    <!-- {#if currentPage > 3}
+      <span class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200">...</span>
+    {/if} -->
+
+    <!-- {#each Array.from({ length: totalPages }, (_, i) => i + 1) as page}
+      {#if currentPage - 2 <= page && page <= currentPage + 2}
+        <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" aria-current={currentPage === page} on:click={() => goToPage(page)}>
+          {page}
+        </button>
+      {/if}
+    {/each} -->
+
+    <!-- {#if currentPage < totalPages - 2}
+      <span class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200">...</span>
+    {/if} -->
+
+    <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" disabled={currentPage === totalPages} on:click={() => goToPage(currentPage + 1)}>
+      Next
+    </button>
+    <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" disabled={currentPage === totalPages} on:click={() => goToPage(totalPages)}>
+      Last
+    </button>
+  </div>
 
 <SearchClientModal bind:selected={client} bind:getAllClients={getAllClients}/>
 <PaymentModal bind:clienInfo={clienInfo}/>
