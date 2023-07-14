@@ -1,12 +1,42 @@
 <script>
 	import AddModal from "./AddModal.svelte";
 	import ConfirmDeleteModal from "$lib/components/ConfirmDeleteModal.svelte";
+	import {userStore} from '$lib/store.js';
+	import {goto} from '$app/navigation';
+    import {getDoc,doc} from 'firebase/firestore';
+	import {signOut} from 'firebase/auth'
+	import {auth} from '$lib/firebase/client.js'
+    import {db} from '$lib/firebase/client.js';
 
 	let users = []
 
 	let showModal = false;
     let deleteSuccess = false;
     let idToDelete;
+	let show = false;
+
+	async function checkIfSuperAdmin(_){
+        if($userStore===undefined){
+            return;
+        }
+        if($userStore===null){
+           await goto('/');
+           return;
+        }
+
+      const snapshot = await getDoc(doc(db,'userinfo',$userStore.uid))
+      const isSuperAdmin = snapshot.get('superAdmin')
+
+        if(isSuperAdmin===undefined || isSuperAdmin===false){
+            alert("Only the Super Admin can Access this tab.");
+			await goto('/kanrisha');
+            return;
+        
+        }
+        show = true;
+    }
+
+    $: checkIfSuperAdmin($userStore)
 
 	async function getListOfUsers(){
 		const response = await fetch('/api/users/admins')

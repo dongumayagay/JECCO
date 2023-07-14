@@ -91,10 +91,10 @@
     <div class="modal-box">
 
         <!-- Modal -->
-        <form class="relative bg-white rounded-lg shadow dark:bg-gray-700" on:submit={updateClient}>
+        <form class="relative bg-white rounded-lg shadow " on:submit={updateClient}>
             <!-- Modal header -->
-            <div class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+            <div class="flex justify-between items-start p-4 rounded-t border-b ">
+                <h3 class="text-xl font-semibold text-gray-900">
                     Update Client Information
                 </h3>
             </div>
