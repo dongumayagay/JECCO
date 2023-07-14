@@ -59,6 +59,8 @@
         updateDisplayedItems();
     });
 
+    
+
     async function deletePayment(id){
         await deleteDoc(doc(db, "payments", id));
     }

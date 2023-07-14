@@ -1,6 +1,7 @@
 <script>
     import {db} from '$lib/firebase/client.js';
     import { collection, where, query, getDocs, orderBy  } from 'firebase/firestore';
+    import { onMount, afterUpdate } from 'svelte';
 
     let searchModal = false; 
     let searchInput = "";
@@ -8,6 +9,12 @@
     let searchResultOne = [];
     let searchResultTwo = [];
     let searchResultThree = [];
+    let currentPage = 1;
+    let itemsPerPage = 10;
+
+    let totalItems = 0;
+    let totalPages = 0;
+    let displayedItems = [];
     
     export let selected = [];
 
@@ -21,8 +28,30 @@
         const querySnapshot = await getDocs(qOne);
         querySnapshot.forEach((doc) => {
             searchResults = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+            totalItems = searchResults.length;
+            totalPages = Math.ceil(totalItems / itemsPerPage);
+            updateDisplayedItems();
         });
     }
+
+    function updateDisplayedItems() {
+        let startIndex = (currentPage - 1) * itemsPerPage;
+        let endIndex = startIndex + itemsPerPage;
+        displayedItems = searchResults.slice(startIndex, endIndex);
+    }
+
+    function goToPage(pageNumber) {
+        currentPage = pageNumber;
+        updateDisplayedItems();
+    }
+
+    onMount(() => {
+       getAllClients();
+    });
+
+    afterUpdate(() => {
+        updateDisplayedItems();
+    });
 
     function selectUser(chosen){
         selected = chosen;
@@ -71,18 +100,51 @@
                 </div>
 
                 <!-- table -->
-                    <table class="table table-compact w-full">
+                    <table class="table table-compact w-full min-h-max">
                         <thead>
                             <td>Client Number</td>
                             <th>Full Name</th>
                         </thead>
-                        {#each searchResults as searchResult }    
+                        {#each displayedItems as searchResult }    
                         <tr class="hover cursor-pointer" on:click={() => selectUser(searchResult)}>
                             <td>{searchResult.clientNumber}</td>
                             <td>{searchResult.firstname + " " + searchResult.lastname}</td>
                         </tr>
                         {/each}
                     </table>   
+
+<!-- Pagination -->
+<div class="mt-4 flex justify-center">
+    <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" disabled={currentPage === 1} on:click={() => goToPage(1)}>
+      First
+    </button>
+    <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" disabled={currentPage === 1} on:click={() => goToPage(currentPage - 1)}>
+      Previous
+    </button>
+
+    <!-- {#if currentPage > 3}
+      <span class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200">...</span>
+    {/if} -->
+
+    <!-- {#each Array.from({ length: totalPages }, (_, i) => i + 1) as page}
+      {#if currentPage - 2 <= page && page <= currentPage + 2}
+        <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" aria-current={currentPage === page} on:click={() => goToPage(page)}>
+          {page}
+        </button>
+      {/if}
+    {/each} -->
+
+    <!-- {#if currentPage < totalPages - 2}
+      <span class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200">...</span>
+    {/if} -->
+
+    <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" disabled={currentPage === totalPages} on:click={() => goToPage(currentPage + 1)}>
+      Next
+    </button>
+    <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" disabled={currentPage === totalPages} on:click={() => goToPage(totalPages)}>
+      Last
+    </button>
+  </div>
 
                 <div class="modal-action">    
                     <button type="submit" class="btn border-transparent bg-blue-600">Search</button>

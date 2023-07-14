@@ -7,6 +7,7 @@
     import {peso} from '$lib/utils.js'
     import ConfirmDeleteModal from "$lib/components/ConfirmDeleteModal.svelte";
     import { jsPDF } from "jspdf";
+    import { onMount, afterUpdate } from 'svelte';
 
 
     let selectedRowIndex = null;
@@ -16,6 +17,12 @@
     let clienInfo
     let client = []
     let getAllClients;
+    let currentPage = 1;
+    let itemsPerPage = 9;
+
+    let totalItems = 0;
+    let totalPages = 0;
+    let displayedItems = [];
 
     let showModal = false;
     let deleteSuccess = false;
@@ -27,10 +34,33 @@
         const q = query(collection(db, 'loanprocess'), where("owner", "==", client.id), orderBy("numberOfLoan", "desc") );
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
             loans = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+            totalItems = loans.length;
+            totalPages = Math.ceil(totalItems / itemsPerPage);
+            updateDisplayedItems();
         });
         return () => unsubscribe();
         
     }
+
+    function updateDisplayedItems() {
+        let startIndex = (currentPage - 1) * itemsPerPage;
+        let endIndex = startIndex + itemsPerPage;
+        displayedItems = loans.slice(startIndex, endIndex);
+    }
+
+    function goToPage(pageNumber) {
+        currentPage = pageNumber;
+        updateDisplayedItems();
+    }
+
+    onMount(() => {
+       userLoans();
+    });
+
+    afterUpdate(() => {
+        updateDisplayedItems();
+    });
+
 
     async function deleteLoan(id){
         await deleteDoc(doc(db, "loanprocess", id));
@@ -165,9 +195,9 @@
         </div>
 </div>
 
-<div class="overflow-x-auto shadow-md sm:rounded-lg h-full bg-white mt-4">
+<div class="shadow-md sm:rounded-lg h-full bg-white mt-4">
 	<div>
-		<table class="table table-normal w-full">
+		<table class="table table-normal table-fixed w-full">
 			<thead>
 				<tr class="hover">
                     <th></th>
@@ -184,7 +214,7 @@
                     <th scope="col" class="px-6">STATUS</th> 
 				</tr>
 			</thead>
-            {#each loans as loan}
+            {#each displayedItems as loan}
                 <tr on:click={() => handleRowClick(loan.id)} on:click={clientInfo(loan,client)} class={selectedRowIndex === loan.id ? ' hover cursor-pointer bg-blue-400 text-white ' : 'hover cursor-pointer'}>
                 <td class="pr-0 ">
                     <div  class="flex items-center space-x-1 text-sm">
@@ -247,6 +277,39 @@
 		</table>	
 	</div>		
 </div>
+
+<!-- Pagination -->
+<div class="mt-4 flex justify-center">
+    <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" disabled={currentPage === 1} on:click={() => goToPage(1)}>
+      First
+    </button>
+    <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" disabled={currentPage === 1} on:click={() => goToPage(currentPage - 1)}>
+      Previous
+    </button>
+
+    <!-- {#if currentPage > 3}
+      <span class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200">...</span>
+    {/if} -->
+
+    <!-- {#each Array.from({ length: totalPages }, (_, i) => i + 1) as page}
+      {#if currentPage - 2 <= page && page <= currentPage + 2}
+        <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" aria-current={currentPage === page} on:click={() => goToPage(page)}>
+          {page}
+        </button>
+      {/if}
+    {/each} -->
+
+    <!-- {#if currentPage < totalPages - 2}
+      <span class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200">...</span>
+    {/if} -->
+
+    <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" disabled={currentPage === totalPages} on:click={() => goToPage(currentPage + 1)}>
+      Next
+    </button>
+    <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" disabled={currentPage === totalPages} on:click={() => goToPage(totalPages)}>
+      Last
+    </button>
+  </div>
 
 <SearchClientModal bind:selected={client} bind:getAllClients={getAllClients}/>
 <AddLoanPProcess bind:clienInfo={clienInfo} />
