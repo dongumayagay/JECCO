@@ -87,8 +87,8 @@
 	</div>
     
 	<div class="overflow-x-auto relative shadow-md sm:rounded-lg h-full bg-white mt-4">
-		<table class=" table w-full text-sm text-left text-gray-500 dark:text-gray-700 dark:bg-gray-700">
-			<thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-700">
+		<table class=" table w-full text-sm text-left text-gray-500 ">
+			<thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
 				<tr>
 					<th scope="col" class="px-6">	
 					</th>
@@ -103,7 +103,7 @@
 			</thead>
 			<tbody>
 				{#each users as user }
-				<tr class="bg-white border-b hover:bg-gray-50 dark:hover:bg-gray-600">
+				<tr class="bg-white border-b hover:bg-gray-50">
 					<td class="px-4">
 						<div  class="flex items-center space-x-2 text-sm">
 							<div class="dropdown">

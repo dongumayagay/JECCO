@@ -6,6 +6,7 @@
     import SearchEmployeeModal from '$lib/components/SearchEmployeeModal.svelte';
     import ConfirmDeleteModal from '$lib/components/ConfirmDeleteModal.svelte';
     import ViewClient from './ViewClient.svelte';
+    import { onMount, afterUpdate } from 'svelte';
 
     let selectedRowIndex = null;
     let searchSelected = false;
@@ -20,6 +21,13 @@
     let getAllClients;
     let clientsArea
 
+    let currentPage = 1;
+    let itemsPerPage = 9;
+
+    let totalItems = 0;
+    let totalPages = 0;
+    let displayedItems = [];
+
 
     async function employeeArea() {
         areas = []
@@ -27,10 +35,32 @@
         const q = query(collection(db, 'areas'), where("owner", "==", employee.id), orderBy("seqNumber", "asc") );
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
             areas = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+            totalItems = areas.length;
+            totalPages = Math.ceil(totalItems / itemsPerPage);
+            updateDisplayedItems();
         });
         return () => unsubscribe();
         
     }
+
+    function updateDisplayedItems() {
+        let startIndex = (currentPage - 1) * itemsPerPage;
+        let endIndex = startIndex + itemsPerPage;
+        displayedItems = areas.slice(startIndex, endIndex);
+    }
+
+    function goToPage(pageNumber) {
+        currentPage = pageNumber;
+        updateDisplayedItems();
+    }
+
+    onMount(() => {
+        employeeArea();
+    });
+
+    afterUpdate(() => {
+        updateDisplayedItems();
+    });
 
     async function deleteArea(id){
         await deleteDoc(doc(db, "areas", id));
@@ -113,7 +143,7 @@
                     <th scope="col" class="px-6">Area Name</th>
 				</tr>
 			</thead>
-            {#each areas as area}
+            {#each displayedItems as area}
                 <tr on:click={() => handleRowClick(area.id,area.areaName)} on:click={clientInfo(area)} class={selectedRowIndex === area.id ? ' hover cursor-pointer bg-blue-400 text-white ' : 'hover cursor-pointer'}>
                 <td class="pr-0 ">
                     <div  class="flex items-center space-x-1 text-sm">
@@ -145,6 +175,39 @@
 		</table>	
 	</div>		
 </div>
+<!-- Pagination -->
+<div class="mt-4 flex justify-center">
+    <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" disabled={currentPage === 1} on:click={() => goToPage(1)}>
+      First
+    </button>
+    <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" disabled={currentPage === 1} on:click={() => goToPage(currentPage - 1)}>
+      Previous
+    </button>
+
+    <!-- {#if currentPage > 3}
+      <span class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200">...</span>
+    {/if} -->
+
+    <!-- {#each Array.from({ length: totalPages }, (_, i) => i + 1) as page}
+      {#if currentPage - 2 <= page && page <= currentPage + 2}
+        <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" aria-current={currentPage === page} on:click={() => goToPage(page)}>
+          {page}
+        </button>
+      {/if}
+    {/each} -->
+
+    <!-- {#if currentPage < totalPages - 2}
+      <span class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200">...</span>
+    {/if} -->
+
+    <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" disabled={currentPage === totalPages} on:click={() => goToPage(currentPage + 1)}>
+      Next
+    </button>
+    <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" disabled={currentPage === totalPages} on:click={() => goToPage(totalPages)}>
+      Last
+    </button>
+  </div>
+
 
 <SearchEmployeeModal bind:selected={employee} bind:getAllEmployees={getAllEmployees}/>
 <AddClientArrangement bind:clienInfo={clienInfo} />

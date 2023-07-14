@@ -6,6 +6,7 @@
     import ClientFilteringModal from "./ClientFilteringModal.svelte";
     import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
     import {db} from '$lib/firebase/client.js';
+    import { onMount, afterUpdate } from 'svelte';
 
     
 	let clientsInfo
@@ -13,6 +14,13 @@
     let clienInfo
     let clients = []
     let getAllClients
+    let currentPage = 1;
+    let itemsPerPage = 13;
+
+    let totalItems = 0;
+    let totalPages = 0;
+    let displayedItems = [];
+
 
     let showModal = false;
     let deleteSuccess = false;
@@ -22,9 +30,32 @@
     async function getListOfClients(){
 		const unsubscribe = onSnapshot(q, (querySnapshot) => {
             clients = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+            totalItems = clients.length;
+            totalPages = Math.ceil(totalItems / itemsPerPage);
+            updateDisplayedItems();
         });
         return () => unsubscribe();
 	}
+
+    function updateDisplayedItems() {
+        let startIndex = (currentPage - 1) * itemsPerPage;
+        let endIndex = startIndex + itemsPerPage;
+        displayedItems = clients.slice(startIndex, endIndex);
+    }
+
+    function goToPage(pageNumber) {
+        currentPage = pageNumber;
+        updateDisplayedItems();
+    }
+
+    onMount(() => {
+        getListOfClients();
+    });
+
+    afterUpdate(() => {
+        updateDisplayedItems();
+    });
+
 
     async function deleteClient(id){
         try {
@@ -89,7 +120,7 @@
     
 </div>    
 
-<div class="overflow-x-auto relative shadow-md rounded-lg h-full bg-white mt-4">
+<div class=" relative shadow-md rounded-lg h-full bg-white mt-4">
     <table class="table table-compact w-full overflow-y-scroll ">
         <thead>
             <tr>
@@ -104,7 +135,7 @@
                 <th class="">Status</th> 
             </tr>
         </thead> 
-        {#each clients as client }
+        {#each displayedItems as client }
             <tr class=" hover">
                 <td class="p-4 w-4">
                     <div  class="flex items-center space-x-2 text-sm">
@@ -155,6 +186,40 @@
         {/each}
     </table>	
 </div>
+
+<!-- Pagination -->
+<div class="mt-4 flex justify-center">
+    <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" disabled={currentPage === 1} on:click={() => goToPage(1)}>
+      First
+    </button>
+    <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" disabled={currentPage === 1} on:click={() => goToPage(currentPage - 1)}>
+      Previous
+    </button>
+
+    <!-- {#if currentPage > 3}
+      <span class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200">...</span>
+    {/if} -->
+
+    <!-- {#each Array.from({ length: totalPages }, (_, i) => i + 1) as page}
+      {#if currentPage - 2 <= page && page <= currentPage + 2}
+        <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" aria-current={currentPage === page} on:click={() => goToPage(page)}>
+          {page}
+        </button>
+      {/if}
+    {/each} -->
+
+    <!-- {#if currentPage < totalPages - 2}
+      <span class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200">...</span>
+    {/if} -->
+
+    <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" disabled={currentPage === totalPages} on:click={() => goToPage(currentPage + 1)}>
+      Next
+    </button>
+    <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" disabled={currentPage === totalPages} on:click={() => goToPage(totalPages)}>
+      Last
+    </button>
+  </div>
+
 <EditClientModal bind:clientsInfo={clientsInfo} />    
 <AddClientProfile bind:clientInfo={clientInfo}/>
 <AddLoanPProcess bind:clienInfo={clienInfo} />   

@@ -4,21 +4,49 @@
     import { collection, onSnapshot } from 'firebase/firestore';
     import {db} from '$lib/firebase/client.js';
     import ConfirmDeleteModal from "$lib/components/ConfirmDeleteModal.svelte";
+    import { onMount, afterUpdate } from 'svelte';
 
     let userInfo
     let employees = []
     let showModal = false;
     let deleteSuccess = false;
     let idToDelete;
+    let currentPage = 1;
+    let itemsPerPage = 9;
+
+    let totalItems = 0;
+    let totalPages = 0;
+    let displayedItems = [];
 
     async function getListOfEmployees(){
         const unsubscribe = onSnapshot(collection(db, 'employees'), (querySnapshot) => {
         employees = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        totalItems = employees.length;
+        totalPages = Math.ceil(totalItems / itemsPerPage);
+        updateDisplayedItems();
         });
         return () => unsubscribe();
     }
 
-    getListOfEmployees()
+    function updateDisplayedItems() {
+        let startIndex = (currentPage - 1) * itemsPerPage;
+        let endIndex = startIndex + itemsPerPage;
+        displayedItems = employees.slice(startIndex, endIndex);
+    }
+
+    function goToPage(pageNumber) {
+        currentPage = pageNumber;
+        updateDisplayedItems();
+    }
+
+    onMount(() => {
+        getListOfEmployees();
+    });
+
+    afterUpdate(() => {
+        updateDisplayedItems();
+    });
+    
 
     async function deleteEmployee(id){
         try {
@@ -57,33 +85,34 @@
     </label>
 </div>    
 
-<div class="overflow-x-auto relative shadow-md sm:rounded-lg h-full bg-white mt-4">
-    <div class="flex justify-between items-center p-4 bg-white ">
+<div class="relative shadow-md sm:rounded-lg h-full bg-white mt-4">
+    <!-- <div class="flex justify-between items-center p-4 bg-white ">
         <div class="relative ">
         </div>
-    </div>
-    <table class=" table w-full text-sm text-left text-gray-500">
+    </div> -->
+    <table class=" table table-compact table-fixed w-full text-sm text-left text-gray-500">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
             <tr>
-                <th scope="col" class="px-6">              
+                <th class="text-center">
+                    
                 </th>
-                <th scope="col" class="px-6">
+                <th class="text-center">
                     Name
                 </th>
-                <th scope="col" class="px-6">
+                <th class="text-center">
                     Adress
                 </th>
-                <th scope="col" class="px-6">
+                <th class="text-center">
                     Contact Info
                 </th>
-                <th scope="col" class="px-6">
+                <th class="text-center">
                     Role
                 </th>
                 
             </tr>
         </thead>
         <tbody>
-            {#each employees as employee}
+            {#each displayedItems as employee}
             <tr class="bg-white border-b hover:bg-gray-50">
                 <td class="px-4">
                     <div  class="flex items-center space-x-2 text-sm">
@@ -103,16 +132,16 @@
                         </div>
                     </div>  
                 </td>
-                <td class="px-6">
+                <td class="text-center">
                     {employee.name}
                 </td>
-                <td class="px-6">
+                <td class="text-center truncate">
                     {employee.address}
                 </td>
-                <td class="px-6">
+                <td class="text-center">
                     {employee.contactInfo}
                 </td>
-                <td class="px-6">
+                <td class="text-center">
                     {employee.role}
                 </td>
                 
@@ -121,6 +150,39 @@
         </tbody>
     </table>
 </div>
+
+<!-- Pagination -->
+<div class="mt-4 flex justify-center">
+    <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" disabled={currentPage === 1} on:click={() => goToPage(1)}>
+      First
+    </button>
+    <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" disabled={currentPage === 1} on:click={() => goToPage(currentPage - 1)}>
+      Previous
+    </button>
+
+    <!-- {#if currentPage > 3}
+      <span class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200">...</span>
+    {/if} -->
+
+    <!-- {#each Array.from({ length: totalPages }, (_, i) => i + 1) as page}
+      {#if currentPage - 2 <= page && page <= currentPage + 2}
+        <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" aria-current={currentPage === page} on:click={() => goToPage(page)}>
+          {page}
+        </button>
+      {/if}
+    {/each} -->
+
+    <!-- {#if currentPage < totalPages - 2}
+      <span class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200">...</span>
+    {/if} -->
+
+    <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" disabled={currentPage === totalPages} on:click={() => goToPage(currentPage + 1)}>
+      Next
+    </button>
+    <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" disabled={currentPage === totalPages} on:click={() => goToPage(totalPages)}>
+      Last
+    </button>
+  </div>
 <AddModal/>
 <UpdateModal bind:userInfo={userInfo}/>
 <ConfirmDeleteModal showModal={showModal}
