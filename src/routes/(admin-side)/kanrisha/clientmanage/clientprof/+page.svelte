@@ -3,6 +3,7 @@
     import EditClientModal from "./EditClientModal.svelte";
     import AddLoanPProcess from "$lib/components/AddLoanPProcess.svelte";
     import ConfirmDeleteModal from "$lib/components/ConfirmDeleteModal.svelte";
+    import ClientFilteringModal from "./ClientFilteringModal.svelte";
     import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
     import {db} from '$lib/firebase/client.js';
 
@@ -11,6 +12,7 @@
     let clientInfo
     let clienInfo
     let clients = []
+    let getAllClients
 
     let showModal = false;
     let deleteSuccess = false;
@@ -78,6 +80,11 @@
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="black" class="w-5 h-5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
     </label>
+
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <label for="filter" on:click={getAllClients} class="btn-link py-1 px-5 font-semibold absolute right-20">
+        Filter
+    </label>
     {/await}
     
 </div>    
@@ -89,7 +96,7 @@
                 <th class=""></th>
                 <th class="">Client#</th> 
                 <th class="">Username</th> 
-                <th class="">First Name</th> 
+                <th class="">First Name </th> 
                 <th class="">Last Name</th> 
                 <th class="flex justify-center">Address</th> 
                 <th class="" >Email</th> 
@@ -151,6 +158,7 @@
 <EditClientModal bind:clientsInfo={clientsInfo} />    
 <AddClientProfile bind:clientInfo={clientInfo}/>
 <AddLoanPProcess bind:clienInfo={clienInfo} />   
+<ClientFilteringModal bind:getAllClients={getAllClients}/>
 <ConfirmDeleteModal showModal={showModal}
 onConfirm={handleConfirm}
 onCancel={handleCancel}/>
