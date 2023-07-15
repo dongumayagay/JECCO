@@ -143,8 +143,8 @@
         </div>
 </div>
 
-<div class="shadow-md sm:rounded-lg h-full bg-white mt-4">
-		<table class="table table-normal table-fixed w-full">
+<div class=" overflow-scroll shadow-md sm:rounded-lg h-full bg-white mt-4">
+		<table class="table table-normal w-full">
 	<thead>
         <tr>
             <th></th>
