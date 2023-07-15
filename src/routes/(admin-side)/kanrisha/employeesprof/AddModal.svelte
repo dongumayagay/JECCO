@@ -1,4 +1,6 @@
 <script>
+    import { saveActivityLogs } from '$lib/utils';
+    import { userStore } from '$lib/store.js';
     let addModal = false;
 
     let addUserInput = {
@@ -30,6 +32,11 @@
             contactInfo:addUserInput.contactInfo,
             role:addUserInput.role.toLowerCase().split(" ").map(capitalize).join(" "),
         })});
+
+        // let acitivityLog = {user: $userStore.displayName, activityType: 'Add', details:'added employee' + addUserInput.name};
+        // console.log(acitivityLog);
+        // await saveActivityLogs(acitivityLog);
+
         } catch (e) {
         console.error("Error adding document: ", e);
         }

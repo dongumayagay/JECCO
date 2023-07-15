@@ -6,6 +6,7 @@
 	import PaymentModal from '$lib/components/paymentModal.svelte';
     import Editpayment from "./Editpayment.svelte";
     import ConfirmDeleteModal from "$lib/components/ConfirmDeleteModal.svelte";
+    import PaymentsFilteringModal from './PaymentsFilteringModal.svelte';
 
     let selectedRowIndex = null;
     let searchSelected = false;
@@ -98,6 +99,9 @@
 <div class="flex items-center p-4 shadow-md sm:rounded-lg bg-white gap-4">
     <h1 class=" font-bold">PAYMENTS</h1>
     <div class=" absolute right-10">
+        <label for="filter" class="btn-link py-1 px-5 font-semibold">
+            Filter
+        </label>
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <label for="edit_payment" on:click={resetSelected} class={selectedRowIndex !== null ? ' btn-info rounded-lg py-1 px-2 font-semibold ' : 'btn btn-sm'} disabled={selectedRowIndex === null}>EDIT</label>
         <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -230,3 +234,4 @@
 <ConfirmDeleteModal showModal={showModal}
 onConfirm={handleConfirm}
 onCancel={handleCancel}/>
+<PaymentsFilteringModal/>
