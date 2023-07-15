@@ -1,7 +1,7 @@
 <script>
 	import {goto} from '$app/navigation';
 	import { collection, onSnapshot, orderBy, query, updateDoc, doc, deleteDoc} from "firebase/firestore";
-	import { onMount } from 'svelte';
+	import { onMount, afterUpdate } from 'svelte';
 	import {db} from '$lib/firebase/client.js';
 	import ConfirmDeleteModal from '$lib/components/ConfirmDeleteModal.svelte';
 	import InquiryFilteringModal from './InquiryFilteringModal.svelte';
@@ -10,6 +10,13 @@
 	let showModal = false;
     let deleteSuccess = false;
     let idToDelete;
+
+	let currentPage = 1;
+    let itemsPerPage = 15;
+
+    let totalItems = 0;
+    let totalPages = 0;
+    let displayedItems = [];
 	
 	function viewInquiry(inquiryId){
 		goto('/kanrisha/clientmanage/inquiries/' + inquiryId)
@@ -19,10 +26,34 @@
 		const q = query(collection(db, 'inquiries'), orderBy("inquiryNum", "desc") );
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
         inquiries = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+		totalItems = inquiries.length;
+        totalPages = Math.ceil(totalItems / itemsPerPage);
+        updateDisplayedItems();
         });
         return () => unsubscribe();
         
     })
+
+	function updateDisplayedItems() {
+        let startIndex = (currentPage - 1) * itemsPerPage;
+        let endIndex = startIndex + itemsPerPage;
+        displayedItems = inquiries.slice(startIndex, endIndex);
+    }
+
+    function goToPage(pageNumber) {
+        currentPage = pageNumber;
+        updateDisplayedItems();
+    }
+
+    // onMount(() => {
+    //     inquiries
+    // });
+
+    afterUpdate(() => {
+        updateDisplayedItems();
+    });
+
+
 
 	function editOption(event) {
 		event.stopPropagation();
@@ -65,9 +96,9 @@
 		</label>
 	</div>
 
-	<div class="overflow-x-auto relative shadow-md rounded-lg h-full bg-white mt-4">
+	<div class="relative shadow-md rounded-lg h-full bg-white mt-4">
 		
-		<table class="table table-compact w-full bg-white ">
+		<table class="table table-compact table-fixed w-full bg-white ">
 		  	<thead>				
 				<tr>
 					<th scope="col" class="px-6 bg-stone-300"></th>
@@ -77,7 +108,7 @@
 			 		<!-- <th>address</th> -->
 				</tr>
 		 	</thead> 
-			{#each inquiries as applicant }		
+			{#each displayedItems as applicant }		
 				<tr class="{applicant.isRead ? 'bg-gray-100' : 'bg-white font-bold '} cursor-pointer hover:bg-sky-200" on:click={() => viewInquiry(applicant.id)} on:click={inquiryRead(applicant.id)}>
 					<!-- svelte-ignore a11y-click-events-have-key-events -->
 					<td class="flex px-4" on:click={editOption}>
@@ -105,6 +136,39 @@
 			{/each}	
 		</table>	
 	</div>	
+
+	<!-- Pagination -->
+<div class="mt-4 flex justify-center">
+    <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" disabled={currentPage === 1} on:click={() => goToPage(1)}>
+      First
+    </button>
+    <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" disabled={currentPage === 1} on:click={() => goToPage(currentPage - 1)}>
+      Previous
+    </button>
+
+    <!-- {#if currentPage > 3}
+      <span class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200">...</span>
+    {/if} -->
+
+    <!-- {#each Array.from({ length: totalPages }, (_, i) => i + 1) as page}
+      {#if currentPage - 2 <= page && page <= currentPage + 2}
+        <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" aria-current={currentPage === page} on:click={() => goToPage(page)}>
+          {page}
+        </button>
+      {/if}
+    {/each} -->
+
+    <!-- {#if currentPage < totalPages - 2}
+      <span class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200">...</span>
+    {/if} -->
+
+    <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" disabled={currentPage === totalPages} on:click={() => goToPage(currentPage + 1)}>
+      Next
+    </button>
+    <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" disabled={currentPage === totalPages} on:click={() => goToPage(totalPages)}>
+      Last
+    </button>
+  </div>
 
 	<ConfirmDeleteModal showModal={showModal}
 	onConfirm={handleConfirm}

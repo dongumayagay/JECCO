@@ -4,9 +4,16 @@
 	import { collection, onSnapshot, query, where, orderBy } from 'firebase/firestore';
 	import { jsPDF } from "jspdf";
     import autoTable from 'jspdf-autotable'
+	import { onMount, afterUpdate } from 'svelte';
 
 	let userClient = getAuth().currentUser;
 	let payments = []
+	let currentPage = 1;
+    let itemsPerPage = 12;
+
+    let totalItems = 0;
+    let totalPages = 0;
+    let displayedItems = [];
 	
 	async function userPaymment() {
         payments = []
@@ -14,12 +21,32 @@
         const q = query(collection(db, 'payments'), where("owner", "==", userClient.uid), orderBy("transactionDate", "desc") );
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
             payments = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+			totalItems = payments.length;
+            totalPages = Math.ceil(totalItems / itemsPerPage);
+            updateDisplayedItems();
         });
         return () => unsubscribe();
         
     }
 
-	userPaymment();
+	function updateDisplayedItems() {
+        let startIndex = (currentPage - 1) * itemsPerPage;
+        let endIndex = startIndex + itemsPerPage;
+        displayedItems = payments.slice(startIndex, endIndex);
+    }
+
+    function goToPage(pageNumber) {
+        currentPage = pageNumber;
+        updateDisplayedItems();
+    }
+
+    onMount(() => {
+        userPaymment();
+    });
+
+    afterUpdate(() => {
+        updateDisplayedItems();
+    });
 
 	async function generatePaymentHistory(){
 	 const paymentHistory = new jsPDF();
@@ -63,7 +90,7 @@
 						<th>Past Due Payment</th>			
 					</tr>
 				</thead>
-				{#each payments as payment}                 
+				{#each displayedItems as payment}                 
 					<tr >
 						<td>
 							{payment.transactionId}
@@ -84,4 +111,37 @@
 				{/each}	
 			</table>			
 		</div>
+
+	<!-- Pagination -->
+<div class="mt-4 flex justify-center">
+    <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" disabled={currentPage === 1} on:click={() => goToPage(1)}>
+      First
+    </button>
+    <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" disabled={currentPage === 1} on:click={() => goToPage(currentPage - 1)}>
+      Previous
+    </button>
+
+    <!-- {#if currentPage > 3}
+      <span class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200">...</span>
+    {/if} -->
+
+    <!-- {#each Array.from({ length: totalPages }, (_, i) => i + 1) as page}
+      {#if currentPage - 2 <= page && page <= currentPage + 2}
+        <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" aria-current={currentPage === page} on:click={() => goToPage(page)}>
+          {page}
+        </button>
+      {/if}
+    {/each} -->
+
+    <!-- {#if currentPage < totalPages - 2}
+      <span class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200">...</span>
+    {/if} -->
+
+    <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" disabled={currentPage === totalPages} on:click={() => goToPage(currentPage + 1)}>
+      Next
+    </button>
+    <button class="cursor-pointer px-2 py-1 rounded hover:bg-gray-200" disabled={currentPage === totalPages} on:click={() => goToPage(totalPages)}>
+      Last
+    </button>
+  </div>
 </section>	

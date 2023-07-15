@@ -60,6 +60,8 @@
         updateDisplayedItems();
     });
 
+    
+
     async function deletePayment(id){
         await deleteDoc(doc(db, "payments", id));
     }
@@ -146,7 +148,7 @@
 	<thead>
         <tr>
             <th></th>
-            <th class="text-center">Transaction ID</th>
+            <th class="text-center">PR NUMBER</th>
             <th class="text-center">Loan Payment</th> 
             <th class="text-center">Arrears Payment</th> 
             <th class="text-center">Past Due Payment</th> 
@@ -174,7 +176,7 @@
                     </div>
                 </td>
                 <td class="text-center">
-                    {payment.transactionId}
+                    {payment.prNumber}
                 </td>
                 <td class="text-center">
                     {payment.loanPayment}
