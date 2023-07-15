@@ -33,10 +33,10 @@
             role:addUserInput.role.toLowerCase().split(" ").map(capitalize).join(" "),
         })});
 
-        // let acitivityLog = {user: $userStore.displayName, activityType: 'Add', details:'added employee' + addUserInput.name};
-        // console.log(acitivityLog);
-        // await saveActivityLogs(acitivityLog);
-
+        let displayName = $userStore.displayName;
+        let acitivityLog = {user: displayName, activityType: 'Add', details:'added employee ' + addUserInput.name};
+        await saveActivityLogs(acitivityLog);
+        
         } catch (e) {
         console.error("Error adding document: ", e);
         }

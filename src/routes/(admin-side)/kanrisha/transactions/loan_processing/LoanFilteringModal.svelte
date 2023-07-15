@@ -8,6 +8,8 @@
     let searchResultOne = [];
     let searchResultTwo = [];
     let searchResultThree = [];
+    let releaseDate;
+    let dueDate;
 
     // export async function getAllClients(clientWithLoans){
     //     let qOne;
@@ -56,9 +58,9 @@
 
             <form class=" bg-white rounded-lg w-full">
                 <!-- Modal header -->
-                <div class="flex justify-center items-center p-4 rounded-t border-b">
-                    <h3 class="text-lg font-semibold text-gray-900">
-                        Search
+                <div class="flex justify-center items-center p-4 rounded-t">
+                    <h3 class="font-semibold text-gray-900">
+                        Filter by Loan Reference:
                     </h3>
                     <input type="search" bind:value={searchInput} class="w-full border-0 border-b-2">
                 </div>
@@ -67,28 +69,20 @@
                     <h3 class="text-lg font-semibold text-gray-900 px-3">
                         Release Date:
                     </h3>
-                    <input type="radio" id="asc" name="release" value="asc">
-                    <label for="asc" class="px-2">Ascending</label>
-                    <input type="radio" id="desc" name="release" value="desc">
-                    <label for="desc" class="px-2">Descending</label>
+                    <input type="date" bind:value={releaseDate} class="text-sm rounded-lg w-36">
                 </div>
              
                 <div class="flex justify-left items-center p-2 rounded-t">
                     <h3 class="text-lg font-semibold text-gray-900 px-3">
                         Due Date:
                     </h3>
-                    <input type="radio" id="asc" name="due" value="asc">
-                    <label for="asc" class="px-2">Ascending</label>
-                    <input type="radio" id="desc" name="due" value="desc">
-                    <label for="desc" class="px-2">Descending</label>
+                    <input type="date" bind:value={dueDate} class="text-sm rounded-lg w-36">
                 </div>
 
                 <div class="flex justify-left items-center p-2 rounded-t">
                     <h3 class="text-lg font-semibold text-gray-900 px-3">
                         Loan Status:
                     </h3>
-                    <input type="radio" id="no loan" name="loanStatus" value="no loan">
-                    <label for="no loan" class="px-2">No Loan</label>
                     <input type="radio" id="ongoing" name="loanStatus" value="ongoing">
                     <label for="ongoing" class="px-2">Ongoing</label>
                     <input type="radio" id="completed" name="loanStatus" value="completed">

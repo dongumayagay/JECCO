@@ -3,7 +3,8 @@
     import { collection, where, query, getDocs, orderBy  } from 'firebase/firestore';
 
     let filteringModal = false; 
-    let searchInput = "";
+    let searchInputEmail = "";
+    let searchInputName = "";
     let searchResults = [];
     let searchResultOne = [];
     let searchResultTwo = [];
@@ -23,29 +24,29 @@
     // }
 
     function resetAddUserInput () {
-        searchInput = "";
+        searchInputEmail = "";
         searchResults = [];
     }
 
     async function searchClient() {
         searchResults = [];
-        const qOne = query(collection(db, 'clientinfo'), where("firstname", "==", searchInput));
+        const qOne = query(collection(db, 'clientinfo'), where("firstname", "==", searchInputEmail));
         const querySnapshotOne = await getDocs(qOne);
         querySnapshotOne.forEach((doc) => {
             searchResultOne = querySnapshotOne.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         });
-        const qTwo = query(collection(db, "clientinfo"), where("lastname", "==", searchInput));
+        const qTwo = query(collection(db, "clientinfo"), where("lastname", "==", searchInputEmail));
         const querySnapshotTwo = await getDocs(qTwo);
         querySnapshotTwo.forEach((doc) => {
             searchResultTwo = querySnapshotTwo.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         });
-        const qThree = query(collection(db, "clientinfo"), where("address", "==", searchInput));
+        const qThree = query(collection(db, "clientinfo"), where("address", "==", searchInputEmail));
         const querySnapshotThree = await getDocs(qThree);
         querySnapshotThree.forEach((doc) => {
             searchResultThree = querySnapshotThree.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         });
         searchResults = searchResultOne.concat(searchResultTwo,searchResultThree);
-        searchInput = "";
+        searchInputEmail = "";
     }
 
 </script>
@@ -56,31 +57,19 @@
 
             <form class=" bg-white rounded-lg w-full">
                 <!-- Modal header -->
+
+                <div class="flex justify-center items-center p-4 rounded-t">
+                    <h3 class="font-semibold text-gray-900">
+                        Filter by Name:
+                    </h3>
+                    <input type="search" bind:value={searchInputName} class="w-full border-0 border-b-2">
+                </div>
+
                 <div class="flex justify-center items-center p-4 rounded-t border-b">
                     <h3 class="text-lg font-semibold text-gray-900">
-                        Search
+                        Filter by Email:
                     </h3>
-                    <input type="search" bind:value={searchInput} class="w-full border-0 border-b-2">
-                </div>
-
-                <div class="flex justify-left items-center p-2 rounded-t">
-                    <h3 class="text-lg font-semibold text-gray-900 px-3">
-                        Email:
-                    </h3>
-                    <input type="radio" id="asc" name="email" value="asc">
-                    <label for="asc" class="px-2">Ascending</label>
-                    <input type="radio" id="desc" name="email" value="desc">
-                    <label for="desc" class="px-2">Descending</label>
-                </div>
-
-                <div class="flex justify-left items-center p-2 rounded-t">
-                    <h3 class="text-lg font-semibold text-gray-900 px-3">
-                        Name:
-                    </h3>
-                    <input type="radio" id="asc" name="name" value="asc">
-                    <label for="asc" class="px-2">Ascending</label>
-                    <input type="radio" id="desc" name="name" value="desc">
-                    <label for="desc" class="px-2">Descending</label>
+                    <input type="search" bind:value={searchInputEmail} class="w-full border-0 border-b-2">
                 </div>
 
                 <div class="modal-action">    

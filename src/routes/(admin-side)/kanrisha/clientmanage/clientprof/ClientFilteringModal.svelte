@@ -3,7 +3,10 @@
     import { collection, where, query, getDocs, orderBy  } from 'firebase/firestore';
 
     let filteringModal = false; 
-    let searchInput = "";
+    let searchInputClientNumber = "";
+    let searchInputAddress = "";
+    let searchInputUsername = "";
+    let searchInputName = "";
     let searchResults = [];
     let searchResultOne = [];
     let searchResultTwo = [];
@@ -23,7 +26,7 @@
     }
 
     function resetAddUserInput () {
-        searchInput = "";
+        searchInputClientNumber = "";
         searchResults = [];
     }
 
@@ -45,7 +48,7 @@
             searchResultThree = querySnapshotThree.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         });
         searchResults = searchResultOne.concat(searchResultTwo,searchResultThree);
-        searchInput = "";
+        searchInputClientNumber = "";
     }
 
 </script>
@@ -56,21 +59,32 @@
 
             <form class=" bg-white rounded-lg w-full" on:submit={searchClient}>
                 <!-- Modal header -->
-                <div class="flex justify-center items-center p-4 rounded-t border-b">
-                    <h3 class="text-lg font-semibold text-gray-900">
-                        Search
+                <div class="flex justify-center items-center p-4 rounded-t">
+                    <h3 class="font-semibold text-gray-900">
+                        Filter by Address:
                     </h3>
-                    <input type="search" bind:value={searchInput} class="w-full border-0 border-b-2">
+                    <input type="search" bind:value={searchInputAddress} class="w-full border-0 border-b-2">
                 </div>
 
-                <div class="flex justify-left items-center p-2 rounded-t">
-                    <h3 class="text-lg font-semibold text-gray-900 px-3">
-                        Client Number:
+                <div class="flex justify-center items-center p-4 rounded-t">
+                    <h3 class="font-semibold text-gray-900">
+                        Filter by Client Number:
                     </h3>
-                    <input type="radio" id="asc" name="clientNumber" value="asc">
-                    <label for="asc" class="px-2">Ascending</label>
-                    <input type="radio" id="desc" name="clientNumber" value="desc">
-                    <label for="desc" class="px-2">Descending</label>
+                    <input type="search" bind:value={searchInputClientNumber} class="w-full border-0 border-b-2">
+                </div>
+
+                <div class="flex justify-center items-center p-4 rounded-t">
+                    <h3 class="font-semibold text-gray-900">
+                        Filter by Name:
+                    </h3>
+                    <input type="search" bind:value={searchInputName} class="w-full border-0 border-b-2">
+                </div>
+
+                <div class="flex justify-center items-center p-4 rounded-t">
+                    <h3 class="font-semibold text-gray-900">
+                        Filter by Username:
+                    </h3>
+                    <input type="search" bind:value={searchInputUsername} class="w-full border-0 border-b-2">
                 </div>
 
                 <div class="flex justify-left items-center p-2 rounded-t">
