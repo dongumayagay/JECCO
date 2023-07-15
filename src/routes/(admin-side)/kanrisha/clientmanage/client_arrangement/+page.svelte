@@ -132,7 +132,7 @@
     
 </div>
 
-<div class="overflow-x-auto shadow-md sm:rounded-lg h-full bg-white mt-4">
+<div class="overflow-scroll shadow-md sm:rounded-lg h-full bg-white mt-4">
 	<div>
 		<table class="table table-normal w-full">
 			<thead>

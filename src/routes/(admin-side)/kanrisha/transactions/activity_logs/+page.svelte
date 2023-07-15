@@ -54,8 +54,8 @@
     
 </div>    
 
-<div class=" shadow-md rounded-lg h-full bg-white mt-4">
-    <table class=" relative table table-compact table-fixed w-full">
+<div class=" overflow-scroll shadow-md rounded-lg h-full bg-white mt-4">
+    <table class=" relative table table-compact w-full">
         <thead class="">
             <tr class="">
                 <th class="text-center">DATE</th> 

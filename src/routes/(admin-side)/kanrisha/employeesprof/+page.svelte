@@ -89,12 +89,8 @@
     </label>
 </div>    
 
-<div class="relative shadow-md sm:rounded-lg h-full bg-white mt-4">
-    <!-- <div class="flex justify-between items-center p-4 bg-white ">
-        <div class="relative ">
-        </div>
-    </div> -->
-    <table class=" table table-compact table-fixed w-full text-sm text-left text-gray-500">
+<div class="overflow-scroll shadow-md sm:rounded-lg h-full bg-white mt-4">
+    <table class=" table table-compact w-full text-sm text-left text-gray-500">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
             <tr>
                 <th class="text-center">
