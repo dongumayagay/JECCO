@@ -120,8 +120,8 @@
     
 </div>    
 
-<div class=" relative shadow-md rounded-lg h-full bg-white mt-4">
-    <table class="table table-compact w-full overflow-y-scroll ">
+<div class="overflow-scroll shadow-md rounded-lg h-full bg-white mt-4">
+    <table class="table table-compact w-full">
         <thead>
             <tr>
                 <th class=""></th>

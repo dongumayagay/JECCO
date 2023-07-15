@@ -96,9 +96,9 @@
 		</label>
 	</div>
 
-	<div class="relative shadow-md rounded-lg h-full bg-white mt-4">
+	<div class="overflow-scroll shadow-md rounded-lg h-full bg-white mt-4">
 		
-		<table class="table table-compact table-fixed w-full bg-white ">
+		<table class="table table-compact w-full bg-white ">
 		  	<thead>				
 				<tr>
 					<th scope="col" class="px-6 bg-stone-300"></th>
