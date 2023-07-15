@@ -3,7 +3,7 @@
   import { db } from '$lib/firebase/client.js';
   import { onMount, afterUpdate } from 'svelte';
 
-  let clients = [];
+  let activities = [];
   let currentPage = 1;
   let itemsPerPage = 20;
 
@@ -11,12 +11,12 @@
   let totalPages = 0;
   let displayedItems = [];
 
-  const q = query(collection(db, 'clientinfo'), orderBy("clientNumber", "desc"));
+  const q = query(collection(db, 'activitylogs'), orderBy("date", "desc"));
 
-  async function getListOfClients() {
+  async function getActivityLogs() {
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
-          clients = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-          totalItems = clients.length;
+          activities = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+          totalItems = activities.length;
           totalPages = Math.ceil(totalItems / itemsPerPage);
           updateDisplayedItems();
       });
@@ -27,7 +27,7 @@
   function updateDisplayedItems() {
       let startIndex = (currentPage - 1) * itemsPerPage;
       let endIndex = startIndex + itemsPerPage;
-      displayedItems = clients.slice(startIndex, endIndex);
+      displayedItems = activities.slice(startIndex, endIndex);
   }
 
   function goToPage(pageNumber) {
@@ -36,7 +36,7 @@
   }
 
   onMount(() => {
-      getListOfClients();
+      getActivityLogs();
   });
 
   afterUpdate(() => {
@@ -46,7 +46,7 @@
 
 
 <svelte:head>
-	<title>JEM | Client Profile</title>
+	<title>JEM | Activity Logs</title>
 </svelte:head>
 <div class="flex flex-1 items-center p-4 shadow-md sm:rounded-lg h-10 bg-white gap-4">
         
@@ -70,17 +70,17 @@
         {#each displayedItems as item }
             <tr class=" hover">
                 <td class="text-center">
-                    Date
+                  {item.date}
                 </td>
                 
                 <td class="text-center">
-                    {item.firstname + " " + item.lastname }
+                  {item.user}
                 </td>
                 <td class="text-center">
-                    Activity
+                  {item.activityType}
                 </td>
                 <td class="text-center truncate">
-                    Details Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis voluptatum sed voluptate nobis rem ullam rerum asperiores possimus ratione, id, ducimus labore tempore numquam provident exercitationem ex? Itaque, id molestias?
+                  {item.details}
                 </td>
             </tr>      
         {/each}

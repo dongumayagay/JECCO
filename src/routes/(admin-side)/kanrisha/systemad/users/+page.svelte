@@ -7,6 +7,8 @@
 	import {signOut} from 'firebase/auth'
 	import {auth} from '$lib/firebase/client.js'
     import {db} from '$lib/firebase/client.js';
+	import UsersFilteringModal from './UsersFilteringModal.svelte';
+
 
 	let users = []
 
@@ -83,7 +85,10 @@
 				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="black" class="w-5 h-5">
 					<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
 			</label>
-		</div>    
+		</div>   
+		<label for="filter" class="btn-link py-1 px-5 font-semibold absolute right-20">
+            Filter
+        </label> 
 	</div>
     
 	<div class="overflow-x-auto relative shadow-md sm:rounded-lg h-full bg-white mt-4">
@@ -142,4 +147,5 @@
 	<ConfirmDeleteModal showModal={showModal}
 onConfirm={handleConfirm}
 onCancel={handleCancel}/>
+<UsersFilteringModal/>
 	

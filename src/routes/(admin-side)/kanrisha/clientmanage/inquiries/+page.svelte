@@ -4,6 +4,7 @@
 	import { onMount } from 'svelte';
 	import {db} from '$lib/firebase/client.js';
 	import ConfirmDeleteModal from '$lib/components/ConfirmDeleteModal.svelte';
+	import InquiryFilteringModal from './InquiryFilteringModal.svelte';
 
 	let inquiries = []
 	let showModal = false;
@@ -57,6 +58,11 @@
 
 	<div class="flex items-center p-4 shadow-md rounded-md h-12 bg-white gap-4">
 		<h1 class="left-0 pr-10 text-xl font-semibold">Applications</h1>
+
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
+		<label for="filter" class="btn-link py-1 px-5 font-semibold absolute right-10">
+			Filter
+		</label>
 	</div>
 
 	<div class="overflow-x-auto relative shadow-md rounded-lg h-full bg-white mt-4">
@@ -103,3 +109,4 @@
 	<ConfirmDeleteModal showModal={showModal}
 	onConfirm={handleConfirm}
 	onCancel={handleCancel}/>
+	<InquiryFilteringModal/>
