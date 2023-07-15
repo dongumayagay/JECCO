@@ -19,19 +19,26 @@ export const sendEmail = async (
 
  
 
-  export async function saveActivityLogs(addUserInput){
-    const date = new Date();
-    let currentDate = date.toJSON();
-    console.log(addUserInput);
-    try {
-    const docRef = await fetch('/api/activity-logs',{method:'POST',
-      body: JSON.stringify({
-        date:currentDate.slice(0,10),
-        user:addUserInput.displayName,
-        activityType:addUserInput.activityType,
-        details:addUserInput.details
-    })});
-    } catch (e) {
-    console.error("Error adding document: ", e);
-    }
+export async function saveActivityLogs(addUserInput){
+  const today = new Date();
+
+  // Get date components
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+
+  // Create the date string
+  const dateString = `${year}-${month}-${day}`;
+
+  try {
+  const docRef = await fetch('/api/activity-logs',{method:'POST',
+    body: JSON.stringify({
+      date:dateString,
+      user:addUserInput.user,
+      activityType:addUserInput.activityType,
+      details:addUserInput.details
+  })});
+  } catch (e) {
+  console.error("Error adding document: ", e);
   }
+}
