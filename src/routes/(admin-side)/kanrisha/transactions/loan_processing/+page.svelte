@@ -7,8 +7,8 @@
     import {peso} from '$lib/utils.js'
     import ConfirmDeleteModal from "$lib/components/ConfirmDeleteModal.svelte";
     import { jsPDF } from "jspdf";
+    import LoanFilteringModal from './LoanFilteringModal.svelte';
     import { onMount, afterUpdate } from 'svelte';
-
 
     let selectedRowIndex = null;
     let searchSelected = false;
@@ -153,6 +153,9 @@
 <div class="flex items-center p-4 shadow-md sm:rounded-lg bg-white gap-4">
     <h1 class=" font-bold">LOAN PROCESSING</h1>
     <div class=" absolute right-10">
+        <label for="filter" class="btn-link py-1 px-5 font-semibold">
+            Filter
+        </label>
         <button class={selectedRowIndex !== null ? ' btn-info rounded-lg py-1 px-2 font-semibold mx-2 ' : 'btn btn-sm'} disabled={selectedRowIndex === null} on:click={generateDisclosure}>Disclosure</button>
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <label for="editborrow" on:click={resetSelected} class={selectedRowIndex !== null ? ' btn-info rounded-lg py-1 px-2 font-semibold mx-2 ' : 'btn btn-sm'} disabled={selectedRowIndex === null}>EDIT</label>
@@ -317,3 +320,4 @@
 <ConfirmDeleteModal showModal={showModal}
 onConfirm={handleConfirm}
 onCancel={handleCancel}/>
+<LoanFilteringModal/>
