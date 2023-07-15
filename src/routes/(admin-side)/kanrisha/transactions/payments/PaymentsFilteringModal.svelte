@@ -4,6 +4,7 @@
 
     let filteringModal = false; 
     let searchInput = "";
+    let transactionDate;
     let searchResults = [];
     let searchResultOne = [];
     let searchResultTwo = [];
@@ -56,31 +57,18 @@
 
             <form class=" bg-white rounded-lg w-full">
                 <!-- Modal header -->
-                <div class="flex justify-center items-center p-4 rounded-t border-b">
-                    <h3 class="text-lg font-semibold text-gray-900">
-                        Search
+                <div class="flex justify-center items-center p-4 rounded-t">
+                    <h3 class="font-semibold text-gray-900">
+                        Filter by Loan Reference:
                     </h3>
                     <input type="search" bind:value={searchInput} class="w-full border-0 border-b-2">
-                </div>
-
-                <div class="flex justify-left items-center p-2 rounded-t">
-                    <h3 class="text-lg font-semibold text-gray-900 px-3">
-                        PR Number:
-                    </h3>
-                    <input type="radio" id="asc" name="prNumber" value="asc">
-                    <label for="asc" class="px-2">Ascending</label>
-                    <input type="radio" id="desc" name="prNumber" value="desc">
-                    <label for="desc" class="px-2">Descending</label>
                 </div>
              
                 <div class="flex justify-left items-center p-2 rounded-t">
                     <h3 class="text-lg font-semibold text-gray-900 px-3">
                         Transaction Date:
                     </h3>
-                    <input type="radio" id="asc" name="transaction" value="asc">
-                    <label for="asc" class="px-2">Ascending</label>
-                    <input type="radio" id="desc" name="transaction" value="desc">
-                    <label for="desc" class="px-2">Descending</label>
+                    <input type="date" bind:value={transactionDate} class="text-sm rounded-lg w-36">
                 </div>
 
                 <div class="modal-action">    

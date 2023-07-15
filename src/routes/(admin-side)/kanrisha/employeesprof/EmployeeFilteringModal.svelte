@@ -4,6 +4,7 @@
 
     let filteringModal = false; 
     let searchInput = "";
+    let searchInputAddress = "";
     let searchResults = [];
     let searchResultOne = [];
     let searchResultTwo = [];
@@ -56,26 +57,23 @@
 
             <form class=" bg-white rounded-lg w-full">
                 <!-- Modal header -->
-                <div class="flex justify-center items-center p-4 rounded-t border-b">
-                    <h3 class="text-lg font-semibold text-gray-900">
-                        Search
+                <div class="flex justify-center items-center p-4 rounded-t">
+                    <h3 class="font-semibold text-gray-900">
+                        Filter by Name:
                     </h3>
                     <input type="search" bind:value={searchInput} class="w-full border-0 border-b-2">
                 </div>
-
-                <div class="flex justify-left items-center p-2 rounded-t">
-                    <h3 class="text-lg font-semibold text-gray-900 px-3">
-                        Name:
+                
+                <div class="flex justify-center items-center p-4 rounded-t border-b">
+                    <h3 class="font-semibold text-gray-900">
+                        Filter by Address:
                     </h3>
-                    <input type="radio" id="asc" name="name" value="asc">
-                    <label for="asc" class="px-2">Ascending</label>
-                    <input type="radio" id="desc" name="name" value="desc">
-                    <label for="desc" class="px-2">Descending</label>
+                    <input type="search" bind:value={searchInputAddress} class="w-full border-0 border-b-2">
                 </div>
              
                 <div class="flex justify-left items-center p-2 rounded-t">
-                    <h3 class="text-lg font-semibold text-gray-900 px-3">
-                        Role:
+                    <h3 class="font-semibold text-gray-900 px-3">
+                        Filter Role:
                     </h3>
                     <input type="radio" id="asc" name="role" value="cashier">
                     <label for="cashier" class="px-2">Cashier</label>

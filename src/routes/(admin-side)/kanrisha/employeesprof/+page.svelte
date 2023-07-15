@@ -6,12 +6,15 @@
     import ConfirmDeleteModal from "$lib/components/ConfirmDeleteModal.svelte";
     import EmployeeFilteringModal from './EmployeeFilteringModal.svelte';
     import { onMount, afterUpdate } from 'svelte';
-  
+    import { userStore } from '$lib/store.js'
+    import { saveActivityLogs } from '$lib/utils';
+    
     let userInfo
     let employees = []
     let showModal = false;
     let deleteSuccess = false;
     let idToDelete;
+    let nameToDelete;
     let currentPage = 1;
     let itemsPerPage = 9;
 
@@ -55,6 +58,11 @@
             body: JSON.stringify({
 					id:id,
 			})});
+            
+        let displayName = $userStore.displayName;
+        let acitivityLog = {user: displayName, activityType: 'Delete', details:'deleted employee ' + nameToDelete};
+        await saveActivityLogs(acitivityLog);
+
 		} catch (error) {
 			console.log(error);
 		}
@@ -127,7 +135,7 @@
                             <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-38">
                                 <!-- svelte-ignore a11y-click-events-have-key-events -->
                                 <li><label for="update" on:click={userInfo(employee)}>Edit</label></li>
-                                <li><button on:click={() => {idToDelete = employee.id, confirmDelete(); }}>Delete</button></li>
+                                <li><button on:click={() => {idToDelete = employee.id,nameToDelete = employee.name, confirmDelete(); }}>Delete</button></li>
                             </ul>
                         </div>
                     </div>  
